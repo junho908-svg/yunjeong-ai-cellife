@@ -12,6 +12,7 @@ export default function YunjeongAICellife() {
   const [modal, setModal] = useState(null);
   const [videoOpen, setVideoOpen] = useState(false);
   const [deck, setDeck] = useState("yunhee");
+  const [heroSlide, setHeroSlide] = useState(0);
   const [slide, setSlide] = useState(0);
   const [lightbox, setLightbox] = useState(false);
 
@@ -83,6 +84,12 @@ export default function YunjeongAICellife() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [lightbox, slide, deck]);
+
+  const heroImages = ["hero-1.jpg", "hero-2.jpg", "hero-3.jpg", "hero-4.jpg", "hero-5.jpg", "hero-6.jpg", "hero-7.jpg"];
+  useEffect(() => {
+    const id = setInterval(() => setHeroSlide((cur) => (cur + 1) % heroImages.length), 4500);
+    return () => clearInterval(id);
+  }, []);
   const toggle = (id) => setDone((d) => ({ ...d, [id]: !d[id] }));
   const goTo = (id) => {
     const el = document.getElementById(id);
@@ -219,7 +226,15 @@ export default function YunjeongAICellife() {
         .bha-hero-banner { position:relative; border-radius:28px; overflow:hidden;
           box-shadow:0 22px 60px rgba(183,110,121,0.22); }
         .bha-hero-banner img { width:100%; display:block; }
-        .bha-hero-overlay { position:absolute; left:0; right:0; bottom:0; display:flex;
+        .bha-hero-slides { position:relative; width:100%; aspect-ratio: 1360 / 768; }
+        .bha-hero-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+          display:block; opacity:0; transition:opacity 0.9s ease; }
+        .bha-hero-slide.active { opacity:1; }
+        .bha-hero-dots { position:absolute; top:14px; right:16px; display:flex; gap:8px; z-index:3; }
+        .bha-hero-dot { width:9px; height:9px; padding:0; border:none; border-radius:999px; cursor:pointer;
+          background:rgba(255,255,255,0.55); box-shadow:0 1px 4px rgba(0,0,0,0.25); transition:.25s; }
+        .bha-hero-dot.active { background:#fff; width:22px; }
+        .bha-hero-overlay { position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex;
           justify-content:center; gap:14px; padding:26px; flex-wrap:wrap;
           background:linear-gradient(to top, rgba(74,51,56,0.45), transparent); }
         .bha-btn-primary { background: linear-gradient(135deg, var(--rose), var(--rose-deep)); color:#fff;
@@ -461,7 +476,27 @@ export default function YunjeongAICellife() {
       <header className="bha-hero">
         <div className="bha-wrap">
           <div className="bha-hero-banner">
-            <img src="hero.png" alt="윤앤정 AI 셀라이프 - AI로 쉽게 배우는 뷰티·홈케어" />
+            <div className="bha-hero-slides">
+              {heroImages.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt="윤앤정 AI 셀라이프 - AI로 쉽게 배우는 뷰티·홈케어"
+                  className={"bha-hero-slide" + (i === heroSlide ? " active" : "")}
+                  loading={i === 0 ? "eager" : "lazy"}
+                />
+              ))}
+              <div className="bha-hero-dots">
+                {heroImages.map((_, i) => (
+                  <button
+                    key={i}
+                    className={"bha-hero-dot" + (i === heroSlide ? " active" : "")}
+                    onClick={() => setHeroSlide(i)}
+                    aria-label={`히어로 슬라이드 ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
             <div className="bha-hero-overlay">
               <button className="bha-btn-primary" onClick={() => goTo("beauty")}><Play size={18} /> 무료 영상 보기</button>
               <button className="bha-btn-ghost" onClick={() => goTo("member")}><GraduationCap size={18} /> 회원 강의실 입장</button>

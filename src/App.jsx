@@ -11,10 +11,43 @@ export default function YunjeongAICellife() {
   const [done, setDone] = useState({});
   const [modal, setModal] = useState(null);
   const [videoOpen, setVideoOpen] = useState(false);
+  const [deck, setDeck] = useState("yunhee");
   const [slide, setSlide] = useState(0);
   const [lightbox, setLightbox] = useState(false);
 
-  const visionSlides = [
+  const yunheeSlides = [
+    { src: "slides-yunhee/slide-01.png", t: "마스터피스: 셀비아 앰플", tag: "표지" },
+    { src: "slides-yunhee/slide-02.png", t: "피부 재생의 한계를 넘는 미드나잇 알케미", tag: "도입" },
+    { src: "slides-yunhee/slide-03.png", t: "ACT I. 줄기세포의 3대 핵심 자생력", tag: "ACT I" },
+    { src: "slides-yunhee/slide-04.png", t: "압도적 효능의 기원: 인체 유래 줄기세포", tag: "원료 비교" },
+    { src: "slides-yunhee/slide-05.png", t: "가장 어린 세포의 힘: 인체양수줄기세포배양액", tag: "핵심 성분" },
+    { src: "slides-yunhee/slide-06.png", t: "피부 재생의 오케스트라: 성장인자 컴플렉스", tag: "성장인자" },
+    { src: "slides-yunhee/slide-07.png", t: "ACT II. 기술적 기적: 피부 장벽의 한계를 허물다", tag: "ACT II" },
+    { src: "slides-yunhee/slide-08.png", t: "초미세 나노 공법, MNT", tag: "나노 기술" },
+    { src: "slides-yunhee/slide-09.png", t: "ACT III. 제주 용암 해수 베이스", tag: "ACT III" },
+    { src: "slides-yunhee/slide-10.png", t: "셀비아만의 독자적 특허 원료", tag: "특허 원료" },
+    { src: "slides-yunhee/slide-11.png", t: "ACT IV. 한 방울의 기적: NEW 셀비아 미솔로지 앰플", tag: "ACT IV" },
+    { src: "slides-yunhee/slide-12.png", t: "미솔로지 크리에이션 앰플: 포뮬러 해부도", tag: "포뮬러" },
+    { src: "slides-yunhee/slide-13.png", t: "10대 핵심 성분 매트릭스", tag: "성분 매트릭스" },
+    { src: "slides-yunhee/slide-14.png", t: "더 셀비아 패러다임 (The Cellvia Paradigm)", tag: "패러다임" },
+    { src: "slides-yunhee/slide-15.png", t: "세월을 거스르는 당신만의 특권, 셀비아", tag: "메시지" },
+    { src: "slides-yunhee/slide-16.png", t: "가격과 성분의 시대를 넘어, 즉각적 체감의 시대로", tag: "체감" },
+    { src: "slides-yunhee/slide-17.png", t: "피부 시간을 되돌리는 3대 핵심 원리", tag: "핵심 원리" },
+    { src: "slides-yunhee/slide-18.png", t: "왜 양수 줄기세포인가? 재생력의 기원", tag: "재생력" },
+    { src: "slides-yunhee/slide-19.png", t: "피부 진피층을 깨우는 프리미엄 칵테일 레시피", tag: "레시피" },
+    { src: "slides-yunhee/slide-20.png", t: "시너지의 정점: 앰플과 디바이스의 만남", tag: "시너지" },
+    { src: "slides-yunhee/slide-21.png", t: "바르지 않고 분사하다: 슈스펠 에어 테라피", tag: "디바이스" },
+    { src: "slides-yunhee/slide-22.png", t: "내 손 안의 고급 에스테틱: 슈스펠 4-in-1", tag: "4-in-1" },
+    { src: "slides-yunhee/slide-23.png", t: "단 5분, 4-in-1 시너지로 3배의 흡수율", tag: "4-in-1" },
+    { src: "slides-yunhee/slide-24.png", t: "마스터 루틴 요약: 3-Step 공식", tag: "루틴" },
+    { src: "slides-yunhee/slide-25.png", t: "Step 1. 에어 테라피: 두피와 림프를 여는 길", tag: "Step 1" },
+    { src: "slides-yunhee/slide-26.png", t: "Step 2. 갈바닉 림프 케어: 타겟 리프팅", tag: "Step 2" },
+    { src: "slides-yunhee/slide-27.png", t: "ALL IN ONE: Before & After 사례", tag: "사례" },
+    { src: "slides-yunhee/slide-28.png", t: "완벽한 Before & After 기록법", tag: "기록법" },
+    { src: "slides-yunhee/slide-29.png", t: "경험이 신뢰가 되고, 신뢰가 비즈니스가 됩니다", tag: "클로징" },
+  ];
+
+  const junghyoSlides = [
     { src: "slides/slide-01.png", t: "2026 AI 시대의 방향 & 비아블 신화비전", tag: "표지" },
     { src: "slides/slide-02.png", t: "AI를 이해한 사람이 세상을 바꾼다", tag: "관점" },
     { src: "slides/slide-03.png", t: "진화의 끝, ‘개인의 시대’ 도래", tag: "시대 진단" },
@@ -31,8 +64,14 @@ export default function YunjeongAICellife() {
     { src: "slides/slide-14.png", t: "인간 가치 회복 플랫폼, 비아블", tag: "종합" },
     { src: "slides/slide-15.png", t: "사람의 인생을 바꾸는 비아블 신화", tag: "클로징" },
   ];
-  const totalSlides = visionSlides.length;
+  const decks = {
+    yunhee: { label: "이윤희 · 뷰티", sub: "셀비아 앰플 · 슈스펠 디바이스", slides: yunheeSlides },
+    junghyo: { label: "이정효 · 비아블 신화비전", sub: "2026 AI 시대의 방향", slides: junghyoSlides },
+  };
+  const activeSlides = decks[deck].slides;
+  const totalSlides = activeSlides.length;
   const goSlide = (n) => setSlide((n + totalSlides) % totalSlides);
+  const switchDeck = (d) => { setDeck(d); setSlide(0); setLightbox(false); };
 
   useEffect(() => {
     if (!lightbox) return;
@@ -43,7 +82,7 @@ export default function YunjeongAICellife() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [lightbox, slide]);
+  }, [lightbox, slide, deck]);
   const toggle = (id) => setDone((d) => ({ ...d, [id]: !d[id] }));
   const goTo = (id) => {
     const el = document.getElementById(id);
@@ -379,6 +418,17 @@ export default function YunjeongAICellife() {
           .bha-deck-thumbs { grid-template-columns:repeat(4, 1fr); gap:7px; }
           .bha-lb-arrow { display:none; }
         }
+        .bha-deck-tabs { display:flex; justify-content:center; gap:10px; margin-bottom:32px; flex-wrap:wrap; }
+        .bha-deck-tab { background:rgba(255,255,255,0.06); border:1px solid rgba(201,166,107,0.3); color:rgba(255,255,255,0.72);
+          padding:12px 22px; border-radius:14px; cursor:pointer; transition:.22s; text-align:center; line-height:1.3; font-size:15px; font-weight:600; }
+        .bha-deck-tab small { display:block; font-size:11px; font-weight:400; color:rgba(255,255,255,0.45); margin-top:3px; }
+        .bha-deck-tab:hover { background:rgba(255,255,255,0.12); color:#fff; }
+        .bha-deck-tab.active { background:linear-gradient(135deg, var(--gold-lt), var(--gold)); border-color:transparent; color:#1b1016; }
+        .bha-deck-tab.active small { color:rgba(27,16,22,0.72); }
+        .bha-deck-lock { max-width:440px; margin:0 auto; text-align:center; padding:46px 30px;
+          background:rgba(255,255,255,0.05); border:1px solid rgba(201,166,107,0.25); border-radius:22px; }
+        .bha-deck-lock h3 { color:#fff; margin:16px 0 8px; font-size:20px; }
+        .bha-deck-lock p { color:rgba(255,255,255,0.6); font-size:14px; margin:0 0 22px; }
       `}</style>
 
       <nav className="bha-nav">
@@ -527,56 +577,71 @@ export default function YunjeongAICellife() {
       <section className="bha-sec bha-deck-sec" id="vision">
         <div className="bha-wrap">
           <div className="bha-sec-head">
-            <div className="bha-kicker" style={{ color: "var(--gold-lt)" }}><Presentation size={13} style={{ verticalAlign: "-2px", marginRight: 6 }} />Shinhwa Vision Deck</div>
-            <h2 className="bha-sec-title" style={{ color: "#fff" }}>비아블 신화비전 발표자료</h2>
+            <div className="bha-kicker" style={{ color: "var(--gold-lt)" }}><Presentation size={13} style={{ verticalAlign: "-2px", marginRight: 6 }} />Members Only · 발표자료</div>
+            <h2 className="bha-sec-title" style={{ color: "#fff" }}>발표자료</h2>
             <p className="bha-sec-desc" style={{ color: "rgba(255,255,255,0.74)" }}>
-              「2026 AI 시대의 방향 &amp; 비아블 신화비전」 · 발표 더비전 이정효 다이아몬드<br />
-              슬라이드를 좌우로 넘기며 보거나, 이미지를 눌러 크게 볼 수 있습니다.
+              회원 강의실 로그인 후 볼 수 있는 발표자 교육 자료입니다.
             </p>
           </div>
 
-          <div className="bha-deck-stage">
-            <button className="bha-deck-arrow left" onClick={() => goSlide(slide - 1)} aria-label="이전 슬라이드"><ChevronLeft size={26} /></button>
-            <figure
-              className="bha-deck-frame"
-              onClick={() => setLightbox(true)}
-              role="button"
-              tabIndex={0}
-              aria-label={`슬라이드 크게 보기: ${visionSlides[slide].t}`}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setLightbox(true); } }}
-            >
-              <img src={visionSlides[slide].src} alt={`슬라이드 ${slide + 1}: ${visionSlides[slide].t}`} />
-              <span className="bha-deck-zoom"><Maximize2 size={16} /> 크게 보기</span>
-              <figcaption className="bha-deck-cap">
-                <span className="bha-deck-tag">{visionSlides[slide].tag}</span>
-                <span className="bha-deck-cap-t">{visionSlides[slide].t}</span>
-              </figcaption>
-            </figure>
-            <button className="bha-deck-arrow right" onClick={() => goSlide(slide + 1)} aria-label="다음 슬라이드"><ChevronRight size={26} /></button>
-          </div>
+          {!loggedIn ? (
+            <div className="bha-deck-lock">
+              <Lock size={30} style={{ color: "var(--gold-lt)" }} />
+              <h3>회원 전용 자료</h3>
+              <p>로그인하시면 이윤희 · 이정효 발표자료를 보실 수 있습니다.</p>
+              <button className="bha-btn-primary" onClick={() => goTo("member")}><GraduationCap size={18} /> 회원 강의실 로그인</button>
+            </div>
+          ) : (
+            <>
+              <div className="bha-deck-tabs" role="tablist" aria-label="발표자 선택">
+                {Object.keys(decks).map((k) => (
+                  <button key={k} role="tab" aria-selected={deck === k}
+                    className={"bha-deck-tab" + (deck === k ? " active" : "")}
+                    onClick={() => switchDeck(k)}>
+                    {decks[k].label}<small>{decks[k].sub}</small>
+                  </button>
+                ))}
+              </div>
 
-          <div className="bha-deck-counter">{String(slide + 1).padStart(2, "0")} <span>/ {String(totalSlides).padStart(2, "0")}</span></div>
+              <div className="bha-deck-stage">
+                <button className="bha-deck-arrow left" onClick={() => goSlide(slide - 1)} aria-label="이전 슬라이드"><ChevronLeft size={26} /></button>
+                <figure
+                  className="bha-deck-frame"
+                  onClick={() => setLightbox(true)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`슬라이드 크게 보기: ${activeSlides[slide].t}`}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setLightbox(true); } }}
+                >
+                  <img src={activeSlides[slide].src} alt={`슬라이드 ${slide + 1}: ${activeSlides[slide].t}`} />
+                  <span className="bha-deck-zoom"><Maximize2 size={16} /> 크게 보기</span>
+                  <figcaption className="bha-deck-cap">
+                    <span className="bha-deck-tag">{activeSlides[slide].tag}</span>
+                    <span className="bha-deck-cap-t">{activeSlides[slide].t}</span>
+                  </figcaption>
+                </figure>
+                <button className="bha-deck-arrow right" onClick={() => goSlide(slide + 1)} aria-label="다음 슬라이드"><ChevronRight size={26} /></button>
+              </div>
 
-          <div className="bha-deck-thumbs" role="tablist" aria-label="슬라이드 목록">
-            {visionSlides.map((sl, i) => (
-              <button
-                key={i}
-                className={"bha-deck-thumb" + (i === slide ? " active" : "")}
-                onClick={() => setSlide(i)}
-                role="tab"
-                aria-selected={i === slide}
-                aria-label={`${i + 1}. ${sl.t}`}
-              >
-                <img src={sl.src} alt="" loading="lazy" />
-                <span className="bha-deck-thumb-n">{i + 1}</span>
-              </button>
-            ))}
-          </div>
+              <div className="bha-deck-counter">{String(slide + 1).padStart(2, "0")} <span>/ {String(totalSlides).padStart(2, "0")}</span></div>
 
-          <div className="bha-deck-foot">
-            <ShieldCheck size={15} style={{ verticalAlign: "-2px", marginRight: 6, color: "var(--gold-lt)" }} />
-            비아블 신화비전 교육 자료입니다. 제품의 효능·수익에 대한 보장이 아니라, AI 시대의 방향과 인간 중심 가치를 전하는 비전 발표 자료입니다.
-          </div>
+              <div className="bha-deck-thumbs" role="tablist" aria-label="슬라이드 목록">
+                {activeSlides.map((sl, i) => (
+                  <button
+                    key={i}
+                    className={"bha-deck-thumb" + (i === slide ? " active" : "")}
+                    onClick={() => setSlide(i)}
+                    role="tab"
+                    aria-selected={i === slide}
+                    aria-label={`${i + 1}. ${sl.t}`}
+                  >
+                    <img src={sl.src} alt="" loading="lazy" />
+                    <span className="bha-deck-thumb-n">{i + 1}</span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </section>
 
@@ -639,8 +704,8 @@ export default function YunjeongAICellife() {
           <button className="bha-lb-arrow left" onClick={(e) => { e.stopPropagation(); goSlide(slide - 1); }} aria-label="이전 슬라이드"><ChevronLeft size={30} /></button>
           <div className="bha-lb-inner" onClick={(e) => e.stopPropagation()}>
             <button className="bha-modal-x" onClick={() => setLightbox(false)} aria-label="닫기"><X size={22} /></button>
-            <img src={visionSlides[slide].src} alt={`슬라이드 ${slide + 1}: ${visionSlides[slide].t}`} />
-            <div className="bha-lb-cap"><span>{String(slide + 1).padStart(2, "0")} / {String(totalSlides).padStart(2, "0")}</span> · {visionSlides[slide].t}</div>
+            <img src={activeSlides[slide].src} alt={`슬라이드 ${slide + 1}: ${activeSlides[slide].t}`} />
+            <div className="bha-lb-cap"><span>{String(slide + 1).padStart(2, "0")} / {String(totalSlides).padStart(2, "0")}</span> · {activeSlides[slide].t}</div>
           </div>
           <button className="bha-lb-arrow right" onClick={(e) => { e.stopPropagation(); goSlide(slide + 1); }} aria-label="다음 슬라이드"><ChevronRight size={30} /></button>
         </div>

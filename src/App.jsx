@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Sparkles, Play, Lock, CheckCircle2, Circle, User, ShieldCheck,
   GraduationCap, Droplet, Users, TrendingUp, BookOpen, Menu, X,
-  ArrowRight, Crown, Wand2, Globe, Heart
+  ArrowRight, Crown, Wand2, Globe, Heart, ChevronLeft, ChevronRight, Maximize2, Presentation
 } from "lucide-react";
 
 export default function YunjeongAICellife() {
@@ -11,6 +11,39 @@ export default function YunjeongAICellife() {
   const [done, setDone] = useState({});
   const [modal, setModal] = useState(null);
   const [videoOpen, setVideoOpen] = useState(false);
+  const [slide, setSlide] = useState(0);
+  const [lightbox, setLightbox] = useState(false);
+
+  const visionSlides = [
+    { src: "slides/slide-01.png", t: "2026 AI 시대의 방향 & 비아블 신화비전", tag: "표지" },
+    { src: "slides/slide-02.png", t: "AI를 이해한 사람이 세상을 바꾼다", tag: "관점" },
+    { src: "slides/slide-03.png", t: "진화의 끝, ‘개인의 시대’ 도래", tag: "시대 진단" },
+    { src: "slides/slide-04.png", t: "소멸과 폭발의 교차점: 노동 시장의 재편", tag: "시대 진단" },
+    { src: "slides/slide-05.png", t: "하이테크 시대의 역설: 연결될수록 고립되는 인류", tag: "시대 진단" },
+    { src: "slides/slide-06.png", t: "웰니스와 AI의 만남: 초개인화 시대의 진짜 열쇠", tag: "전환점" },
+    { src: "slides/slide-07.png", t: "비아블 신화의 재정의: 인간 중심의 웰니스 플랫폼", tag: "비전" },
+    { src: "slides/slide-08.png", t: "비아블 신화 비전: 4대 패러다임 전환", tag: "4대 Shift" },
+    { src: "slides/slide-09.png", t: "Shift 1. 제품 중심에서 ‘라이프 플랫폼’으로", tag: "Shift 1" },
+    { src: "slides/slide-10.png", t: "Shift 2. 억지 영업에서 ‘개인의 영향력’으로", tag: "Shift 2" },
+    { src: "slides/slide-11.png", t: "Shift 3. 경직된 조직에서 ‘생명력 있는 문화’로", tag: "Shift 3" },
+    { src: "slides/slide-12.png", t: "Shift 4. 한국을 넘어 ‘글로벌 초연결’로", tag: "Shift 4" },
+    { src: "slides/slide-13.png", t: "2026년을 맞이하는 리더의 셀프 체크", tag: "셀프 체크" },
+    { src: "slides/slide-14.png", t: "인간 가치 회복 플랫폼, 비아블", tag: "종합" },
+    { src: "slides/slide-15.png", t: "사람의 인생을 바꾸는 비아블 신화", tag: "클로징" },
+  ];
+  const totalSlides = visionSlides.length;
+  const goSlide = (n) => setSlide((n + totalSlides) % totalSlides);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") setLightbox(false);
+      else if (e.key === "ArrowRight") goSlide(slide + 1);
+      else if (e.key === "ArrowLeft") goSlide(slide - 1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightbox, slide]);
   const toggle = (id) => setDone((d) => ({ ...d, [id]: !d[id] }));
   const goTo = (id) => {
     const el = document.getElementById(id);
@@ -19,11 +52,11 @@ export default function YunjeongAICellife() {
   };
 
   const hosts = [
-    { name: "이윤희", photo: "/host-yunhee.png", role: "뷰티 · 홈케어 디렉터", tag: "제품 · 케어",
+    { name: "이윤희", photo: "host-yunhee.png", role: "뷰티 · 홈케어 디렉터", tag: "제품 · 케어",
       quote: "복잡한 뷰티, 누구나 따라 할 수 있게.",
       desc: "제품 사용법과 피부 타입별 홈케어 루틴을 영상으로 쉽고 친절하게 풀어드립니다. 뷰티가 처음인 분도 그날 바로 따라 할 수 있도록 한 단계씩 천천히 안내합니다.",
       skills: ["피부 타입 진단", "데일리 홈케어 설계", "제품 올바른 사용법", "셀프 케어 루틴"] },
-    { name: "이정효", photo: "/host-junghyo.png", role: "네트워크 마케팅 교육 멘토", tag: "마케팅 · 교육",
+    { name: "이정효", photo: "host-junghyo.png", role: "네트워크 마케팅 교육 멘토", tag: "마케팅 · 교육",
       quote: "정직한 사업, 함께 오래 가는 길.",
       desc: "사업의 기본기부터 고객 응대, 조직 운영까지 현장에서 검증된 방법을 단계별로 코칭합니다. 무리한 권유가 아니라, 신뢰를 쌓아 오래가는 방식을 알려드립니다.",
       skills: ["사업 입문 코칭", "고객 상담 화법", "조직 운영 시스템", "성장 마인드셋"] },
@@ -298,12 +331,60 @@ export default function YunjeongAICellife() {
           .bha-member { padding:30px 22px; } .bha-hero { padding:18px 0; }
           .bha-host-top { flex-direction:column; text-align:center; } .bha-host-skills { justify-content:center; }
         }
+
+        /* ===== Shinhwa Vision Deck ===== */
+        .bha-deck-sec { background: linear-gradient(160deg, #1b1016 0%, #2c1a22 55%, #1d121a 100%); position: relative; }
+        .bha-deck-sec::before { content:''; position:absolute; inset:0; pointer-events:none;
+          background: radial-gradient(ellipse 60% 42% at 50% 0%, rgba(201,166,107,0.20), transparent 70%); }
+        .bha-deck-sec .bha-wrap { position: relative; }
+        .bha-deck-stage { display:flex; align-items:center; justify-content:center; gap:16px; max-width:1000px; margin:0 auto; }
+        .bha-deck-frame { position:relative; flex:1; min-width:0; margin:0; border-radius:18px; overflow:hidden; cursor:zoom-in;
+          border:1px solid rgba(201,166,107,0.35); box-shadow:0 24px 70px rgba(0,0,0,0.55); background:#000; outline:none; transition:.3s; }
+        .bha-deck-frame:hover { transform:translateY(-3px); box-shadow:0 30px 84px rgba(0,0,0,0.66); }
+        .bha-deck-frame:focus-visible { box-shadow:0 0 0 3px var(--gold-lt), 0 24px 70px rgba(0,0,0,0.55); }
+        .bha-deck-frame img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+        .bha-deck-zoom { position:absolute; top:14px; right:14px; display:inline-flex; align-items:center; gap:6px;
+          background:rgba(0,0,0,0.55); color:#fff; font-size:12px; padding:7px 12px; border-radius:999px; backdrop-filter:blur(6px); opacity:0; transition:.25s; }
+        .bha-deck-frame:hover .bha-deck-zoom { opacity:1; }
+        .bha-deck-cap { position:absolute; left:0; right:0; bottom:0; padding:34px 22px 16px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+          background:linear-gradient(to top, rgba(0,0,0,0.85), transparent); }
+        .bha-deck-tag { flex-shrink:0; font-size:11px; font-weight:700; letter-spacing:1px; color:#1b1016;
+          background:linear-gradient(135deg, var(--gold-lt), var(--gold)); padding:5px 12px; border-radius:999px; }
+        .bha-deck-cap-t { color:#fff; font-weight:600; font-size:clamp(14px,2.1vw,18px); }
+        .bha-deck-arrow { flex-shrink:0; width:50px; height:50px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
+          color:#fff; transition:.22s; background:rgba(255,255,255,0.10); border:1px solid rgba(201,166,107,0.42); }
+        .bha-deck-arrow:hover { background:var(--gold); color:#1b1016; transform:scale(1.06); }
+        .bha-deck-counter { text-align:center; margin:20px 0 26px; color:var(--gold-lt); font-size:15px; font-weight:700; letter-spacing:2px; }
+        .bha-deck-counter span { color:rgba(255,255,255,0.42); font-weight:400; }
+        .bha-deck-thumbs { display:grid; grid-template-columns:repeat(8, 1fr); gap:10px; max-width:920px; margin:0 auto; }
+        .bha-deck-thumb { position:relative; padding:0; border:2px solid transparent; border-radius:9px; overflow:hidden; cursor:pointer;
+          background:#000; aspect-ratio:16/9; transition:.2s; opacity:0.55; }
+        .bha-deck-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+        .bha-deck-thumb:hover { opacity:0.92; transform:translateY(-2px); }
+        .bha-deck-thumb.active { opacity:1; border-color:var(--gold-lt); box-shadow:0 6px 18px rgba(201,166,107,0.42); }
+        .bha-deck-thumb-n { position:absolute; bottom:3px; right:5px; font-size:10px; font-weight:700; color:#fff; text-shadow:0 1px 3px #000; }
+        .bha-deck-foot { max-width:760px; margin:34px auto 0; text-align:center; font-size:13px; color:rgba(255,255,255,0.62);
+          background:rgba(255,255,255,0.05); border:1px solid rgba(201,166,107,0.22); border-radius:14px; padding:16px 20px; line-height:1.65; }
+        .bha-lightbox { padding:20px; gap:10px; }
+        .bha-lb-inner { position:relative; max-width:1200px; width:100%; }
+        .bha-lb-inner img { width:100%; border-radius:14px; display:block; box-shadow:0 30px 90px rgba(0,0,0,0.7); }
+        .bha-lb-cap { text-align:center; color:rgba(255,255,255,0.9); margin-top:14px; font-size:14px; }
+        .bha-lb-cap span { color:var(--gold-lt); font-weight:700; }
+        .bha-lb-arrow { flex-shrink:0; width:54px; height:54px; border-radius:50%; cursor:pointer; z-index:2; display:flex; align-items:center; justify-content:center;
+          color:#fff; transition:.22s; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.3); }
+        .bha-lb-arrow:hover { background:var(--gold); color:#1b1016; }
+        @media (max-width: 860px) { .bha-deck-thumbs { grid-template-columns:repeat(5, 1fr); } }
+        @media (max-width: 640px) {
+          .bha-deck-arrow { width:40px; height:40px; }
+          .bha-deck-thumbs { grid-template-columns:repeat(4, 1fr); gap:7px; }
+          .bha-lb-arrow { display:none; }
+        }
       `}</style>
 
       <nav className="bha-nav">
         <div className="bha-wrap bha-nav-inner">
           <div className="bha-logo">
-            <img src="/logo.png" alt="윤앤정 AI 셀라이프 로고" />
+            <img src="logo.png" alt="윤앤정 AI 셀라이프 로고" />
             <div className="bha-logo-txt">윤앤정 AI 셀라이프<small>AI CELLIFE</small></div>
           </div>
           <div className="bha-links">
@@ -311,6 +392,7 @@ export default function YunjeongAICellife() {
             <a onClick={() => goTo("beauty")}>뷰티 교육</a>
             <a onClick={() => goTo("product")}>제품</a>
             <a onClick={() => goTo("curriculum")}>마케팅 교육</a>
+            <a onClick={() => goTo("vision")}>발표자료</a>
             <a onClick={() => goTo("member")}>회원 강의실</a>
             <button className="bha-cta" onClick={() => goTo("member")}>무료 시작하기</button>
           </div>
@@ -318,7 +400,7 @@ export default function YunjeongAICellife() {
         </div>
         {navOpen && (
           <div className="bha-wrap" style={{ paddingBottom: 16 }}>
-            {["소개|about","뷰티 교육|beauty","제품|product","마케팅 교육|curriculum","회원 강의실|member"].map((s)=>{
+            {["소개|about","뷰티 교육|beauty","제품|product","마케팅 교육|curriculum","신화비전 발표자료|vision","회원 강의실|member"].map((s)=>{
               const [label,id]=s.split("|");
               return <a key={id} onClick={()=>goTo(id)} style={{display:"block",padding:"8px 0",color:"var(--ink-soft)",textDecoration:"none",cursor:"pointer"}}>{label}</a>;
             })}
@@ -329,7 +411,7 @@ export default function YunjeongAICellife() {
       <header className="bha-hero">
         <div className="bha-wrap">
           <div className="bha-hero-banner">
-            <img src="/hero.png" alt="윤앤정 AI 셀라이프 - AI로 쉽게 배우는 뷰티·홈케어" />
+            <img src="hero.png" alt="윤앤정 AI 셀라이프 - AI로 쉽게 배우는 뷰티·홈케어" />
             <div className="bha-hero-overlay">
               <button className="bha-btn-primary" onClick={() => goTo("beauty")}><Play size={18} /> 무료 영상 보기</button>
               <button className="bha-btn-ghost" onClick={() => goTo("member")}><GraduationCap size={18} /> 회원 강의실 입장</button>
@@ -442,6 +524,62 @@ export default function YunjeongAICellife() {
         </div>
       </section>
 
+      <section className="bha-sec bha-deck-sec" id="vision">
+        <div className="bha-wrap">
+          <div className="bha-sec-head">
+            <div className="bha-kicker" style={{ color: "var(--gold-lt)" }}><Presentation size={13} style={{ verticalAlign: "-2px", marginRight: 6 }} />Shinhwa Vision Deck</div>
+            <h2 className="bha-sec-title" style={{ color: "#fff" }}>비아블 신화비전 발표자료</h2>
+            <p className="bha-sec-desc" style={{ color: "rgba(255,255,255,0.74)" }}>
+              「2026 AI 시대의 방향 &amp; 비아블 신화비전」 · 발표 더비전 이정효 다이아몬드<br />
+              슬라이드를 좌우로 넘기며 보거나, 이미지를 눌러 크게 볼 수 있습니다.
+            </p>
+          </div>
+
+          <div className="bha-deck-stage">
+            <button className="bha-deck-arrow left" onClick={() => goSlide(slide - 1)} aria-label="이전 슬라이드"><ChevronLeft size={26} /></button>
+            <figure
+              className="bha-deck-frame"
+              onClick={() => setLightbox(true)}
+              role="button"
+              tabIndex={0}
+              aria-label={`슬라이드 크게 보기: ${visionSlides[slide].t}`}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setLightbox(true); } }}
+            >
+              <img src={visionSlides[slide].src} alt={`슬라이드 ${slide + 1}: ${visionSlides[slide].t}`} />
+              <span className="bha-deck-zoom"><Maximize2 size={16} /> 크게 보기</span>
+              <figcaption className="bha-deck-cap">
+                <span className="bha-deck-tag">{visionSlides[slide].tag}</span>
+                <span className="bha-deck-cap-t">{visionSlides[slide].t}</span>
+              </figcaption>
+            </figure>
+            <button className="bha-deck-arrow right" onClick={() => goSlide(slide + 1)} aria-label="다음 슬라이드"><ChevronRight size={26} /></button>
+          </div>
+
+          <div className="bha-deck-counter">{String(slide + 1).padStart(2, "0")} <span>/ {String(totalSlides).padStart(2, "0")}</span></div>
+
+          <div className="bha-deck-thumbs" role="tablist" aria-label="슬라이드 목록">
+            {visionSlides.map((sl, i) => (
+              <button
+                key={i}
+                className={"bha-deck-thumb" + (i === slide ? " active" : "")}
+                onClick={() => setSlide(i)}
+                role="tab"
+                aria-selected={i === slide}
+                aria-label={`${i + 1}. ${sl.t}`}
+              >
+                <img src={sl.src} alt="" loading="lazy" />
+                <span className="bha-deck-thumb-n">{i + 1}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="bha-deck-foot">
+            <ShieldCheck size={15} style={{ verticalAlign: "-2px", marginRight: 6, color: "var(--gold-lt)" }} />
+            비아블 신화비전 교육 자료입니다. 제품의 효능·수익에 대한 보장이 아니라, AI 시대의 방향과 인간 중심 가치를 전하는 비전 발표 자료입니다.
+          </div>
+        </div>
+      </section>
+
       <section className="bha-sec" id="member">
         <div className="bha-wrap">
           <div className="bha-sec-head">
@@ -496,11 +634,23 @@ export default function YunjeongAICellife() {
         </div>
       </section>
 
+      {lightbox && (
+        <div className="bha-modal-overlay bha-lightbox" onClick={() => setLightbox(false)}>
+          <button className="bha-lb-arrow left" onClick={(e) => { e.stopPropagation(); goSlide(slide - 1); }} aria-label="이전 슬라이드"><ChevronLeft size={30} /></button>
+          <div className="bha-lb-inner" onClick={(e) => e.stopPropagation()}>
+            <button className="bha-modal-x" onClick={() => setLightbox(false)} aria-label="닫기"><X size={22} /></button>
+            <img src={visionSlides[slide].src} alt={`슬라이드 ${slide + 1}: ${visionSlides[slide].t}`} />
+            <div className="bha-lb-cap"><span>{String(slide + 1).padStart(2, "0")} / {String(totalSlides).padStart(2, "0")}</span> · {visionSlides[slide].t}</div>
+          </div>
+          <button className="bha-lb-arrow right" onClick={(e) => { e.stopPropagation(); goSlide(slide + 1); }} aria-label="다음 슬라이드"><ChevronRight size={30} /></button>
+        </div>
+      )}
+
       {videoOpen && (
         <div className="bha-modal-overlay" onClick={() => setVideoOpen(false)}>
           <div className="bha-vmodal" onClick={(e) => e.stopPropagation()}>
             <button className="bha-modal-x" onClick={() => setVideoOpen(false)} aria-label="닫기"><X size={22} /></button>
-            <video src="/intro.mp4" controls playsInline preload="metadata" style={{ width: "100%", borderRadius: 16, display: "block" }} />
+            <video src="intro.mp4" controls playsInline preload="metadata" style={{ width: "100%", borderRadius: 16, display: "block" }} />
           </div>
         </div>
       )}
@@ -527,12 +677,12 @@ export default function YunjeongAICellife() {
         <div className="bha-wrap bha-footer-grid">
           <div>
             <div className="bha-logo" style={{ color: "#fff", marginBottom: 12 }}>
-              <img src="/logo.png" alt="logo" />
+              <img src="logo.png" alt="logo" />
               <div className="bha-logo-txt" style={{ color: "#fff" }}>윤앤정 AI 셀라이프<small style={{color:"var(--gold-lt)"}}>AI CELLIFE</small></div>
             </div>
             <p style={{ maxWidth: 280 }}>AI로 쉽게 배우는 뷰티·홈케어 · 네트워크 마케팅 교육 채널<br/>제품을 더 쉽게, 뷰티를 더 아름답게</p>
           </div>
-          <div><h4>바로가기</h4><a onClick={()=>goTo("about")} style={{cursor:"pointer"}}>진행자 소개</a><a onClick={()=>goTo("beauty")} style={{cursor:"pointer"}}>뷰티 교육</a><a onClick={()=>goTo("curriculum")} style={{cursor:"pointer"}}>마케팅 교육</a></div>
+          <div><h4>바로가기</h4><a onClick={()=>goTo("about")} style={{cursor:"pointer"}}>진행자 소개</a><a onClick={()=>goTo("beauty")} style={{cursor:"pointer"}}>뷰티 교육</a><a onClick={()=>goTo("curriculum")} style={{cursor:"pointer"}}>마케팅 교육</a><a onClick={()=>goTo("vision")} style={{cursor:"pointer"}}>신화비전 발표자료</a></div>
           <div><h4>채널</h4><a href="#">YouTube 채널</a><a href="#">자료실</a><a href="#">문의하기</a></div>
         </div>
         <div className="bha-wrap bha-footer-note">© 2026 윤앤정 AI 셀라이프 · 데모 프로토타입 (제품·영상은 플레이스홀더입니다)</div>

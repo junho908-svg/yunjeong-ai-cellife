@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Sparkles, Play, Lock, CheckCircle2, Circle, User, ShieldCheck,
   GraduationCap, Droplet, Users, TrendingUp, BookOpen, Menu, X,
-  ArrowRight, Crown, Wand2, Globe, Heart, ChevronLeft, ChevronRight, Maximize2, Presentation
+  ArrowRight, Crown, Wand2, Globe, Heart, ChevronLeft, ChevronRight, Maximize2, Presentation, Newspaper
 } from "lucide-react";
 
 export default function YunjeongAICellife() {
@@ -86,6 +86,26 @@ export default function YunjeongAICellife() {
   }, [lightbox, slide, deck]);
 
   const heroImages = ["hero-1.jpg", "hero-2.jpg", "hero-3.jpg", "hero-4.jpg", "hero-5.jpg", "hero-6.jpg", "hero-7.jpg"];
+
+  // 소식: 링크 카드(원문으로 연결). 새 글은 아래 배열에 항목만 추가하면 됩니다.
+  const newsItems = [
+    {
+      type: "언론보도",
+      title: "한국경제에 소개된 비아블 이야기",
+      summary: "한국경제가 비아블과 그 현장의 사람들을 다룬 기사입니다. 회사가 걸어온 길과 함께하는 이들의 모습을 차분히 들여다봅니다.",
+      source: "한국경제",
+      date: "",
+      url: "https://n.news.naver.com/article/015/0005294408",
+    },
+    {
+      type: "블로그 후기",
+      title: "비아블을 직접 경험한 분의 이야기",
+      summary: "비아블 제품과 활동을 직접 겪은 경험을 담담하게 풀어낸 블로그 글입니다. 실제 현장의 시선에서 느낀 점을 엿볼 수 있습니다.",
+      source: "네이버 블로그",
+      date: "",
+      url: "https://m.blog.naver.com/gurwn1725/224285371020",
+    },
+  ];
   useEffect(() => {
     const id = setInterval(() => setHeroSlide((cur) => (cur + 1) % heroImages.length), 4500);
     return () => clearInterval(id);
@@ -444,6 +464,19 @@ export default function YunjeongAICellife() {
           background:rgba(255,255,255,0.05); border:1px solid rgba(201,166,107,0.25); border-radius:22px; }
         .bha-deck-lock h3 { color:#fff; margin:16px 0 8px; font-size:20px; }
         .bha-deck-lock p { color:rgba(255,255,255,0.6); font-size:14px; margin:0 0 22px; }
+        .bha-news-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:22px; max-width:980px; margin:0 auto; }
+        .bha-news-card { background:#fff; border:1px solid rgba(183,110,121,0.16); border-radius:20px; padding:26px 24px;
+          display:flex; flex-direction:column; gap:12px; transition:.25s; box-shadow:0 6px 20px rgba(157,92,99,0.05); }
+        .bha-news-card:hover { transform:translateY(-3px); box-shadow:0 14px 34px rgba(157,92,99,0.13); border-color:var(--rose-soft); }
+        .bha-news-badge { align-self:flex-start; font-size:12px; font-weight:700; padding:5px 13px; border-radius:999px; letter-spacing:0.3px; }
+        .bha-news-badge.is-press { background:rgba(157,92,99,0.1); color:var(--rose-deep); }
+        .bha-news-badge.is-blog { background:rgba(167,183,154,0.22); color:#5f6e54; }
+        .bha-news-title { font-size:18px; font-weight:700; color:var(--ink); line-height:1.45; margin:0; }
+        .bha-news-summary { font-size:14.5px; color:var(--ink-soft); line-height:1.75; margin:0; flex:1; }
+        .bha-news-meta { font-size:12.5px; color:var(--ink-soft); opacity:0.85; }
+        .bha-news-link { align-self:flex-start; margin-top:2px; font-size:14px; font-weight:700; color:var(--rose-deep);
+          text-decoration:none; display:inline-flex; align-items:center; gap:5px; transition:.2s; }
+        .bha-news-link:hover { gap:9px; color:var(--rose); }
       `}</style>
 
       <nav className="bha-nav">
@@ -457,6 +490,7 @@ export default function YunjeongAICellife() {
             <a onClick={() => goTo("beauty")}>뷰티 교육</a>
             <a onClick={() => goTo("product")}>제품</a>
             <a onClick={() => goTo("curriculum")}>마케팅 교육</a>
+            <a onClick={() => goTo("news")}>소식</a>
             <a onClick={() => goTo("vision")}>발표자료</a>
             <a onClick={() => goTo("member")}>회원 강의실</a>
             <button className="bha-cta" onClick={() => goTo("member")}>무료 시작하기</button>
@@ -605,6 +639,27 @@ export default function YunjeongAICellife() {
           <div className="bha-vision">
             “AI는 기술을 만들지만, 사람의 인생은 결국 사람이 바꿉니다.”
             <span>— 비아블 신화비전</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="bha-sec" id="news">
+        <div className="bha-wrap">
+          <div className="bha-sec-head">
+            <div className="bha-kicker"><Newspaper size={13} style={{ verticalAlign: "-2px", marginRight: 6 }} />In the News</div>
+            <h2 className="bha-sec-title">소식 · 언론 속 비아블</h2>
+            <p className="bha-sec-desc">비아블과 윤앤정을 다룬 기사와 후기를 모았습니다. 각 카드는 원문 출처로 연결됩니다.</p>
+          </div>
+          <div className="bha-news-grid">
+            {newsItems.map((n, i) => (
+              <article className="bha-news-card" key={i}>
+                <span className={"bha-news-badge " + (n.type === "언론보도" ? "is-press" : "is-blog")}>{n.type}</span>
+                <h3 className="bha-news-title">{n.title}</h3>
+                <p className="bha-news-summary">{n.summary}</p>
+                <div className="bha-news-meta">{n.source}{n.date ? " · " + n.date : ""}</div>
+                <a className="bha-news-link" href={n.url} target="_blank" rel="noopener noreferrer">원문 보기 <ArrowRight size={15} /></a>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -782,7 +837,7 @@ export default function YunjeongAICellife() {
             </div>
             <p style={{ maxWidth: 280 }}>AI로 쉽게 배우는 뷰티·홈케어 · 네트워크 마케팅 교육 채널<br/>제품을 더 쉽게, 뷰티를 더 아름답게</p>
           </div>
-          <div><h4>바로가기</h4><a onClick={()=>goTo("about")} style={{cursor:"pointer"}}>진행자 소개</a><a onClick={()=>goTo("beauty")} style={{cursor:"pointer"}}>뷰티 교육</a><a onClick={()=>goTo("curriculum")} style={{cursor:"pointer"}}>마케팅 교육</a><a onClick={()=>goTo("vision")} style={{cursor:"pointer"}}>신화비전 발표자료</a></div>
+          <div><h4>바로가기</h4><a onClick={()=>goTo("about")} style={{cursor:"pointer"}}>진행자 소개</a><a onClick={()=>goTo("beauty")} style={{cursor:"pointer"}}>뷰티 교육</a><a onClick={()=>goTo("curriculum")} style={{cursor:"pointer"}}>마케팅 교육</a><a onClick={()=>goTo("news")} style={{cursor:"pointer"}}>소식</a><a onClick={()=>goTo("vision")} style={{cursor:"pointer"}}>신화비전 발표자료</a></div>
           <div><h4>채널</h4><a href="#">YouTube 채널</a><a href="#">자료실</a><a href="#">문의하기</a></div>
         </div>
         <div className="bha-wrap bha-footer-note">© 2026 윤앤정 AI 셀라이프 · 데모 프로토타입 (제품·영상은 플레이스홀더입니다)</div>

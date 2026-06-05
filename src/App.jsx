@@ -5,6 +5,10 @@ import {
   ArrowRight, Crown, Wand2, Globe, Heart, ChevronLeft, ChevronRight, Maximize2, Presentation, Newspaper
 } from "lucide-react";
 
+// ▼▼▼ 유튜브 소개 영상 ID — 영상 주소(youtu.be/XXXX 또는 watch?v=XXXX)의 11자리만 여기에 넣으세요 ▼▼▼
+const YT_INTRO_ID = "mfhSALQ4pf8";
+// ▲▲▲ 예) https://youtu.be/abcd1234XYZ  →  "abcd1234XYZ" ▲▲▲
+
 export default function YunjeongAICellife() {
   const [navOpen, setNavOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -477,6 +481,10 @@ export default function YunjeongAICellife() {
         .bha-news-link { align-self:flex-start; margin-top:2px; font-size:14px; font-weight:700; color:var(--rose-deep);
           text-decoration:none; display:inline-flex; align-items:center; gap:5px; transition:.2s; }
         .bha-news-link:hover { gap:9px; color:var(--rose); }
+        .bha-embed { position:relative; width:100%; aspect-ratio:16/9; border-radius:16px; overflow:hidden; background:#000; }
+        .bha-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+        .bha-vmodal-yt { display:block; text-align:center; margin-top:13px; margin-bottom:2px; color:rgba(255,255,255,0.88); font-size:14px; font-weight:600; text-decoration:none; }
+        .bha-vmodal-yt:hover { color:#fff; text-decoration:underline; }
       `}</style>
 
       <nav className="bha-nav">
@@ -805,7 +813,15 @@ export default function YunjeongAICellife() {
         <div className="bha-modal-overlay" onClick={() => setVideoOpen(false)}>
           <div className="bha-vmodal" onClick={(e) => e.stopPropagation()}>
             <button className="bha-modal-x" onClick={() => setVideoOpen(false)} aria-label="닫기"><X size={22} /></button>
-            <video src="intro.mp4" controls playsInline preload="metadata" style={{ width: "100%", borderRadius: 16, display: "block" }} />
+            <div className="bha-embed">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${YT_INTRO_ID}?autoplay=1&rel=0&modestbranding=1`}
+                title="윤앤정 AI 셀라이프 소개 영상"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <a className="bha-vmodal-yt" href={`https://youtu.be/${YT_INTRO_ID}`} target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
           </div>
         </div>
       )}

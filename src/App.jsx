@@ -485,6 +485,12 @@ export default function YunjeongAICellife() {
         .bha-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
         .bha-vmodal-yt { display:block; text-align:center; margin-top:13px; margin-bottom:2px; color:rgba(255,255,255,0.88); font-size:14px; font-weight:600; text-decoration:none; }
         .bha-vmodal-yt:hover { color:#fff; text-decoration:underline; }
+        .bha-prod-video { max-width:760px; margin:50px auto 0; text-align:center; }
+        .bha-prod-video-t { font-size:22px; font-weight:700; color:var(--ink); margin:0 0 8px; }
+        .bha-prod-video-d { font-size:15px; color:var(--ink-soft); margin:0 0 22px; }
+        .bha-prod-video .bha-embed { box-shadow:0 14px 40px rgba(157,92,99,0.16); }
+        .bha-prod-video-yt { display:inline-block; margin-top:14px; font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; }
+        .bha-prod-video-yt:hover { text-decoration:underline; }
       `}</style>
 
       <nav className="bha-nav">
@@ -620,6 +626,20 @@ export default function YunjeongAICellife() {
                 </div>
               );
             })}
+          </div>
+
+          <div className="bha-prod-video">
+            <h3 className="bha-prod-video-t">제품 사용 영상으로 보기</h3>
+            <p className="bha-prod-video-d">셀비아 라인으로 완성하는 모닝 루틴을 영상으로 확인하세요.</p>
+            <div className="bha-embed">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/0oTiLwAhV-w?rel=0&modestbranding=1"
+                title="셀비아 모닝 루틴"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <a className="bha-prod-video-yt" href="https://youtu.be/0oTiLwAhV-w" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
           </div>
         </div>
       </section>

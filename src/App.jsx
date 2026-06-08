@@ -14,7 +14,6 @@ export default function YunjeongAICellife() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [done, setDone] = useState({});
   const [modal, setModal] = useState(null);
-  const [videoOpen, setVideoOpen] = useState(false);
   const [deck, setDeck] = useState("yunhee");
   const [heroSlide, setHeroSlide] = useState(0);
   const [slide, setSlide] = useState(0);
@@ -491,6 +490,8 @@ export default function YunjeongAICellife() {
         .bha-prod-video .bha-embed { box-shadow:0 14px 40px rgba(157,92,99,0.16); }
         .bha-prod-video-yt { display:inline-block; margin-top:14px; font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; }
         .bha-prod-video-yt:hover { text-decoration:underline; }
+        .bha-intro-video { max-width:820px; margin:0 auto; text-align:center; }
+        .bha-intro-video .bha-embed { box-shadow:0 18px 50px rgba(157,92,99,0.18); }
       `}</style>
 
       <nav className="bha-nav">
@@ -545,13 +546,30 @@ export default function YunjeongAICellife() {
                 ))}
               </div>
             </div>
-            <div className="bha-hero-overlay">
-              <button className="bha-btn-primary" onClick={() => goTo("beauty")}><Play size={18} /> 무료 영상 보기</button>
-              <button className="bha-btn-ghost" onClick={() => goTo("member")}><GraduationCap size={18} /> 회원 강의실 입장</button>
-            </div>
           </div>
         </div>
       </header>
+
+      <section className="bha-sec bha-intro-sec" id="intro">
+        <div className="bha-wrap">
+          <div className="bha-sec-head">
+            <div className="bha-kicker"><Play size={13} fill="currentColor" style={{ verticalAlign: "-2px", marginRight: 6 }} />Brand Film</div>
+            <h2 className="bha-sec-title">윤앤정 AI 셀라이프 소개 영상</h2>
+            <p className="bha-sec-desc">1분으로 만나는 우리 채널 이야기 — AI로 쉽게 배우는 뷰티·홈케어.</p>
+          </div>
+          <div className="bha-intro-video">
+            <div className="bha-embed">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${YT_INTRO_ID}?rel=0&modestbranding=1`}
+                title="윤앤정 AI 셀라이프 소개 영상"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <a className="bha-prod-video-yt" href={`https://youtu.be/${YT_INTRO_ID}`} target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+          </div>
+        </div>
+      </section>
 
       <section className="bha-sec" id="about">
         <div className="bha-wrap">
@@ -559,7 +577,6 @@ export default function YunjeongAICellife() {
             <div className="bha-kicker">Your Mentors</div>
             <h2 className="bha-sec-title">두 분이 함께 이끄는 교육</h2>
             <p className="bha-sec-desc">제품 케어와 사업 교육, 두 영역을 각각의 전문가가 맡아 균형 있게 안내합니다.</p>
-            <button className="bha-intro-btn" onClick={() => setVideoOpen(true)}><Play size={18} fill="currentColor" /> 소개 영상 보기</button>
           </div>
           <div className="bha-hosts">
             {hosts.map((h, i) => (
@@ -829,22 +846,7 @@ export default function YunjeongAICellife() {
         </div>
       )}
 
-      {videoOpen && (
-        <div className="bha-modal-overlay" onClick={() => setVideoOpen(false)}>
-          <div className="bha-vmodal" onClick={(e) => e.stopPropagation()}>
-            <button className="bha-modal-x" onClick={() => setVideoOpen(false)} aria-label="닫기"><X size={22} /></button>
-            <div className="bha-embed">
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${YT_INTRO_ID}?autoplay=1&rel=0&modestbranding=1`}
-                title="윤앤정 AI 셀라이프 소개 영상"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-            <a className="bha-vmodal-yt" href={`https://youtu.be/${YT_INTRO_ID}`} target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
-          </div>
-        </div>
-      )}
+
 
       {modal && (
         <div className="bha-modal-overlay" onClick={() => setModal(null)}>

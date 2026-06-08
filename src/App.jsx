@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 
 // ▼▼▼ 유튜브 소개 영상 ID — 영상 주소(youtu.be/XXXX 또는 watch?v=XXXX)의 11자리만 여기에 넣으세요 ▼▼▼
-const YT_INTRO_ID = "mfhSALQ4pf8";
+const YT_INTRO_ID = "i5b8Rm_DbW4";
 // ▲▲▲ 예) https://youtu.be/abcd1234XYZ  →  "abcd1234XYZ" ▲▲▲
 
 export default function YunjeongAICellife() {

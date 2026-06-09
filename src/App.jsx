@@ -132,6 +132,10 @@ export default function YunjeongAICellife() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     setNavOpen(false);
   };
+  const goTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setNavOpen(false);
+  };
 
   const hosts = [
     { name: "이윤희", photo: "host-yunhee.png", role: "뷰티 · 홈케어 디렉터", tag: "제품 · 케어",
@@ -245,7 +249,9 @@ export default function YunjeongAICellife() {
         .bha-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,249,244,0.88);
           backdrop-filter: blur(12px); border-bottom: 1px solid rgba(183,110,121,0.15); }
         .bha-nav-inner { display:flex; align-items:center; justify-content:space-between; height: 90px; }
-        .bha-logo { display:flex; align-items:center; gap:14px; font-weight:700; }
+        .bha-logo { display:flex; align-items:center; gap:14px; font-weight:700; cursor:pointer; user-select:none; transition:opacity .2s; }
+        .bha-logo:hover { opacity:0.78; }
+        .bha-logo:focus-visible { outline:2px solid var(--rose); outline-offset:4px; border-radius:8px; }
         .bha-logo img { width:68px; height:68px; border-radius:50%; object-fit:cover;
           box-shadow:0 4px 16px rgba(183,110,121,0.28); }
         .bha-logo-txt { font-size: 20px; font-weight:700; letter-spacing:-0.3px; line-height:1.25; }
@@ -498,6 +504,35 @@ export default function YunjeongAICellife() {
         .bha-news-link:hover { gap:9px; color:var(--rose); }
         .bha-embed { position:relative; width:100%; aspect-ratio:16/9; border-radius:16px; overflow:hidden; background:#000; }
         .bha-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+        .bha-lecture { max-width:920px; margin:0 auto 56px; background:#fff; border-radius:24px;
+          padding:28px; box-shadow:0 18px 54px rgba(183,110,121,0.14); border:1px solid rgba(201,166,107,0.18); }
+        .bha-lecture-badge { display:inline-flex; align-items:center; gap:8px; margin:0 0 14px;
+          padding:6px 14px; border-radius:999px; background:linear-gradient(135deg, var(--blush), var(--gold-lt));
+          color:var(--rose-deep); font-size:12px; font-weight:700; letter-spacing:1px; }
+        .bha-lecture-logo { height:18px; width:auto; object-fit:contain; }
+        .bha-lecture-title { font-size:24px; font-weight:800; line-height:1.35; color:var(--ink);
+          margin:0 0 20px; letter-spacing:-0.4px; }
+        .bha-lecture .bha-embed { box-shadow:0 14px 40px rgba(157,92,99,0.16); }
+        .bha-lecture-body { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:26px; align-items:start; }
+        .bha-lecture-intro p { font-size:16px; line-height:1.8; color:var(--ink-soft); margin:0 0 12px; }
+        .bha-lecture-intro strong { color:var(--rose-deep); font-weight:700; }
+        .bha-lecture-yt { display:inline-block; margin-top:6px; font-size:14px; font-weight:700;
+          color:var(--rose-deep); text-decoration:none; }
+        .bha-lecture-yt:hover { text-decoration:underline; }
+        .bha-lecture-points { list-style:none; margin:0; padding:0; }
+        .bha-lecture-points li { position:relative; padding:14px 16px 14px 18px; margin:0 0 10px;
+          background:var(--cream); border-radius:14px; font-size:14.5px; color:var(--ink); line-height:1.55;
+          border-left:3px solid var(--gold); }
+        .bha-lecture-points li span { display:block; font-size:12px; font-weight:700; color:var(--gold);
+          letter-spacing:0.5px; margin-bottom:3px; }
+        .bha-lecture-cta { text-align:center; margin-top:28px; }
+        .bha-lecture-cta .bha-btn-primary { display:inline-block; }
+        @media (max-width:680px) {
+          .bha-lecture { padding:20px; border-radius:20px; }
+          .bha-lecture-title { font-size:20px; }
+          .bha-lecture-body { grid-template-columns:1fr; gap:22px; }
+        }
         .bha-vmodal-yt { display:block; text-align:center; margin-top:13px; margin-bottom:2px; color:rgba(255,255,255,0.88); font-size:14px; font-weight:600; text-decoration:none; }
         .bha-vmodal-yt:hover { color:#fff; text-decoration:underline; }
         .bha-prod-video { max-width:760px; margin:50px auto 0; text-align:center; }
@@ -512,7 +547,9 @@ export default function YunjeongAICellife() {
 
       <nav className="bha-nav">
         <div className="bha-wrap bha-nav-inner">
-          <div className="bha-logo">
+          <div className="bha-logo" onClick={goTop} role="button" tabIndex={0}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goTop(); } }}
+            title="처음으로" aria-label="윤앤정 AI 셀라이프 — 처음으로">
             <img src="logo.png" alt="윤앤정 AI 셀라이프 로고" />
             <div className="bha-logo-txt">윤앤정 AI 셀라이프<small>AI CELLIFE</small></div>
           </div>
@@ -685,6 +722,40 @@ export default function YunjeongAICellife() {
             <h2 className="bha-sec-title">네트워크 마케팅 교육 시스템</h2>
             <p className="bha-sec-desc">비아블 신화비전의 4대 패러다임 전환. 제품을 파는 법이 아니라, 사람과 함께 성장하는 길을 배웁니다.</p>
           </div>
+
+          <div className="bha-lecture">
+            <div className="bha-lecture-badge">
+              <img src="viable_logo_transparent.png" alt="VIABLE" className="bha-lecture-logo"
+                onError={(e) => { e.currentTarget.style.display = "none"; }} />
+              <span>VIABLE · 사업 가이드</span>
+            </div>
+            <h3 className="bha-lecture-title">열심히 하는데 안 풀린다면? 셀비아 사업, ‘순서’만 알면 됩니다</h3>
+            <div className="bha-embed">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/5WZAaJNMqI8?rel=0&modestbranding=1"
+                title="나로부터 시작하는 나의 일: 셀비아 사업 육성 시스템"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <div className="bha-lecture-body">
+              <div className="bha-lecture-intro">
+                <p>“뭘 먼저 해야 할지” 막막하셨다면, 그건 능력이 아니라 <strong>순서의 문제</strong>입니다.</p>
+                <p>셀비아 사업을 어디서부터 어떤 순서로 키워야 하는지, 딱 한 장의 그림으로 정리했습니다.</p>
+                <a className="bha-lecture-yt" href="https://youtu.be/5WZAaJNMqI8" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+              </div>
+              <ul className="bha-lecture-points">
+                <li><span>성장 4단계</span> 마니아 → 디렉터 → 에메랄드 → 다이아몬드</li>
+                <li><span>전 과정 기본기</span> ABC 법칙 (A 스폰서 · B 나 · C 고객/파트너)</li>
+                <li><span>직급별 실행</span> A·B·C 단계와 체크리스트</li>
+                <li><span>끝까지 함께</span> 결속력 · 사랑 · 봉사</li>
+              </ul>
+            </div>
+            <div className="bha-lecture-cta">
+              <button className="bha-btn-primary" onClick={() => goTo("member")}>사업 문의 · 상담하기</button>
+            </div>
+          </div>
+
           <div className="bha-curr">
             {curriculum.map((c) => {
               const Ic = c.icon;

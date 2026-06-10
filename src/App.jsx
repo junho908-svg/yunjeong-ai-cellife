@@ -237,36 +237,57 @@ export default function YunjeongAICellife() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Gothic+A1:wght@300;400;500;700;800&family=Gowun+Dodum&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         .bha-root {
-          --rose: #B76E79; --rose-deep: #9D5C63; --rose-soft: #E8B4BC;
-          --blush: #F6E3DD; --cream: #FFF9F4; --cream2: #FBEFE7;
-          --gold: #C9A66B; --gold-lt: #E4CDA0; --sage: #A7B79A;
-          --ink: #4A3338; --ink-soft: #8A6F74;
+          --rose: #D85FA0; --rose-deep: #BE3F7E; --rose-soft: #F5BAD3;
+          --blush: #FBE4EF; --cream: #FFFBFD; --cream2: #F8EEF5;
+          --gold: #C39A6E; --gold-lt: #EAD2B0; --sage: #A7B79A;
+          --rosegold: #B87A65; --rosegold-lt: #EFCDBD;
+          --lav: #9B7BD8; --lav-soft: #E9E0FA; --peach-soft: #FFE9DB;
+          --pearl: #FFF8FA; --pearl2: #FBEFF4;
+          --ink: #44243C; --ink-soft: #7A5670;
           font-family: 'Pretendard', 'Gothic A1', 'Noto Sans KR', sans-serif; color: var(--ink);
-          background: var(--cream); line-height: 1.7; min-height: 100vh;
+          line-height: 1.7; min-height: 100vh;
+          background:
+            radial-gradient(1000px 700px at 10% -8%, rgba(245,186,211,0.30), transparent 60%),
+            radial-gradient(900px 620px at 92% 6%, rgba(233,224,250,0.32), transparent 62%),
+            radial-gradient(900px 600px at 50% 112%, rgba(255,233,219,0.26), transparent 60%),
+            linear-gradient(180deg, #FFFDFE, var(--pearl));
+          background-attachment: fixed;
         }
         .bha-serif { font-family: 'Cormorant Garamond', serif; }
+        @keyframes bhaShimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        @keyframes bhaTwinkle { 0%,100% { opacity:.35; transform:scale(.85) rotate(0deg); } 50% { opacity:1; transform:scale(1.12) rotate(16deg); } }
         .bha-wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
-        .bha-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,249,244,0.88);
-          backdrop-filter: blur(12px); border-bottom: 1px solid rgba(183,110,121,0.15); }
+        .bha-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,251,253,0.78);
+          backdrop-filter: blur(20px) saturate(1.3); -webkit-backdrop-filter: blur(20px) saturate(1.3);
+          border-bottom: 1px solid rgba(224,99,158,0.14);
+          box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 8px 30px rgba(224,99,158,0.06); }
         .bha-nav-inner { display:flex; align-items:center; justify-content:space-between; height: 90px; }
         .bha-logo { display:flex; align-items:center; gap:14px; font-weight:700; cursor:pointer; user-select:none; transition:opacity .2s; }
         .bha-logo:hover { opacity:0.78; }
         .bha-logo:focus-visible { outline:2px solid var(--rose); outline-offset:4px; border-radius:8px; }
         .bha-logo img { width:68px; height:68px; border-radius:50%; object-fit:cover;
-          box-shadow:0 4px 16px rgba(183,110,121,0.28); }
+          border:2px solid #fff; box-shadow:0 0 0 1.5px var(--rosegold-lt), 0 6px 18px rgba(184,122,101,0.3); }
         .bha-logo-txt { font-size: 20px; font-weight:700; letter-spacing:-0.3px; line-height:1.25; }
-        .bha-logo-txt small { display:block; font-size:12px; color:var(--gold); font-weight:600; letter-spacing:3px; margin-top:2px; }
+        .bha-logo-txt small { display:block; font-size:12px; font-weight:600; letter-spacing:3px; margin-top:2px;
+          background:linear-gradient(100deg, var(--rosegold), #D9967E, var(--rosegold)); background-size:200% auto;
+          -webkit-background-clip:text; background-clip:text; color:transparent; animation:bhaShimmer 7s linear infinite; }
         .bha-links { display:flex; gap:28px; align-items:center; }
         .bha-links a { color:var(--ink-soft); text-decoration:none; font-size:14px; font-weight:500; transition:.2s; cursor:pointer; }
-        .bha-links a:hover { color:var(--rose); }
-        .bha-cta { background: var(--rose); color:#fff !important; padding:9px 20px; border-radius:999px;
-          font-size:13px; border:none; cursor:pointer; transition:.2s; font-weight:500; }
-        .bha-cta:hover { background: var(--rose-deep); transform: translateY(-1px); }
+        .bha-links a:hover { color:var(--rose-deep); }
+        .bha-cta { background: linear-gradient(115deg, var(--rose), var(--rose-deep) 55%, var(--lav)); background-size:200% auto;
+          animation:bhaShimmer 8s linear infinite; color:#fff !important; padding:10px 22px; border-radius:999px;
+          font-size:13px; border:none; cursor:pointer; transition:.2s; font-weight:700;
+          box-shadow:0 8px 22px rgba(190,63,126,0.32), inset 0 1px 0 rgba(255,255,255,0.4); }
+        .bha-cta:hover { transform: translateY(-1px); box-shadow:0 12px 28px rgba(155,123,216,0.4), inset 0 1px 0 rgba(255,255,255,0.4); }
         .bha-burger { display:none; background:none; border:none; cursor:pointer; color:var(--rose); }
 
         .bha-hero { position:relative; padding: 38px 0 30px; }
-        .bha-hero-banner { position:relative; border-radius:28px; overflow:hidden;
-          box-shadow:0 22px 60px rgba(183,110,121,0.22); }
+        .bha-hero-banner { position:relative; border-radius:30px; overflow:hidden;
+          box-shadow:0 30px 70px rgba(190,63,126,0.20), 0 6px 20px rgba(155,123,216,0.14); }
+        .bha-hero-banner::after { content:''; position:absolute; inset:0; z-index:4; pointer-events:none; border-radius:30px;
+          border:1.5px solid transparent;
+          background:linear-gradient(120deg, rgba(255,255,255,0.95), rgba(245,186,211,0.55), rgba(239,205,189,0.75), rgba(233,224,250,0.65), rgba(255,255,255,0.95)) border-box;
+          -webkit-mask:linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
         .bha-hero-banner img { width:100%; display:block; }
         .bha-hero-slides { position:relative; width:100%; aspect-ratio: 1360 / 768; }
         .bha-hero-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
@@ -279,33 +300,43 @@ export default function YunjeongAICellife() {
         .bha-hero-overlay { position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex;
           justify-content:center; gap:14px; padding:26px; flex-wrap:wrap;
           background:linear-gradient(to top, rgba(74,51,56,0.45), transparent); }
-        .bha-btn-primary { background: linear-gradient(135deg, var(--rose), var(--rose-deep)); color:#fff;
+        .bha-btn-primary { background: linear-gradient(115deg, #F586BD, var(--rose) 40%, var(--lav) 95%); background-size:200% auto;
+          animation:bhaShimmer 7s linear infinite; color:#fff;
           border:none; padding:14px 30px; border-radius:999px; font-size:15px; cursor:pointer;
-          display:inline-flex; align-items:center; gap:9px; font-weight:500;
-          box-shadow:0 12px 30px rgba(157,92,99,0.4); transition:.25s; }
-        .bha-btn-primary:hover { transform:translateY(-2px); box-shadow:0 16px 40px rgba(157,92,99,0.5); }
-        .bha-btn-ghost { background:rgba(255,255,255,0.95); color:var(--rose); border:1px solid rgba(255,255,255,0.6);
+          display:inline-flex; align-items:center; gap:9px; font-weight:700;
+          box-shadow:0 14px 32px rgba(190,63,126,0.42), inset 0 1.5px 0 rgba(255,255,255,0.5); transition:.25s; }
+        .bha-btn-primary:hover { transform:translateY(-2px); box-shadow:0 20px 44px rgba(155,123,216,0.48), inset 0 1.5px 0 rgba(255,255,255,0.5); }
+        .bha-btn-ghost { background:rgba(255,255,255,0.6); color:var(--rose-deep); border:1px solid rgba(255,255,255,0.8);
+          backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
           padding:14px 26px; border-radius:999px; font-size:15px; cursor:pointer;
-          display:inline-flex; align-items:center; gap:9px; font-weight:500; transition:.25s; }
-        .bha-btn-ghost:hover { background:#fff; transform:translateY(-2px); }
+          display:inline-flex; align-items:center; gap:9px; font-weight:700; transition:.25s;
+          box-shadow:0 6px 18px rgba(157,92,99,0.1); }
+        .bha-btn-ghost:hover { background:rgba(255,255,255,0.85); transform:translateY(-2px); }
 
         .bha-sec { padding: 78px 0; scroll-margin-top: 92px; }
         .bha-sec.alt { background: var(--cream2); }
         .bha-sec-head { text-align:center; margin-bottom:52px; }
-        .bha-kicker { color:var(--gold); font-size:12px; letter-spacing:3px; font-weight:700; text-transform:uppercase; }
-        .bha-sec-title { font-size: clamp(26px, 4vw, 38px); font-weight:700; margin:12px 0 10px; letter-spacing:-0.5px; }
+        .bha-kicker { display:inline-flex; align-items:center; gap:9px; color:var(--rosegold); font-size:12px; letter-spacing:3px; font-weight:700; text-transform:uppercase; }
+        .bha-kicker::before, .bha-kicker::after { content:'◆'; font-size:7px; color:var(--rosegold-lt); animation:bhaTwinkle 3s ease-in-out infinite; }
+        .bha-kicker::after { animation-delay:1.5s; }
+        .bha-sec-title { font-size: clamp(26px, 4vw, 38px); font-weight:800; margin:12px 0 10px; letter-spacing:-0.5px; }
         .bha-sec-desc { color:var(--ink-soft); max-width:520px; margin:0 auto; font-size:15px; }
 
         .bha-hosts { display:grid; grid-template-columns:1fr 1fr; gap:30px; }
-        .bha-host-card { background:linear-gradient(165deg, #ffffff 0%, #FFF3EF 100%); border-radius:28px; padding:34px;
-          border:1px solid rgba(183,110,121,0.14); box-shadow:0 14px 46px rgba(183,110,121,0.10);
+        .bha-host-card { border-radius:28px; padding:34px;
+          background:linear-gradient(160deg, rgba(255,255,255,0.92), rgba(255,244,249,0.68));
+          backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+          border:1.5px solid rgba(255,255,255,0.92);
+          box-shadow:0 22px 56px rgba(190,63,126,0.12), inset 0 1.5px 0 rgba(255,255,255,1), inset 0 -16px 40px rgba(245,186,211,0.1);
           transition:.32s; position:relative; overflow:hidden; }
         .bha-host-card::before { content:''; position:absolute; top:0; left:0; right:0; height:5px;
-          background:linear-gradient(90deg, var(--rose), var(--gold), var(--rose-soft)); }
-        .bha-host-card:hover { transform:translateY(-6px); box-shadow:0 26px 60px rgba(183,110,121,0.18); }
+          background:linear-gradient(90deg, var(--rose-soft), var(--rosegold-lt), var(--lav-soft), var(--rose-soft));
+          background-size:220% auto; animation:bhaShimmer 6s linear infinite; }
+        .bha-host-card::after { content:'✦'; position:absolute; top:22px; right:26px; font-size:17px; color:var(--rosegold-lt); animation:bhaTwinkle 3.4s ease-in-out infinite; }
+        .bha-host-card:hover { transform:translateY(-6px); box-shadow:0 34px 76px rgba(155,123,216,0.2), inset 0 1.5px 0 #fff; }
         .bha-host-top { display:flex; align-items:center; gap:22px; margin-bottom:20px; }
         .bha-host-photo { width:120px; height:120px; border-radius:50%; flex-shrink:0; overflow:hidden;
-          border:3px solid #fff; box-shadow:0 8px 26px rgba(183,110,121,0.24); }
+          border:3px solid #fff; box-shadow:0 0 0 1.5px var(--rosegold-lt), 0 10px 28px rgba(184,122,101,0.28); }
         .bha-host-photo img { width:100%; height:100%; object-fit:cover; }
         .bha-host-meta { flex:1; min-width:0; }
         .bha-host-tag { display:inline-block; font-size:12px; color:#fff;
@@ -583,6 +614,38 @@ export default function YunjeongAICellife() {
         .bha-prod-video-yt:hover { text-decoration:underline; }
         .bha-intro-video { max-width:820px; margin:0 auto; text-align:center; }
         .bha-intro-video .bha-embed { box-shadow:0 18px 50px rgba(157,92,99,0.18); }
+
+        /* ===== 시안1 보석·럭셔리 글래스 테마 레이어 ===== */
+        .bha-prod, .bha-lesson, .bha-curr-card, .bha-news-card,
+        .bha-lecture, .bha-brandvid-card, .bha-member {
+          background:linear-gradient(160deg, rgba(255,255,255,0.9), rgba(255,244,249,0.66));
+          backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+          border:1.5px solid rgba(255,255,255,0.9);
+          box-shadow:0 16px 44px rgba(190,63,126,0.10), inset 0 1.5px 0 rgba(255,255,255,1); }
+        .bha-prod:hover, .bha-lesson:hover, .bha-curr-card:hover, .bha-news-card:hover {
+          box-shadow:0 24px 56px rgba(155,123,216,0.18), inset 0 1.5px 0 #fff; border-color:rgba(255,255,255,0.95); }
+        .bha-news-card:hover { border-color:var(--rose-soft); }
+        .bha-thumb { background:linear-gradient(125deg, var(--rose-soft), var(--rosegold-lt) 45%, var(--lav-soft));
+          background-size:180% auto; animation:bhaShimmer 9s linear infinite alternate; position:relative; }
+        .bha-thumb::after { content:'✦'; position:absolute; top:10px; right:14px; color:rgba(255,255,255,0.92); font-size:13px; animation:bhaTwinkle 2.8s ease-in-out infinite; }
+        .bha-skill { background:linear-gradient(115deg, rgba(255,255,255,0.9), rgba(245,186,211,0.28));
+          border:1px solid rgba(245,186,211,0.7); box-shadow:inset 0 1px 0 #fff, 0 3px 10px rgba(190,63,126,0.08); color:var(--rose-deep); }
+        .bha-vision { background:linear-gradient(135deg, rgba(233,224,250,0.42), rgba(255,255,255,0.72));
+          backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1.5px solid rgba(255,255,255,0.9);
+          box-shadow:0 14px 40px rgba(155,123,216,0.10); }
+        .bha-curr-ic, .bha-prod-ic, .bha-login-ic { box-shadow:0 8px 20px rgba(190,63,126,0.22), inset 0 1px 0 rgba(255,255,255,0.45); }
+        .bha-news-badge.is-blog { background:rgba(155,123,216,0.16); color:#6b54a6; }
+
+        /* 380px 등 소형 화면 안전장치 */
+        @media (max-width:420px) {
+          .bha-wrap { padding:0 16px; }
+          .bha-host-card, .bha-lecture, .bha-member { padding:22px; }
+          .bha-host-name { font-size:26px; }
+          .bha-lecture-title { font-size:19px; }
+          .bha-hero-overlay { padding:18px; }
+          .bha-btn-primary, .bha-btn-ghost { padding:12px 22px; font-size:14px; }
+          .bha-sec { padding:54px 0; }
+        }
       `}</style>
 
       <nav className="bha-nav">

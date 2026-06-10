@@ -533,6 +533,14 @@ export default function YunjeongAICellife() {
           .bha-lecture-title { font-size:20px; }
           .bha-lecture-body { grid-template-columns:1fr; gap:22px; }
         }
+
+        .bha-refvid { max-width:560px; margin:44px auto 0; text-align:center; }
+        .bha-refvid-label { display:inline-block; font-size:11px; font-weight:700; letter-spacing:2px;
+          text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+        .bha-refvid-title { font-size:18px; font-weight:700; color:var(--ink); margin:0 0 6px; }
+        .bha-refvid-desc { font-size:14px; color:var(--ink-soft); margin:0 0 18px; line-height:1.6; }
+        .bha-refvid .bha-embed { border-radius:14px; box-shadow:0 8px 24px rgba(74,51,56,0.12); }
+        .bha-refvid-src { font-size:12px; color:var(--ink-soft); opacity:0.75; margin:12px 0 0; }
         .bha-vmodal-yt { display:block; text-align:center; margin-top:13px; margin-bottom:2px; color:rgba(255,255,255,0.88); font-size:14px; font-weight:600; text-decoration:none; }
         .bha-vmodal-yt:hover { color:#fff; text-decoration:underline; }
         .bha-prod-video { max-width:760px; margin:50px auto 0; text-align:center; }
@@ -772,6 +780,21 @@ export default function YunjeongAICellife() {
           <div className="bha-vision">
             “AI는 기술을 만들지만, 사람의 인생은 결국 사람이 바꿉니다.”
             <span>— 비아블 신화비전</span>
+          </div>
+
+          <div className="bha-refvid">
+            <div className="bha-refvid-label">참고 영상 · 기초 이해</div>
+            <h3 className="bha-refvid-title">직접판매란? — 공신력 있는 기관의 설명</h3>
+            <p className="bha-refvid-desc">‘회원직접판매’가 어떤 산업인지, 직접판매공제조합의 공식 소개 영상으로 확인하세요.</p>
+            <div className="bha-embed">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/e_AUdhQ2SdU?rel=0&modestbranding=1"
+                title="회원직접판매란? — 직접판매공제조합"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <p className="bha-refvid-src">출처 · 직접판매공제조합</p>
           </div>
         </div>
       </section>

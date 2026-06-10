@@ -542,7 +542,8 @@ export default function YunjeongAICellife() {
         .bha-refvid .bha-embed { border-radius:14px; box-shadow:0 8px 24px rgba(74,51,56,0.12); }
         .bha-refvid-src { font-size:12px; color:var(--ink-soft); opacity:0.75; margin:12px 0 0; }
 
-        .bha-brandvid { display:grid; grid-template-columns:repeat(2,1fr); gap:26px; }
+        .bha-brandvid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+        @media (max-width:1000px) and (min-width:761px) { .bha-brandvid { grid-template-columns:repeat(2,1fr); } }
         .bha-brandvid-card { background:#fff; border-radius:20px; padding:22px; display:flex; flex-direction:column;
           box-shadow:0 14px 40px rgba(183,110,121,0.12); border:1px solid rgba(201,166,107,0.16); }
         .bha-brandvid-label { display:inline-block; align-self:flex-start; font-size:11px; font-weight:700;
@@ -760,7 +761,7 @@ export default function YunjeongAICellife() {
           <div className="bha-sec-head">
             <div className="bha-kicker">Brand &amp; Vision</div>
             <h2 className="bha-sec-title">브랜드 &amp; 비전 영상</h2>
-            <p className="bha-sec-desc">윤앤정이 함께하는 두 축 — 제품을 만드는 기업 비아블, 그리고 함께 성장하는 사업 조직 신화 그룹의 공식 소개 영상입니다.</p>
+            <p className="bha-sec-desc">윤앤정이 함께하는 두 축 — 제품을 만드는 기업 비아블, 그리고 함께 성장하는 사업 조직 신화 그룹의 공식 소개·비전 영상입니다.</p>
           </div>
           <div className="bha-brandvid">
             <div className="bha-brandvid-card">
@@ -794,6 +795,23 @@ export default function YunjeongAICellife() {
               <p className="bha-brandvid-desc">‘큰 희망이 큰 사람을 만든다’는 말처럼, 꿈 · 기회 · 용기를 가치로 2019년 출발한 사업 조직. 비아블과 함께 파트너들이 그려가는 성장과 동행의 비전.</p>
               <div className="bha-brandvid-foot">
                 <a className="bha-brandvid-yt" href="https://youtu.be/Mo6HRKoxFLs" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+                <span className="bha-brandvid-src">ⓒ 신화 그룹 · 사용 허락 게시</span>
+              </div>
+            </div>
+            <div className="bha-brandvid-card">
+              <div className="bha-brandvid-label">SHINHWA · 동기부여</div>
+              <h3 className="bha-brandvid-title">신화인의 정신</h3>
+              <div className="bha-embed">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/wQePdT44IhY?rel=0&modestbranding=1"
+                  title="신화인의 정신 — 4만km를 나는 기러기처럼"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+              <p className="bha-brandvid-desc">4만km를 함께 나는 기러기처럼, 서로를 끝까지 응원하며 같은 방향으로 나아가는 신화인의 마음. 혼자보다 함께일 때 더 멀리 간다는 동행의 메시지.</p>
+              <div className="bha-brandvid-foot">
+                <a className="bha-brandvid-yt" href="https://youtu.be/wQePdT44IhY" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
                 <span className="bha-brandvid-src">ⓒ 신화 그룹 · 사용 허락 게시</span>
               </div>
             </div>

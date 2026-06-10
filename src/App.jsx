@@ -541,6 +541,23 @@ export default function YunjeongAICellife() {
         .bha-refvid-desc { font-size:14px; color:var(--ink-soft); margin:0 0 18px; line-height:1.6; }
         .bha-refvid .bha-embed { border-radius:14px; box-shadow:0 8px 24px rgba(74,51,56,0.12); }
         .bha-refvid-src { font-size:12px; color:var(--ink-soft); opacity:0.75; margin:12px 0 0; }
+
+        .bha-brandvid { display:grid; grid-template-columns:repeat(2,1fr); gap:26px; }
+        .bha-brandvid-card { background:#fff; border-radius:20px; padding:22px; display:flex; flex-direction:column;
+          box-shadow:0 14px 40px rgba(183,110,121,0.12); border:1px solid rgba(201,166,107,0.16); }
+        .bha-brandvid-label { display:inline-block; align-self:flex-start; font-size:11px; font-weight:700;
+          letter-spacing:1.5px; color:var(--rose-deep); background:linear-gradient(135deg, var(--blush), var(--gold-lt));
+          padding:5px 12px; border-radius:999px; margin-bottom:12px; }
+        .bha-brandvid-title { font-size:19px; font-weight:800; color:var(--ink); margin:0 0 14px; letter-spacing:-0.3px; }
+        .bha-brandvid-desc { font-size:14px; color:var(--ink-soft); line-height:1.7; margin:16px 0 0; flex:1; }
+        .bha-brandvid-foot { display:flex; align-items:center; justify-content:space-between; gap:12px;
+          margin-top:16px; padding-top:14px; border-top:1px solid rgba(201,166,107,0.18); flex-wrap:wrap; }
+        .bha-brandvid-yt { font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; white-space:nowrap; }
+        .bha-brandvid-yt:hover { text-decoration:underline; }
+        .bha-brandvid-src { font-size:11.5px; color:var(--ink-soft); opacity:0.7; }
+        @media (max-width:760px) {
+          .bha-brandvid { grid-template-columns:1fr; gap:22px; }
+        }
         .bha-vmodal-yt { display:block; text-align:center; margin-top:13px; margin-bottom:2px; color:rgba(255,255,255,0.88); font-size:14px; font-weight:600; text-decoration:none; }
         .bha-vmodal-yt:hover { color:#fff; text-decoration:underline; }
         .bha-prod-video { max-width:760px; margin:50px auto 0; text-align:center; }
@@ -565,6 +582,7 @@ export default function YunjeongAICellife() {
             <a onClick={() => goTo("about")}>소개</a>
             <a onClick={() => goTo("beauty")}>뷰티 교육</a>
             <a onClick={() => goTo("product")}>제품</a>
+            <a onClick={() => goTo("brand")}>브랜드 영상</a>
             <a onClick={() => goTo("curriculum")}>마케팅 교육</a>
             <a onClick={() => goTo("news")}>소식</a>
             <a onClick={() => goTo("viable-news")}>비아블 소식</a>
@@ -576,7 +594,7 @@ export default function YunjeongAICellife() {
         </div>
         {navOpen && (
           <div className="bha-wrap" style={{ paddingBottom: 16 }}>
-            {["소개|about","뷰티 교육|beauty","제품|product","마케팅 교육|curriculum","신화비전 발표자료|vision","회원 강의실|member"].map((s)=>{
+            {["소개|about","뷰티 교육|beauty","제품|product","브랜드 영상|brand","마케팅 교육|curriculum","신화비전 발표자료|vision","회원 강의실|member"].map((s)=>{
               const [label,id]=s.split("|");
               return <a key={id} onClick={()=>goTo(id)} style={{display:"block",padding:"8px 0",color:"var(--ink-soft)",textDecoration:"none",cursor:"pointer"}}>{label}</a>;
             })}
@@ -719,6 +737,52 @@ export default function YunjeongAICellife() {
               />
             </div>
             <a className="bha-prod-video-yt" href="https://youtu.be/0oTiLwAhV-w" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="bha-sec alt" id="brand">
+        <div className="bha-wrap">
+          <div className="bha-sec-head">
+            <div className="bha-kicker">Brand &amp; Vision</div>
+            <h2 className="bha-sec-title">브랜드 &amp; 비전 영상</h2>
+            <p className="bha-sec-desc">윤앤정이 함께하는 두 축 — 제품을 만드는 기업 비아블, 그리고 함께 성장하는 사업 조직 신화 그룹의 공식 소개 영상입니다.</p>
+          </div>
+          <div className="bha-brandvid">
+            <div className="bha-brandvid-card">
+              <div className="bha-brandvid-label">VIABLE · 기업 소개</div>
+              <h3 className="bha-brandvid-title">비아블 회사 소개</h3>
+              <div className="bha-embed">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/M3QHZEY3iDk?rel=0&modestbranding=1"
+                  title="비아블(VIABLE) 회사 소개 영상"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+              <p className="bha-brandvid-desc">셀비아 · 스칼피아 · 미솔로지를 만드는 코스메슈티컬 화장품 브랜드. 자체 연구소와 품질관리, 인증을 바탕으로 한 ‘정직한 기업, 아름다운 동행’의 이야기.</p>
+              <div className="bha-brandvid-foot">
+                <a className="bha-brandvid-yt" href="https://youtu.be/M3QHZEY3iDk" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+                <span className="bha-brandvid-src">ⓒ 주식회사 비아블 · 사용 허락 게시</span>
+              </div>
+            </div>
+            <div className="bha-brandvid-card">
+              <div className="bha-brandvid-label">SHINHWA · 비전</div>
+              <h3 className="bha-brandvid-title">신화 그룹 소개</h3>
+              <div className="bha-embed">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/Mo6HRKoxFLs?rel=0&modestbranding=1"
+                  title="신화(SHINHWA) 그룹 소개 영상"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+              <p className="bha-brandvid-desc">‘큰 희망이 큰 사람을 만든다’는 말처럼, 꿈 · 기회 · 용기를 가치로 2019년 출발한 사업 조직. 비아블과 함께 파트너들이 그려가는 성장과 동행의 비전.</p>
+              <div className="bha-brandvid-foot">
+                <a className="bha-brandvid-yt" href="https://youtu.be/Mo6HRKoxFLs" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+                <span className="bha-brandvid-src">ⓒ 신화 그룹 · 사용 허락 게시</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

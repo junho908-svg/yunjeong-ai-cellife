@@ -237,46 +237,36 @@ export default function YunjeongAICellife() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Gothic+A1:wght@300;400;500;700;800&family=Gowun+Dodum&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         .bha-root {
-          --rose: #E95D9E; --rose-deep: #C2417F; --rose-soft: #F9B8D4;
-          --lav: #8F6FD6; --lav-soft: #EBE1FB; --peach: #FFAF82; --peach-soft: #FFE9DC;
-          --blush: #FDE4F0; --cream: #FFF9FC; --cream2: #FDF0F8;
-          --gold: #AC6B58; --gold-lt: #F6D4C6; --sage: #A8CDB8;
-          --ink: #45263D; --ink-soft: #75566D;
+          --rose: #B76E79; --rose-deep: #9D5C63; --rose-soft: #E8B4BC;
+          --blush: #F6E3DD; --cream: #FFF9F4; --cream2: #FBEFE7;
+          --gold: #C9A66B; --gold-lt: #E4CDA0; --sage: #A7B79A;
+          --ink: #4A3338; --ink-soft: #8A6F74;
           font-family: 'Pretendard', 'Gothic A1', 'Noto Sans KR', sans-serif; color: var(--ink);
-          background:
-            radial-gradient(900px 620px at 6% -4%, rgba(255,209,231,0.38), transparent 62%),
-            radial-gradient(820px 560px at 96% 10%, rgba(231,221,252,0.4), transparent 64%),
-            radial-gradient(780px 540px at 50% 104%, rgba(255,229,214,0.34), transparent 62%),
-            var(--cream);
-          line-height: 1.7; min-height: 100vh;
+          background: var(--cream); line-height: 1.7; min-height: 100vh;
         }
-        @keyframes bhaShimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-        @keyframes bhaTwinkle { 0%,100% { opacity:.4; transform:scale(.9); } 50% { opacity:1; transform:scale(1.1); } }
         .bha-serif { font-family: 'Cormorant Garamond', serif; }
         .bha-wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
-        .bha-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,249,252,0.92);
-          backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(236,111,168,0.16); }
+        .bha-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,249,244,0.88);
+          backdrop-filter: blur(12px); border-bottom: 1px solid rgba(183,110,121,0.15); }
         .bha-nav-inner { display:flex; align-items:center; justify-content:space-between; height: 90px; }
         .bha-logo { display:flex; align-items:center; gap:14px; font-weight:700; cursor:pointer; user-select:none; transition:opacity .2s; }
         .bha-logo:hover { opacity:0.78; }
         .bha-logo:focus-visible { outline:2px solid var(--rose); outline-offset:4px; border-radius:8px; }
         .bha-logo img { width:68px; height:68px; border-radius:50%; object-fit:cover;
-          box-shadow:0 4px 16px rgba(236,111,168,0.28); }
+          box-shadow:0 4px 16px rgba(183,110,121,0.28); }
         .bha-logo-txt { font-size: 20px; font-weight:700; letter-spacing:-0.3px; line-height:1.25; }
         .bha-logo-txt small { display:block; font-size:12px; color:var(--gold); font-weight:600; letter-spacing:3px; margin-top:2px; }
         .bha-links { display:flex; gap:28px; align-items:center; }
         .bha-links a { color:var(--ink-soft); text-decoration:none; font-size:14px; font-weight:500; transition:.2s; cursor:pointer; }
         .bha-links a:hover { color:var(--rose); }
-        .bha-cta { background: linear-gradient(120deg, var(--rose), var(--lav)); color:#fff !important; padding:11px 22px; border-radius:999px;
-          font-size:13px; border:none; cursor:pointer; transition:.25s; font-weight:700;
-          box-shadow:0 6px 18px rgba(236,111,168,0.35); }
-        .bha-cta:hover { transform: translateY(-2px); box-shadow:0 10px 24px rgba(169,139,224,0.4); filter:brightness(1.05); }
+        .bha-cta { background: var(--rose); color:#fff !important; padding:9px 20px; border-radius:999px;
+          font-size:13px; border:none; cursor:pointer; transition:.2s; font-weight:500; }
+        .bha-cta:hover { background: var(--rose-deep); transform: translateY(-1px); }
         .bha-burger { display:none; background:none; border:none; cursor:pointer; color:var(--rose); }
 
         .bha-hero { position:relative; padding: 38px 0 30px; }
-        .bha-hero-banner { position:relative; border-radius:34px; overflow:hidden;
-          border:2px solid rgba(255,255,255,0.85);
-          box-shadow:0 22px 60px rgba(236,111,168,0.24), 0 4px 18px rgba(169,139,224,0.18); }
+        .bha-hero-banner { position:relative; border-radius:28px; overflow:hidden;
+          box-shadow:0 22px 60px rgba(183,110,121,0.22); }
         .bha-hero-banner img { width:100%; display:block; }
         .bha-hero-slides { position:relative; width:100%; aspect-ratio: 1360 / 768; }
         .bha-hero-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
@@ -288,64 +278,54 @@ export default function YunjeongAICellife() {
         .bha-hero-dot.active { background:#fff; width:22px; }
         .bha-hero-overlay { position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex;
           justify-content:center; gap:14px; padding:26px; flex-wrap:wrap;
-          background:linear-gradient(to top, rgba(87,50,78,0.45), transparent); }
-        .bha-btn-primary { background: linear-gradient(120deg, #FF9DC7, var(--rose) 38%, var(--lav) 80%, #FF9DC7);
-          background-size: 220% auto; animation: bhaShimmer 7s linear infinite;
-          color:#fff; border:none; padding:16px 34px; border-radius:999px; font-size:15px; cursor:pointer;
-          display:inline-flex; align-items:center; gap:9px; font-weight:700; letter-spacing:0.2px;
-          box-shadow:0 12px 30px rgba(236,111,168,0.4); transition:.25s; }
-        .bha-btn-primary:hover { transform:translateY(-3px) scale(1.02); box-shadow:0 18px 44px rgba(169,139,224,0.45); }
-        .bha-btn-ghost { background:rgba(255,255,255,0.95); color:var(--rose-deep); border:1.5px solid rgba(255,255,255,0.9);
-          backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-          padding:16px 30px; border-radius:999px; font-size:15px; cursor:pointer;
-          display:inline-flex; align-items:center; gap:9px; font-weight:700; transition:.25s;
-          box-shadow:0 8px 22px rgba(236,111,168,0.18); }
-        .bha-btn-ghost:hover { background:#fff; transform:translateY(-3px); box-shadow:0 12px 28px rgba(236,111,168,0.26); }
+          background:linear-gradient(to top, rgba(74,51,56,0.45), transparent); }
+        .bha-btn-primary { background: linear-gradient(135deg, var(--rose), var(--rose-deep)); color:#fff;
+          border:none; padding:14px 30px; border-radius:999px; font-size:15px; cursor:pointer;
+          display:inline-flex; align-items:center; gap:9px; font-weight:500;
+          box-shadow:0 12px 30px rgba(157,92,99,0.4); transition:.25s; }
+        .bha-btn-primary:hover { transform:translateY(-2px); box-shadow:0 16px 40px rgba(157,92,99,0.5); }
+        .bha-btn-ghost { background:rgba(255,255,255,0.95); color:var(--rose); border:1px solid rgba(255,255,255,0.6);
+          padding:14px 26px; border-radius:999px; font-size:15px; cursor:pointer;
+          display:inline-flex; align-items:center; gap:9px; font-weight:500; transition:.25s; }
+        .bha-btn-ghost:hover { background:#fff; transform:translateY(-2px); }
 
         .bha-sec { padding: 78px 0; scroll-margin-top: 92px; }
-        .bha-sec.alt { background: linear-gradient(180deg, rgba(253,232,244,0.65), rgba(238,229,253,0.55)); }
+        .bha-sec.alt { background: var(--cream2); }
         .bha-sec-head { text-align:center; margin-bottom:52px; }
-        .bha-kicker { color:var(--lav); font-size:12px; letter-spacing:3px; font-weight:800; text-transform:uppercase; }
-        .bha-kicker::before { content:'✦'; display:inline-block; margin-right:8px; color:var(--rose); animation:bhaTwinkle 2.6s ease-in-out infinite; }
-        .bha-kicker::after { content:'✦'; display:inline-block; margin-left:8px; color:var(--peach); animation:bhaTwinkle 2.6s ease-in-out 1.3s infinite; }
+        .bha-kicker { color:var(--gold); font-size:12px; letter-spacing:3px; font-weight:700; text-transform:uppercase; }
         .bha-sec-title { font-size: clamp(26px, 4vw, 38px); font-weight:700; margin:12px 0 10px; letter-spacing:-0.5px; }
         .bha-sec-desc { color:var(--ink-soft); max-width:520px; margin:0 auto; font-size:15px; }
 
         .bha-hosts { display:grid; grid-template-columns:1fr 1fr; gap:30px; }
-        .bha-host-card { background:linear-gradient(165deg, rgba(255,255,255,0.97) 0%, rgba(255,240,249,0.88) 100%);
-          backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-radius:32px; padding:34px;
-          border:1.5px solid rgba(255,255,255,0.9);
-          box-shadow:0 18px 50px rgba(236,111,168,0.13), inset 0 1px 0 rgba(255,255,255,0.95);
+        .bha-host-card { background:linear-gradient(165deg, #ffffff 0%, #FFF3EF 100%); border-radius:28px; padding:34px;
+          border:1px solid rgba(183,110,121,0.14); box-shadow:0 14px 46px rgba(183,110,121,0.10);
           transition:.32s; position:relative; overflow:hidden; }
-        .bha-host-card::before { content:''; position:absolute; top:0; left:0; right:0; height:6px;
-          background:linear-gradient(90deg, var(--rose-soft), var(--lav-soft), var(--peach-soft), var(--rose-soft));
-          background-size:220% auto; animation:bhaShimmer 6s linear infinite; }
-        .bha-host-card:hover { transform:translateY(-6px); box-shadow:0 26px 60px rgba(236,111,168,0.18); }
+        .bha-host-card::before { content:''; position:absolute; top:0; left:0; right:0; height:5px;
+          background:linear-gradient(90deg, var(--rose), var(--gold), var(--rose-soft)); }
+        .bha-host-card:hover { transform:translateY(-6px); box-shadow:0 26px 60px rgba(183,110,121,0.18); }
         .bha-host-top { display:flex; align-items:center; gap:22px; margin-bottom:20px; }
         .bha-host-photo { width:120px; height:120px; border-radius:50%; flex-shrink:0; overflow:hidden;
-          border:3px solid #fff; box-shadow:0 8px 26px rgba(236,111,168,0.24); }
+          border:3px solid #fff; box-shadow:0 8px 26px rgba(183,110,121,0.24); }
         .bha-host-photo img { width:100%; height:100%; object-fit:cover; }
         .bha-host-meta { flex:1; min-width:0; }
         .bha-host-tag { display:inline-block; font-size:12px; color:#fff;
-          background:linear-gradient(120deg, var(--rose), var(--lav)); padding:6px 15px; border-radius:999px;
-          margin-bottom:10px; letter-spacing:0.5px; font-weight:700; box-shadow:0 4px 12px rgba(236,111,168,0.3); }
+          background:linear-gradient(135deg, var(--rose), var(--rose-soft)); padding:5px 14px; border-radius:999px;
+          margin-bottom:10px; letter-spacing:0.5px; font-weight:600; }
         .bha-host-name { font-size:30px; font-weight:800; margin:0; letter-spacing:-0.8px; line-height:1.2; }
         .bha-host-role { color:var(--gold); font-size:15px; font-weight:600; margin:5px 0 0; }
         .bha-host-quote { font-family:'Gowun Dodum', serif; font-size:17px; color:var(--rose-deep);
           margin:0 0 14px; line-height:1.6; }
         .bha-host-desc { color:var(--ink-soft); font-size:15px; line-height:1.8; margin:0 0 20px; }
         .bha-host-skills { display:flex; flex-wrap:wrap; gap:8px; }
-        .bha-skill { font-size:12.5px; color:var(--rose-deep); background:linear-gradient(120deg, rgba(253,228,240,0.92), rgba(235,225,251,0.92));
-          border:1px solid rgba(255,255,255,0.95); padding:7px 15px; border-radius:999px; font-weight:700;
-          box-shadow:0 3px 10px rgba(236,111,168,0.12); }
+        .bha-skill { font-size:12.5px; color:var(--rose-deep); background:rgba(232,180,188,0.32);
+          padding:7px 14px; border-radius:11px; font-weight:600; }
 
         .bha-grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
         .bha-grid4 { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
-        .bha-lesson { background:rgba(255,255,255,0.95); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-          border-radius:24px; overflow:hidden; border:1.5px solid rgba(255,255,255,0.9);
-          transition:.3s; cursor:pointer; box-shadow:0 8px 26px rgba(236,111,168,0.1); }
-        .bha-lesson:hover { transform:translateY(-4px); box-shadow:0 16px 42px rgba(169,139,224,0.2); }
-        .bha-thumb { aspect-ratio:16/9; background: linear-gradient(135deg, var(--rose-soft), var(--lav-soft) 55%, var(--peach-soft));
+        .bha-lesson { background:#fff; border-radius:20px; overflow:hidden; border:1px solid rgba(183,110,121,0.1);
+          transition:.3s; cursor:pointer; box-shadow:0 6px 24px rgba(183,110,121,0.06); }
+        .bha-lesson:hover { transform:translateY(-3px); box-shadow:0 14px 40px rgba(183,110,121,0.13); }
+        .bha-thumb { aspect-ratio:16/9; background: linear-gradient(135deg, var(--rose-soft), var(--gold-lt));
           display:flex; align-items:center; justify-content:center; }
         .bha-thumb .pin { width:54px; height:54px; border-radius:50%; background:rgba(255,255,255,0.9);
           display:flex; align-items:center; justify-content:center; color:var(--rose); box-shadow:0 6px 20px rgba(0,0,0,0.12); }
@@ -355,79 +335,68 @@ export default function YunjeongAICellife() {
         .bha-lesson-meta { font-size:12px; color:var(--ink-soft); display:flex; gap:6px; align-items:center; }
 
         .bha-prodgrid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
-        .bha-prod { display:flex; gap:20px; background:rgba(255,255,255,0.95); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-          border-radius:26px; padding:26px; align-items:flex-start;
-          border:1.5px solid rgba(255,255,255,0.9); box-shadow:0 8px 26px rgba(236,111,168,0.1); transition:.3s; }
-        .bha-prod:hover { transform:translateY(-5px); box-shadow:0 18px 46px rgba(169,139,224,0.2); }
-        .bha-prod-ic { width:62px; height:62px; border-radius:22px; flex-shrink:0;
-          background:linear-gradient(135deg, var(--blush), var(--lav-soft)); display:flex; align-items:center;
-          justify-content:center; color:var(--rose); box-shadow:inset 0 1px 0 rgba(255,255,255,0.9), 0 4px 12px rgba(236,111,168,0.15); }
+        .bha-prod { display:flex; gap:20px; background:#fff; border-radius:22px; padding:26px; align-items:flex-start;
+          border:1px solid rgba(183,110,121,0.1); box-shadow:0 6px 24px rgba(183,110,121,0.06); transition:.3s; }
+        .bha-prod:hover { transform:translateY(-4px); box-shadow:0 16px 44px rgba(183,110,121,0.14); }
+        .bha-prod-ic { width:62px; height:62px; border-radius:18px; flex-shrink:0;
+          background:linear-gradient(135deg, var(--blush), var(--gold-lt)); display:flex; align-items:center;
+          justify-content:center; color:var(--rose); }
         .bha-prod-t { font-weight:700; font-size:18px; margin:0; letter-spacing:-0.3px; line-height:1.35; }
         .bha-prod-cat { color:var(--gold); font-size:12.5px; font-weight:600; margin:4px 0 12px; }
         .bha-prod-points { list-style:none; padding:0; margin:0; }
         .bha-prod-points li { font-size:13.5px; color:var(--ink-soft); padding-left:16px; position:relative; margin:6px 0; line-height:1.5; }
         .bha-prod-points li::before { content:''; position:absolute; left:2px; top:8px; width:6px; height:6px;
-          border-radius:50%; background:linear-gradient(135deg,var(--rose),var(--lav)); }
+          border-radius:50%; background:linear-gradient(135deg,var(--rose),var(--gold)); }
         .bha-vision { max-width:780px; margin:44px auto 0; text-align:center; font-family:'Gowun Dodum', serif;
-          font-size:19px; line-height:1.6; color:var(--rose-deep);
-          background:linear-gradient(135deg, rgba(255,255,255,0.96), rgba(235,225,251,0.82));
-          backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-          border:1.5px solid rgba(255,255,255,0.92); box-shadow:0 10px 30px rgba(169,139,224,0.14);
-          border-radius:26px; padding:30px 34px; }
+          font-size:19px; line-height:1.6; color:var(--rose-deep); background:linear-gradient(135deg, #fff, var(--cream2));
+          border:1px solid rgba(201,166,107,0.32); border-radius:20px; padding:30px 34px; }
         .bha-vision span { display:block; font-family:'Pretendard',sans-serif; font-size:13px; color:var(--gold);
           font-weight:600; margin-top:12px; letter-spacing:1px; }
 
         .bha-curr { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
-        .bha-curr-card { background:rgba(255,255,255,0.95); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-          border-radius:24px; padding:26px 22px; text-align:left;
-          border:1.5px solid rgba(255,255,255,0.9); box-shadow:0 6px 20px rgba(236,111,168,0.08); transition:.3s; }
-        .bha-curr-card:hover { transform:translateY(-5px); box-shadow:0 18px 46px rgba(169,139,224,0.2); }
-        .bha-curr-ic { width:50px; height:50px; border-radius:16px; margin-bottom:16px;
-          background:linear-gradient(135deg, var(--rose), var(--lav)); display:flex; align-items:center;
-          justify-content:center; color:#fff; box-shadow:0 6px 16px rgba(236,111,168,0.3); }
+        .bha-curr-card { background:#fff; border-radius:20px; padding:26px 22px; text-align:left;
+          border:1px solid rgba(183,110,121,0.12); transition:.3s; }
+        .bha-curr-card:hover { transform:translateY(-4px); box-shadow:0 16px 44px rgba(183,110,121,0.13); }
+        .bha-curr-ic { width:50px; height:50px; border-radius:14px; margin-bottom:16px;
+          background:linear-gradient(135deg, var(--rose), var(--gold)); display:flex; align-items:center;
+          justify-content:center; color:#fff; }
         .bha-curr-step { font-size:11px; color:var(--gold); font-weight:700; letter-spacing:2px; }
         .bha-curr-t { font-size:17px; font-weight:700; margin:6px 0 8px; }
         .bha-curr-sub { font-size:13px; color:var(--ink-soft); margin:0; }
 
-        .bha-member { background: linear-gradient(150deg, rgba(255,255,255,0.97), rgba(253,240,248,0.88));
-          backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-radius:32px; padding:46px;
-          border:1.5px solid rgba(255,255,255,0.9);
-          box-shadow:0 18px 54px rgba(236,111,168,0.13), inset 0 1px 0 rgba(255,255,255,0.95); max-width:760px; margin:0 auto; }
+        .bha-member { background: linear-gradient(135deg, #fff, var(--cream2)); border-radius:28px; padding:46px;
+          border:1px solid rgba(183,110,121,0.15); box-shadow:0 14px 50px rgba(183,110,121,0.1); max-width:760px; margin:0 auto; }
         .bha-login-box { text-align:center; }
-        .bha-login-ic { width:64px; height:64px; border-radius:20px; margin:0 auto 20px;
-          background:linear-gradient(135deg, var(--rose), var(--lav)); display:flex; align-items:center;
-          justify-content:center; color:#fff; box-shadow:0 8px 20px rgba(236,111,168,0.35); }
-        .bha-input { width:100%; padding:14px 18px; border-radius:16px; border:1.5px solid rgba(236,111,168,0.22);
-          margin-bottom:12px; font-size:14px; font-family:inherit; background:rgba(255,255,255,0.9); box-sizing:border-box; transition:.2s; }
-        .bha-input:focus { outline:none; border-color:var(--rose); box-shadow:0 0 0 4px rgba(236,111,168,0.14); }
-        .bha-progress-track { height:12px; background:var(--blush); border-radius:999px; overflow:hidden;
-          box-shadow:inset 0 1px 3px rgba(236,111,168,0.18); }
-        .bha-progress-fill { height:100%; background:linear-gradient(90deg, var(--rose), var(--lav), var(--peach), var(--rose));
-          background-size:220% auto; animation:bhaShimmer 4s linear infinite; border-radius:999px; transition:width .5s; }
-        .bha-track-row { display:flex; align-items:center; gap:14px; padding:16px; border-radius:18px;
-          background:rgba(255,255,255,0.97); border:1.5px solid rgba(255,255,255,0.95);
-          box-shadow:0 3px 12px rgba(236,111,168,0.07); margin-bottom:10px; cursor:pointer; transition:.2s; }
+        .bha-login-ic { width:64px; height:64px; border-radius:18px; margin:0 auto 20px;
+          background:linear-gradient(135deg, var(--rose), var(--gold)); display:flex; align-items:center;
+          justify-content:center; color:#fff; }
+        .bha-input { width:100%; padding:13px 16px; border-radius:12px; border:1px solid rgba(183,110,121,0.25);
+          margin-bottom:12px; font-size:14px; font-family:inherit; background:#fff; box-sizing:border-box; }
+        .bha-input:focus { outline:none; border-color:var(--rose); }
+        .bha-progress-track { height:10px; background:var(--blush); border-radius:999px; overflow:hidden; }
+        .bha-progress-fill { height:100%; background:linear-gradient(90deg, var(--rose), var(--gold)); border-radius:999px; transition:width .5s; }
+        .bha-track-row { display:flex; align-items:center; gap:14px; padding:16px; border-radius:14px;
+          background:#fff; border:1px solid rgba(183,110,121,0.1); margin-bottom:10px; cursor:pointer; transition:.2s; }
         .bha-track-row:hover { background: var(--cream); }
         .bha-track-row .tt { font-weight:700; font-size:15px; }
         .bha-track-row .ts { font-size:12px; color:var(--ink-soft); }
 
         .bha-intro-btn { margin-top:22px; display:inline-flex; align-items:center; gap:9px; cursor:pointer;
-          background:linear-gradient(120deg, var(--rose), var(--lav)); color:#fff; border:none;
+          background:linear-gradient(135deg, var(--rose), var(--rose-deep)); color:#fff; border:none;
           padding:12px 26px; border-radius:999px; font-size:14px; font-weight:600; font-family:inherit;
-          box-shadow:0 10px 26px rgba(214,83,154,0.32); transition:.25s; }
-        .bha-intro-btn:hover { transform:translateY(-2px); box-shadow:0 14px 34px rgba(214,83,154,0.42); }
+          box-shadow:0 10px 26px rgba(157,92,99,0.32); transition:.25s; }
+        .bha-intro-btn:hover { transform:translateY(-2px); box-shadow:0 14px 34px rgba(157,92,99,0.42); }
         .bha-vmodal { background:#000; border-radius:22px; max-width:760px; width:100%; padding:14px;
           position:relative; box-shadow:0 30px 80px rgba(0,0,0,0.5); animation:bhaPop .24s ease; }
         .bha-vmodal .bha-modal-x { top:-14px; right:-14px; background:#fff; box-shadow:0 4px 14px rgba(0,0,0,0.3); }
-        .bha-modal-overlay { position:fixed; inset:0; z-index:100; background:rgba(87,50,78,0.5);
+        .bha-modal-overlay { position:fixed; inset:0; z-index:100; background:rgba(74,51,56,0.5);
           backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:24px; animation:bhaFade .2s ease; }
         @keyframes bhaFade { from{opacity:0} to{opacity:1} }
-        .bha-modal { background:rgba(255,255,255,0.96); border-radius:30px; max-width:560px; width:100%; max-height:86vh; overflow-y:auto;
-          padding:40px; position:relative; box-shadow:0 30px 80px rgba(87,50,78,0.3); animation:bhaPop .24s ease; }
+        .bha-modal { background:#fff; border-radius:26px; max-width:560px; width:100%; max-height:86vh; overflow-y:auto;
+          padding:40px; position:relative; box-shadow:0 30px 80px rgba(74,51,56,0.3); animation:bhaPop .24s ease; }
         @keyframes bhaPop { from{transform:translateY(16px) scale(.98); opacity:0} to{transform:none; opacity:1} }
-        .bha-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:7px; border-radius:30px 30px 0 0;
-          background:linear-gradient(90deg, var(--rose-soft), var(--lav-soft), var(--peach-soft), var(--rose-soft));
-          background-size:220% auto; animation:bhaShimmer 6s linear infinite; }
+        .bha-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; border-radius:26px 26px 0 0;
+          background:linear-gradient(90deg, var(--rose), var(--gold), var(--rose-soft)); }
         .bha-modal-x { position:absolute; top:18px; right:18px; width:38px; height:38px; border-radius:50%; border:none;
           background:var(--cream2); color:var(--rose); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.2s; }
         .bha-modal-x:hover { background:var(--blush); }
@@ -440,16 +409,16 @@ export default function YunjeongAICellife() {
         .bha-modal-sec ul { list-style:none; padding:0; margin:0; }
         .bha-modal-sec li { font-size:14px; color:var(--ink); padding-left:18px; position:relative; margin:7px 0; line-height:1.6; }
         .bha-modal-sec li::before { content:''; position:absolute; left:3px; top:8px; width:6px; height:6px; border-radius:50%;
-          background:linear-gradient(135deg,var(--rose),var(--lav)); }
-        .bha-modal-note { margin-top:20px; background:rgba(186,140,222,0.12); border:1px solid rgba(186,140,222,0.3);
+          background:linear-gradient(135deg,var(--rose),var(--gold)); }
+        .bha-modal-note { margin-top:20px; background:rgba(201,166,107,0.12); border:1px solid rgba(201,166,107,0.3);
           border-radius:12px; padding:13px 16px; font-size:12.5px; color:var(--ink-soft); line-height:1.6; }
-        .bha-footer { background: linear-gradient(150deg, #57324E 0%, #45264E 60%, #3A2050 100%); color:#fff; padding:50px 0 30px; margin-top:40px; }
+        .bha-footer { background: var(--ink); color:#fff; padding:50px 0 30px; margin-top:40px; }
         .bha-footer-grid { display:flex; justify-content:space-between; flex-wrap:wrap; gap:30px; }
         .bha-footer h4 { font-size:14px; margin:0 0 12px; color:var(--gold-lt); }
         .bha-footer a, .bha-footer p { color:rgba(255,255,255,0.7); font-size:13px; text-decoration:none; display:block; margin:6px 0; }
         .bha-footer img { width:40px; height:40px; border-radius:50%; }
         .bha-footer-note { border-top:1px solid rgba(255,255,255,0.12); margin-top:30px; padding-top:20px; font-size:12px; color:rgba(255,255,255,0.5); text-align:center; }
-        .bha-disc { background: rgba(186,140,222,0.12); border:1px solid rgba(186,140,222,0.3); border-radius:14px;
+        .bha-disc { background: rgba(201,166,107,0.12); border:1px solid rgba(201,166,107,0.3); border-radius:14px;
           padding:16px 20px; font-size:12px; color:var(--ink-soft); max-width:760px; margin:30px auto 0; }
 
         @media (max-width: 860px) {
@@ -460,13 +429,13 @@ export default function YunjeongAICellife() {
         }
 
         /* ===== Shinhwa Vision Deck ===== */
-        .bha-deck-sec { background: linear-gradient(160deg, #2A1733 0%, #3B2147 55%, #2D1838 100%); position: relative; }
+        .bha-deck-sec { background: linear-gradient(160deg, #1b1016 0%, #2c1a22 55%, #1d121a 100%); position: relative; }
         .bha-deck-sec::before { content:''; position:absolute; inset:0; pointer-events:none;
-          background: radial-gradient(ellipse 60% 42% at 50% 0%, rgba(186,140,222,0.20), transparent 70%); }
+          background: radial-gradient(ellipse 60% 42% at 50% 0%, rgba(201,166,107,0.20), transparent 70%); }
         .bha-deck-sec .bha-wrap { position: relative; }
         .bha-deck-stage { display:flex; align-items:center; justify-content:center; gap:16px; max-width:1000px; margin:0 auto; }
         .bha-deck-frame { position:relative; flex:1; min-width:0; margin:0; border-radius:18px; overflow:hidden; cursor:zoom-in;
-          border:1px solid rgba(186,140,222,0.35); box-shadow:0 24px 70px rgba(0,0,0,0.55); background:#000; outline:none; transition:.3s; }
+          border:1px solid rgba(201,166,107,0.35); box-shadow:0 24px 70px rgba(0,0,0,0.55); background:#000; outline:none; transition:.3s; }
         .bha-deck-frame:hover { transform:translateY(-3px); box-shadow:0 30px 84px rgba(0,0,0,0.66); }
         .bha-deck-frame:focus-visible { box-shadow:0 0 0 3px var(--gold-lt), 0 24px 70px rgba(0,0,0,0.55); }
         .bha-deck-frame img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
@@ -475,12 +444,12 @@ export default function YunjeongAICellife() {
         .bha-deck-frame:hover .bha-deck-zoom { opacity:1; }
         .bha-deck-cap { position:absolute; left:0; right:0; bottom:0; padding:34px 22px 16px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
           background:linear-gradient(to top, rgba(0,0,0,0.85), transparent); }
-        .bha-deck-tag { flex-shrink:0; font-size:11px; font-weight:700; letter-spacing:1px; color:#2A1733;
+        .bha-deck-tag { flex-shrink:0; font-size:11px; font-weight:700; letter-spacing:1px; color:#1b1016;
           background:linear-gradient(135deg, var(--gold-lt), var(--gold)); padding:5px 12px; border-radius:999px; }
         .bha-deck-cap-t { color:#fff; font-weight:600; font-size:clamp(14px,2.1vw,18px); }
         .bha-deck-arrow { flex-shrink:0; width:50px; height:50px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
-          color:#fff; transition:.22s; background:rgba(255,255,255,0.10); border:1px solid rgba(186,140,222,0.42); }
-        .bha-deck-arrow:hover { background:var(--gold); color:#2A1733; transform:scale(1.06); }
+          color:#fff; transition:.22s; background:rgba(255,255,255,0.10); border:1px solid rgba(201,166,107,0.42); }
+        .bha-deck-arrow:hover { background:var(--gold); color:#1b1016; transform:scale(1.06); }
         .bha-deck-counter { text-align:center; margin:20px 0 26px; color:var(--gold-lt); font-size:15px; font-weight:700; letter-spacing:2px; }
         .bha-deck-counter span { color:rgba(255,255,255,0.42); font-weight:400; }
         .bha-deck-thumbs { display:grid; grid-template-columns:repeat(8, 1fr); gap:10px; max-width:920px; margin:0 auto; }
@@ -488,10 +457,10 @@ export default function YunjeongAICellife() {
           background:#000; aspect-ratio:16/9; transition:.2s; opacity:0.55; }
         .bha-deck-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
         .bha-deck-thumb:hover { opacity:0.92; transform:translateY(-2px); }
-        .bha-deck-thumb.active { opacity:1; border-color:var(--gold-lt); box-shadow:0 6px 18px rgba(186,140,222,0.42); }
+        .bha-deck-thumb.active { opacity:1; border-color:var(--gold-lt); box-shadow:0 6px 18px rgba(201,166,107,0.42); }
         .bha-deck-thumb-n { position:absolute; bottom:3px; right:5px; font-size:10px; font-weight:700; color:#fff; text-shadow:0 1px 3px #000; }
         .bha-deck-foot { max-width:760px; margin:34px auto 0; text-align:center; font-size:13px; color:rgba(255,255,255,0.62);
-          background:rgba(255,255,255,0.05); border:1px solid rgba(186,140,222,0.22); border-radius:14px; padding:16px 20px; line-height:1.65; }
+          background:rgba(255,255,255,0.05); border:1px solid rgba(201,166,107,0.22); border-radius:14px; padding:16px 20px; line-height:1.65; }
         .bha-lightbox { padding:20px; gap:10px; }
         .bha-lb-inner { position:relative; max-width:1200px; width:100%; }
         .bha-lb-inner img { width:100%; border-radius:14px; display:block; box-shadow:0 30px 90px rgba(0,0,0,0.7); }
@@ -499,7 +468,7 @@ export default function YunjeongAICellife() {
         .bha-lb-cap span { color:var(--gold-lt); font-weight:700; }
         .bha-lb-arrow { flex-shrink:0; width:54px; height:54px; border-radius:50%; cursor:pointer; z-index:2; display:flex; align-items:center; justify-content:center;
           color:#fff; transition:.22s; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.3); }
-        .bha-lb-arrow:hover { background:var(--gold); color:#2A1733; }
+        .bha-lb-arrow:hover { background:var(--gold); color:#1b1016; }
         @media (max-width: 860px) { .bha-deck-thumbs { grid-template-columns:repeat(5, 1fr); } }
         @media (max-width: 640px) {
           .bha-deck-arrow { width:40px; height:40px; }
@@ -507,26 +476,25 @@ export default function YunjeongAICellife() {
           .bha-lb-arrow { display:none; }
         }
         .bha-deck-tabs { display:flex; justify-content:center; gap:10px; margin-bottom:32px; flex-wrap:wrap; }
-        .bha-deck-tab { background:rgba(255,255,255,0.06); border:1px solid rgba(186,140,222,0.3); color:rgba(255,255,255,0.72);
+        .bha-deck-tab { background:rgba(255,255,255,0.06); border:1px solid rgba(201,166,107,0.3); color:rgba(255,255,255,0.72);
           padding:12px 22px; border-radius:14px; cursor:pointer; transition:.22s; text-align:center; line-height:1.3; font-size:15px; font-weight:600; }
         .bha-deck-tab small { display:block; font-size:11px; font-weight:400; color:rgba(255,255,255,0.45); margin-top:3px; }
         .bha-deck-tab:hover { background:rgba(255,255,255,0.12); color:#fff; }
-        .bha-deck-tab.active { background:linear-gradient(135deg, var(--gold-lt), var(--gold)); border-color:transparent; color:#2A1733; }
-        .bha-deck-tab.active small { color:rgba(42,23,51,0.72); }
+        .bha-deck-tab.active { background:linear-gradient(135deg, var(--gold-lt), var(--gold)); border-color:transparent; color:#1b1016; }
+        .bha-deck-tab.active small { color:rgba(27,16,22,0.72); }
         .bha-deck-lock { max-width:440px; margin:0 auto; text-align:center; padding:46px 30px;
-          background:rgba(255,255,255,0.05); border:1px solid rgba(186,140,222,0.25); border-radius:22px; }
+          background:rgba(255,255,255,0.05); border:1px solid rgba(201,166,107,0.25); border-radius:22px; }
         .bha-deck-lock h3 { color:#fff; margin:16px 0 8px; font-size:20px; }
         .bha-deck-lock p { color:rgba(255,255,255,0.6); font-size:14px; margin:0 0 22px; }
         .bha-news-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:22px; max-width:980px; margin:0 auto; }
-        .bha-news-card { background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-          border:1.5px solid rgba(255,255,255,0.92); border-radius:24px; padding:26px 24px;
-          display:flex; flex-direction:column; gap:12px; transition:.25s; box-shadow:0 6px 20px rgba(236,111,168,0.08); }
-        .bha-news-card:hover { transform:translateY(-3px); box-shadow:0 14px 34px rgba(214,83,154,0.13); border-color:var(--rose-soft); }
+        .bha-news-card { background:#fff; border:1px solid rgba(183,110,121,0.16); border-radius:20px; padding:26px 24px;
+          display:flex; flex-direction:column; gap:12px; transition:.25s; box-shadow:0 6px 20px rgba(157,92,99,0.05); }
+        .bha-news-card:hover { transform:translateY(-3px); box-shadow:0 14px 34px rgba(157,92,99,0.13); border-color:var(--rose-soft); }
         .bha-news-badge { align-self:flex-start; font-size:12px; font-weight:700; padding:5px 13px; border-radius:999px; letter-spacing:0.3px; }
-        .bha-news-badge.is-press { background:rgba(214,83,154,0.1); color:var(--rose-deep); }
-        .bha-news-badge.is-blog { background:rgba(169,139,224,0.16); color:#7C5BC4; }
-        .bha-news-badge.is-viable { background:rgba(214,83,154,0.14); color:var(--rose-deep); }
-        .bha-news-empty { max-width:980px; margin:0 auto; text-align:center; padding:38px 24px; border:1px dashed rgba(236,111,168,0.28);
+        .bha-news-badge.is-press { background:rgba(157,92,99,0.1); color:var(--rose-deep); }
+        .bha-news-badge.is-blog { background:rgba(167,183,154,0.22); color:#5f6e54; }
+        .bha-news-badge.is-viable { background:rgba(157,92,99,0.14); color:var(--rose-deep); }
+        .bha-news-empty { max-width:980px; margin:0 auto; text-align:center; padding:38px 24px; border:1px dashed rgba(183,110,121,0.28);
           border-radius:20px; background:rgba(255,255,255,0.55); color:var(--ink-soft); font-size:15px; line-height:1.7; }
         .bha-news-title { font-size:18px; font-weight:700; color:var(--ink); line-height:1.45; margin:0; }
         .bha-news-summary { font-size:14.5px; color:var(--ink-soft); line-height:1.75; margin:0; flex:1; }
@@ -537,17 +505,15 @@ export default function YunjeongAICellife() {
         .bha-embed { position:relative; width:100%; aspect-ratio:16/9; border-radius:16px; overflow:hidden; background:#000; }
         .bha-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
 
-        .bha-lecture { max-width:920px; margin:0 auto 56px; background:rgba(255,255,255,0.95);
-          backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-radius:28px;
-          padding:28px; box-shadow:0 18px 54px rgba(236,111,168,0.14); border:1.5px solid rgba(255,255,255,0.92); }
+        .bha-lecture { max-width:920px; margin:0 auto 56px; background:#fff; border-radius:24px;
+          padding:28px; box-shadow:0 18px 54px rgba(183,110,121,0.14); border:1px solid rgba(201,166,107,0.18); }
         .bha-lecture-badge { display:inline-flex; align-items:center; gap:8px; margin:0 0 14px;
-          padding:7px 15px; border-radius:999px; background:linear-gradient(120deg, var(--blush), var(--lav-soft));
-          border:1px solid rgba(255,255,255,0.95); box-shadow:0 3px 10px rgba(236,111,168,0.12);
+          padding:6px 14px; border-radius:999px; background:linear-gradient(135deg, var(--blush), var(--gold-lt));
           color:var(--rose-deep); font-size:12px; font-weight:700; letter-spacing:1px; }
         .bha-lecture-logo { height:18px; width:auto; object-fit:contain; }
         .bha-lecture-title { font-size:24px; font-weight:800; line-height:1.35; color:var(--ink);
           margin:0 0 20px; letter-spacing:-0.4px; }
-        .bha-lecture .bha-embed { box-shadow:0 14px 40px rgba(214,83,154,0.16); }
+        .bha-lecture .bha-embed { box-shadow:0 14px 40px rgba(157,92,99,0.16); }
         .bha-lecture-body { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:26px; align-items:start; }
         .bha-lecture-intro p { font-size:16px; line-height:1.8; color:var(--ink-soft); margin:0 0 12px; }
         .bha-lecture-intro strong { color:var(--rose-deep); font-weight:700; }
@@ -556,8 +522,8 @@ export default function YunjeongAICellife() {
         .bha-lecture-yt:hover { text-decoration:underline; }
         .bha-lecture-points { list-style:none; margin:0; padding:0; }
         .bha-lecture-points li { position:relative; padding:14px 16px 14px 18px; margin:0 0 10px;
-          background:var(--cream); border-radius:16px; font-size:14.5px; color:var(--ink); line-height:1.55;
-          border-left:3px solid var(--lav); }
+          background:var(--cream); border-radius:14px; font-size:14.5px; color:var(--ink); line-height:1.55;
+          border-left:3px solid var(--gold); }
         .bha-lecture-points li span { display:block; font-size:12px; font-weight:700; color:var(--gold);
           letter-spacing:0.5px; margin-bottom:3px; }
         .bha-lecture-cta { text-align:center; margin-top:28px; }
@@ -573,21 +539,20 @@ export default function YunjeongAICellife() {
           text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
         .bha-refvid-title { font-size:18px; font-weight:700; color:var(--ink); margin:0 0 6px; }
         .bha-refvid-desc { font-size:14px; color:var(--ink-soft); margin:0 0 18px; line-height:1.6; }
-        .bha-refvid .bha-embed { border-radius:14px; box-shadow:0 8px 24px rgba(87,50,78,0.12); }
+        .bha-refvid .bha-embed { border-radius:14px; box-shadow:0 8px 24px rgba(74,51,56,0.12); }
         .bha-refvid-src { font-size:12px; color:var(--ink-soft); opacity:0.75; margin:12px 0 0; }
 
         .bha-brandvid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
         @media (max-width:1000px) and (min-width:761px) { .bha-brandvid { grid-template-columns:repeat(2,1fr); } }
-        .bha-brandvid-card { background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-          border-radius:24px; padding:22px; display:flex; flex-direction:column;
-          box-shadow:0 14px 40px rgba(236,111,168,0.12); border:1.5px solid rgba(255,255,255,0.92); }
+        .bha-brandvid-card { background:#fff; border-radius:20px; padding:22px; display:flex; flex-direction:column;
+          box-shadow:0 14px 40px rgba(183,110,121,0.12); border:1px solid rgba(201,166,107,0.16); }
         .bha-brandvid-label { display:inline-block; align-self:flex-start; font-size:11px; font-weight:700;
-          letter-spacing:1.5px; color:var(--rose-deep); background:linear-gradient(120deg, var(--blush), var(--lav-soft));
-          border:1px solid rgba(255,255,255,0.95); padding:6px 13px; border-radius:999px; margin-bottom:12px; }
+          letter-spacing:1.5px; color:var(--rose-deep); background:linear-gradient(135deg, var(--blush), var(--gold-lt));
+          padding:5px 12px; border-radius:999px; margin-bottom:12px; }
         .bha-brandvid-title { font-size:19px; font-weight:800; color:var(--ink); margin:0 0 14px; letter-spacing:-0.3px; }
         .bha-brandvid-desc { font-size:14px; color:var(--ink-soft); line-height:1.7; margin:16px 0 0; flex:1; }
         .bha-brandvid-foot { display:flex; align-items:center; justify-content:space-between; gap:12px;
-          margin-top:16px; padding-top:14px; border-top:1px solid rgba(186,140,222,0.18); flex-wrap:wrap; }
+          margin-top:16px; padding-top:14px; border-top:1px solid rgba(201,166,107,0.18); flex-wrap:wrap; }
         .bha-brandvid-yt { font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; white-space:nowrap; }
         .bha-brandvid-yt:hover { text-decoration:underline; }
         .bha-brandvid-src { font-size:11.5px; color:var(--ink-soft); opacity:0.7; }
@@ -595,12 +560,12 @@ export default function YunjeongAICellife() {
           .bha-brandvid { grid-template-columns:1fr; gap:22px; }
         }
 
-        .bha-medu { margin-top:28px; padding-top:26px; border-top:1px solid rgba(236,111,168,0.18); }
+        .bha-medu { margin-top:28px; padding-top:26px; border-top:1px solid rgba(183,110,121,0.18); }
         .bha-medu-label { display:inline-block; font-size:11px; font-weight:700; letter-spacing:1.5px;
           text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
         .bha-medu-title { font-size:19px; font-weight:800; color:var(--ink); margin:0 0 8px; letter-spacing:-0.3px; }
         .bha-medu-desc { font-size:14px; color:var(--ink-soft); line-height:1.7; margin:0 0 16px; }
-        .bha-medu .bha-embed { box-shadow:0 12px 34px rgba(87,50,78,0.14); }
+        .bha-medu .bha-embed { box-shadow:0 12px 34px rgba(74,51,56,0.14); }
         .bha-medu-foot { display:flex; align-items:center; justify-content:space-between; gap:12px;
           margin-top:14px; flex-wrap:wrap; }
         .bha-medu-yt { font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; white-space:nowrap; }
@@ -613,11 +578,11 @@ export default function YunjeongAICellife() {
         .bha-prod-video { max-width:760px; margin:50px auto 0; text-align:center; }
         .bha-prod-video-t { font-size:22px; font-weight:700; color:var(--ink); margin:0 0 8px; }
         .bha-prod-video-d { font-size:15px; color:var(--ink-soft); margin:0 0 22px; }
-        .bha-prod-video .bha-embed { box-shadow:0 14px 40px rgba(214,83,154,0.16); }
+        .bha-prod-video .bha-embed { box-shadow:0 14px 40px rgba(157,92,99,0.16); }
         .bha-prod-video-yt { display:inline-block; margin-top:14px; font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; }
         .bha-prod-video-yt:hover { text-decoration:underline; }
         .bha-intro-video { max-width:820px; margin:0 auto; text-align:center; }
-        .bha-intro-video .bha-embed { box-shadow:0 18px 50px rgba(214,83,154,0.18); }
+        .bha-intro-video .bha-embed { box-shadow:0 18px 50px rgba(157,92,99,0.18); }
       `}</style>
 
       <nav className="bha-nav">
@@ -1075,7 +1040,7 @@ export default function YunjeongAICellife() {
                     <div style={{ width: 52, height: 52, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, var(--rose), var(--gold))", color: "#fff", flexShrink: 0 }}><Crown size={22} /></div>
                     <div><div style={{ fontWeight: 700 }}>환영합니다, 수강생님</div><div style={{ fontSize: 12, color: "var(--ink-soft)" }}>나의 학습 진도</div></div>
                   </div>
-                  <button className="bha-btn-ghost" style={{ padding: "8px 16px", fontSize: 13, background:"#fff", border:"1px solid rgba(236,111,168,0.3)" }} onClick={() => setLoggedIn(false)}>로그아웃</button>
+                  <button className="bha-btn-ghost" style={{ padding: "8px 16px", fontSize: 13, background:"#fff", border:"1px solid rgba(183,110,121,0.3)" }} onClick={() => setLoggedIn(false)}>로그아웃</button>
                 </div>
                 <div style={{ marginBottom: 24 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 8 }}>

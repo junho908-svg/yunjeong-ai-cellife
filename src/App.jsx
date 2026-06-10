@@ -558,6 +558,20 @@ export default function YunjeongAICellife() {
         @media (max-width:760px) {
           .bha-brandvid { grid-template-columns:1fr; gap:22px; }
         }
+
+        .bha-medu { margin-top:28px; padding-top:26px; border-top:1px solid rgba(183,110,121,0.18); }
+        .bha-medu-label { display:inline-block; font-size:11px; font-weight:700; letter-spacing:1.5px;
+          text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+        .bha-medu-title { font-size:19px; font-weight:800; color:var(--ink); margin:0 0 8px; letter-spacing:-0.3px; }
+        .bha-medu-desc { font-size:14px; color:var(--ink-soft); line-height:1.7; margin:0 0 16px; }
+        .bha-medu .bha-embed { box-shadow:0 12px 34px rgba(74,51,56,0.14); }
+        .bha-medu-foot { display:flex; align-items:center; justify-content:space-between; gap:12px;
+          margin-top:14px; flex-wrap:wrap; }
+        .bha-medu-yt { font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; white-space:nowrap; }
+        .bha-medu-yt:hover { text-decoration:underline; }
+        .bha-medu-src { font-size:11.5px; color:var(--ink-soft); opacity:0.7; }
+        .bha-medu-note { font-size:12.5px; color:var(--ink-soft); line-height:1.6; margin:14px 0 0;
+          background:var(--cream); border-radius:10px; padding:11px 14px; }
         .bha-vmodal-yt { display:block; text-align:center; margin-top:13px; margin-bottom:2px; color:rgba(255,255,255,0.88); font-size:14px; font-weight:600; text-decoration:none; }
         .bha-vmodal-yt:hover { color:#fff; text-decoration:underline; }
         .bha-prod-video { max-width:760px; margin:50px auto 0; text-align:center; }
@@ -1024,6 +1038,25 @@ export default function YunjeongAICellife() {
                     <ArrowRight size={18} style={{ color: "var(--ink-soft)" }} />
                   </div>
                 ))}
+
+                <div className="bha-medu">
+                  <div className="bha-medu-label">회원 교육 · 참고 영상</div>
+                  <h3 className="bha-medu-title">노화와 줄기세포, 어디까지 왔나</h3>
+                  <p className="bha-medu-desc">제품 성분을 더 깊이 이해하기 위한 배경 지식 영상입니다. 노화 연구와 줄기세포 과학의 흐름을 다룬 교양 방송으로, 회원 학습용 참고 자료로만 제공됩니다.</p>
+                  <div className="bha-embed">
+                    <iframe
+                      src="https://www.youtube-nocookie.com/embed/6nFoVVoUWoY?rel=0&modestbranding=1"
+                      title="노화와 줄기세포 과학 — 참고 영상"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="bha-medu-foot">
+                    <a className="bha-medu-yt" href="https://youtu.be/6nFoVVoUWoY" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+                    <span className="bha-medu-src">출처 · JTBC 차이나는 클라스(국과대표) / 교양 Voyage</span>
+                  </div>
+                  <p className="bha-medu-note"><ShieldCheck size={14} style={{ verticalAlign: "-2px", marginRight: 5, color: "var(--gold)" }} />본 영상은 노화·줄기세포 연구에 대한 일반 과학 정보이며, 특정 제품의 효능·효과를 의미하거나 보장하지 않습니다.</p>
+                </div>
               </div>
             )}
           </div>

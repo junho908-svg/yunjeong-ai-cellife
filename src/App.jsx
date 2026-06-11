@@ -963,6 +963,36 @@ export default function YunjeongAICellife() {
             </div>
           </div>
 
+          <div className="bha-lecture">
+            <div className="bha-lecture-badge">
+              <img src="viable_logo_transparent.png" alt="VIABLE" className="bha-lecture-logo"
+                onError={(e) => { e.currentTarget.style.display = "none"; }} />
+              <span>VIABLE · 비전 강의</span>
+            </div>
+            <h3 className="bha-lecture-title">9년을 배고팠습니다 — 평범한 사람이 특별해지는 단 하나의 길</h3>
+            <div className="bha-embed">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/xPsTypcOXSI?rel=0&modestbranding=1"
+                title="9년을 배고팠습니다 | 평범한 사람이 특별해지는 단 하나의 길 — 강태율"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <div className="bha-lecture-body">
+              <div className="bha-lecture-intro">
+                <p>키 170도 안 되는 평범한 사람이 <strong>바닥에서 보낸 9년</strong>을 지나 어떻게 다시 일어섰는지, 강태율 레드가 자신의 이야기로 풀어냅니다.</p>
+                <p>환경보다 마음가짐이 길을 만든다는 것 — 평범한 사람이 특별해지는 하나의 길에 대한 비전 강의입니다.</p>
+                <a className="bha-lecture-yt" href="https://youtu.be/xPsTypcOXSI" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+              </div>
+              <ul className="bha-lecture-points">
+                <li><span>바닥에서 시작</span> 실패의 연속, 그리고 인생을 바꾼 한 장의 비전</li>
+                <li><span>왜 지금, 왜 네트워크인가</span> AI · 자동화 시대에 끝까지 남는 일</li>
+                <li><span>시스템과 권리소득</span> 그 말이 실제로 무엇을 의미하는지</li>
+                <li><span>산업의 미래</span> 그 안에서 우리가 맡을 역할</li>
+              </ul>
+            </div>
+          </div>
+
           <div className="bha-curr">
             {curriculum.map((c) => {
               const Ic = c.icon;

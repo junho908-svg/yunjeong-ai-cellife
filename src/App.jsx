@@ -135,12 +135,28 @@ export default function YunjeongAICellife() {
     return () => clearInterval(id);
   }, []);
   const toggle = (id) => setDone((d) => ({ ...d, [id]: !d[id] }));
+  const [route, setRoute] = useState(typeof window !== "undefined" && window.location.hash === "#/news" ? "news" : "home");
+  useEffect(() => {
+    const onHash = () => {
+      setRoute(window.location.hash === "#/news" ? "news" : "home");
+      window.scrollTo({ top: 0 });
+    };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+  const goNews = () => { window.location.hash = "#/news"; setNavOpen(false); };
   const goTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (window.location.hash === "#/news") {
+      window.location.hash = "";
+      setTimeout(() => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }, 80);
+    } else {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
     setNavOpen(false);
   };
   const goTop = () => {
+    if (window.location.hash) window.location.hash = "";
     window.scrollTo({ top: 0, behavior: "smooth" });
     setNavOpen(false);
   };
@@ -644,6 +660,13 @@ export default function YunjeongAICellife() {
         .bha-curr-ic, .bha-prod-ic, .bha-login-ic { box-shadow:0 8px 20px rgba(190,63,126,0.22), inset 0 1px 0 rgba(255,255,255,0.45); }
         .bha-news-badge.is-blog { background:rgba(155,123,216,0.16); color:#6b54a6; }
 
+        .bha-news-more-wrap { text-align:center; margin-top:34px; }
+        .bha-news-more { font-family:inherit; }
+        .bha-news-back { display:inline-flex; align-items:center; gap:4px; margin-bottom:18px; padding:9px 16px; border-radius:999px; cursor:pointer;
+          background:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.85); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+          color:var(--rose-deep); font-weight:700; font-size:13.5px; font-family:inherit; transition:.2s; box-shadow:0 4px 14px rgba(157,92,99,0.08); }
+        .bha-news-back:hover { background:#fff; transform:translateY(-1px); }
+
         /* 380px 등 소형 화면 안전장치 */
         @media (max-width:420px) {
           .bha-wrap { padding:0 16px; }
@@ -670,7 +693,7 @@ export default function YunjeongAICellife() {
             <a onClick={() => goTo("product")}>제품</a>
             <a onClick={() => goTo("brand")}>브랜드 영상</a>
             <a onClick={() => goTo("curriculum")}>마케팅 교육</a>
-            <a onClick={() => goTo("news")}>소식</a>
+            <a onClick={goNews}>소식</a>
             <a onClick={() => goTo("viable-news")}>비아블 소식</a>
             <a onClick={() => goTo("vision")}>발표자료</a>
             <a onClick={() => goTo("member")}>회원 강의실</a>
@@ -688,6 +711,7 @@ export default function YunjeongAICellife() {
         )}
       </nav>
 
+      {route !== "news" && (<>
       <header className="bha-hero">
         <div className="bha-wrap">
           <div className="bha-hero-banner">
@@ -974,7 +998,7 @@ export default function YunjeongAICellife() {
             <p className="bha-sec-desc">도움이 될 만한 기사와 인사이트를 모았습니다. 각 카드는 원문 출처로 연결됩니다.</p>
           </div>
           <div className="bha-news-grid">
-            {newsItems.map((n, i) => (
+            {newsItems.slice(0, 3).map((n, i) => (
               <article className="bha-news-card" key={i}>
                 <span className={"bha-news-badge " + (n.type === "언론보도" ? "is-press" : "is-blog")}>{n.type}</span>
                 <h3 className="bha-news-title">{n.title}</h3>
@@ -983,6 +1007,9 @@ export default function YunjeongAICellife() {
                 <a className="bha-news-link" href={n.url} target="_blank" rel="noopener noreferrer">원문 보기 <ArrowRight size={15} /></a>
               </article>
             ))}
+          </div>
+          <div className="bha-news-more-wrap">
+            <button className="bha-btn-ghost bha-news-more" onClick={goNews}>소식 전체보기 <ArrowRight size={16} /></button>
           </div>
         </div>
       </section>
@@ -1155,6 +1182,31 @@ export default function YunjeongAICellife() {
           </div>
         </div>
       </section>
+      </>)}
+
+      {route === "news" && (
+        <section className="bha-sec" id="news-page" style={{ minHeight: "72vh" }}>
+          <div className="bha-wrap">
+            <button className="bha-news-back" onClick={goTop}><ChevronLeft size={18} /> 홈으로</button>
+            <div className="bha-sec-head">
+              <div className="bha-kicker"><Newspaper size={13} style={{ verticalAlign: "-2px", marginRight: 6 }} />News & Insights</div>
+              <h2 className="bha-sec-title">소식 · 인사이트</h2>
+              <p className="bha-sec-desc">도움이 될 만한 기사와 인사이트를 모았습니다. 각 카드는 원문 출처로 연결됩니다.</p>
+            </div>
+            <div className="bha-news-grid">
+              {newsItems.map((n, i) => (
+                <article className="bha-news-card" key={i}>
+                  <span className={"bha-news-badge " + (n.type === "언론보도" ? "is-press" : "is-blog")}>{n.type}</span>
+                  <h3 className="bha-news-title">{n.title}</h3>
+                  <p className="bha-news-summary">{n.summary}</p>
+                  <div className="bha-news-meta">{n.source}{n.date ? " · " + n.date : ""}</div>
+                  <a className="bha-news-link" href={n.url} target="_blank" rel="noopener noreferrer">원문 보기 <ArrowRight size={15} /></a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {lightbox && (
         <div className="bha-modal-overlay bha-lightbox" onClick={() => setLightbox(false)}>
@@ -1197,7 +1249,7 @@ export default function YunjeongAICellife() {
             </div>
             <p style={{ maxWidth: 280 }}>AI로 쉽게 배우는 뷰티·홈케어 · 네트워크 마케팅 교육 채널<br/>제품을 더 쉽게, 뷰티를 더 아름답게</p>
           </div>
-          <div><h4>바로가기</h4><a onClick={()=>goTo("about")} style={{cursor:"pointer"}}>진행자 소개</a><a onClick={()=>goTo("beauty")} style={{cursor:"pointer"}}>뷰티 교육</a><a onClick={()=>goTo("curriculum")} style={{cursor:"pointer"}}>마케팅 교육</a><a onClick={()=>goTo("news")} style={{cursor:"pointer"}}>소식</a><a onClick={()=>goTo("viable-news")} style={{cursor:"pointer"}}>비아블 소식</a><a onClick={()=>goTo("vision")} style={{cursor:"pointer"}}>신화비전 발표자료</a></div>
+          <div><h4>바로가기</h4><a onClick={()=>goTo("about")} style={{cursor:"pointer"}}>진행자 소개</a><a onClick={()=>goTo("beauty")} style={{cursor:"pointer"}}>뷰티 교육</a><a onClick={()=>goTo("curriculum")} style={{cursor:"pointer"}}>마케팅 교육</a><a onClick={goNews} style={{cursor:"pointer"}}>소식</a><a onClick={()=>goTo("viable-news")} style={{cursor:"pointer"}}>비아블 소식</a><a onClick={()=>goTo("vision")} style={{cursor:"pointer"}}>신화비전 발표자료</a></div>
           <div><h4>채널</h4><a href="#">YouTube 채널</a><a href="#">자료실</a><a href="#">문의하기</a></div>
         </div>
         <div className="bha-wrap bha-footer-note">© 2026 윤앤정 AI 셀라이프 · 데모 프로토타입 (제품·영상은 플레이스홀더입니다)</div>

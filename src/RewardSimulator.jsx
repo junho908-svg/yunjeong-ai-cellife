@@ -313,8 +313,13 @@ export default function RewardSimulator() {
   const PV_WINDOW = 4;                                  // 디렉터·에메랄드 = 최근 4기수 소실적
   const nodeAge = (n) => period - n.period;             // 0 = 이번 기수(마감 전)
   const inWindow = (n) => nodeAge(n) < PV_WINDOW;       // 최근 4기수 안
+  // 추천 계보 대(代): ME 직추천 = 1대, 그 산하 = 2대 …
+  const GEN_COLOR = ["#94a3b8", "#4f46e5", "#0891b2", "#16a34a", "#d97706", "#dc2626"]; // [0],1~5대
+  const genOf = (id) => { let g = 0, cur = id; while (cur && cur !== ME) { const node = nodes.find((x) => x.id === cur); if (!node) break; g++; cur = node.recruiterId; } return g; };
+  const matchDepth = (MATCH_TABLE[rank] || []).length;  // 현재 직급이 매칭하는 대수
   const nodeColor = (n) => {
     if (colorMode === "recruiter") return n.recruiterId === ME ? "#4f46e5" : "#059669";
+    if (colorMode === "gen") { const g = genOf(n.id); return g >= 1 && g <= 5 ? GEN_COLOR[g] : "#cbd5e1"; }
     const a = nodeAge(n);
     return a >= PV_WINDOW ? "#cbd5e1" : (AGE_COLOR[a] || "#94a3b8"); // 4기수 밖 = 흐림(지워짐)
   };
@@ -460,11 +465,12 @@ export default function RewardSimulator() {
               <div className="flex flex-wrap items-center gap-2 mb-3 text-[11px]">
                 <span className="text-slate-400 font-medium">노드 색</span>
                 <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
-                  {[["period", "기수별(승급 추적)"], ["recruiter", "추천 유형"]].map(([k, l]) => (
+                  {[["period", "기수별(승급 추적)"], ["gen", "대별(매칭)"], ["recruiter", "추천 유형"]].map(([k, l]) => (
                     <button key={k} onClick={() => setColorMode(k)} className={`px-2 py-0.5 rounded-md font-medium ${colorMode === k ? "bg-white text-[#9d5963] shadow-sm" : "text-slate-500"}`}>{l}</button>
                   ))}
                 </div>
                 {colorMode === "period" && <span className="text-slate-400">디렉터·에메랄드 = 최근 4기수 소실적 · 4기수 밖은 흐려짐(이월 제외)</span>}
+                {colorMode === "gen" && <span className="text-slate-400">추천 계보 1~5대 색 구분 · 현재 직급 <b className="text-slate-600">{RANK_LABEL[rank]}</b>는 {matchDepth > 0 ? `${matchDepth}대까지 매칭` : "매칭 없음"} (그 밖은 흐려짐)</span>}
               </div>
 
               {selectedId ? (
@@ -499,7 +505,7 @@ export default function RewardSimulator() {
                   </g>
                   {/* nodes */}
                   {nodes.map((n) => { const c = pos[n.id]; const pend = n.period === period; const dn = nameOf(n.id); return (
-                    <g key={n.id} className="cursor-pointer" opacity={colorMode === "period" && !inWindow(n) ? 0.38 : 1} onClick={() => setSelectedId(n.id)}>
+                    <g key={n.id} className="cursor-pointer" opacity={(colorMode === "period" && !inWindow(n)) || (colorMode === "gen" && genOf(n.id) > matchDepth) ? 0.38 : 1} onClick={() => setSelectedId(n.id)}>
                       {selectedId === n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#4f46e5" strokeWidth="2.5" />}
                       {pend && selectedId !== n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4 3" />}
                       <circle cx={cx(c.x)} cy={cy(c.y)} r={R} fill={nodeColor(n)} />
@@ -528,6 +534,12 @@ export default function RewardSimulator() {
                   <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: AGE_COLOR[2] }} />2기 전</span>
                   <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: AGE_COLOR[3] }} />3기 전</span>
                   <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block bg-slate-300" style={{ opacity: 0.5 }} />4기수 밖(승급 제외)</span>
+                </>) : colorMode === "gen" ? (<>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: GEN_COLOR[1] }} />1대</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: GEN_COLOR[2] }} />2대</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: GEN_COLOR[3] }} />3대</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: GEN_COLOR[4] }} />4대</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: GEN_COLOR[5] }} />5대</span>
                 </>) : (<>
                   <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-indigo-600 inline-block" />내 직추천 (추천수당 발생)</span>
                   <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-emerald-600 inline-block" />산하 추천</span>

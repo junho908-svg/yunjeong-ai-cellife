@@ -334,7 +334,10 @@ export default function RewardSimulator() {
           </div>
           <div className="flex items-center gap-2 text-[12px]">
             <span className="px-2.5 py-1 rounded-lg bg-white/10 font-medium">{dLong(period)}</span>
-            <span className={`px-2 py-1 rounded-lg font-bold ${RANK_COLOR[rank]}`}>{RANK_LABEL[rank]}</span>
+            <span className="text-white/55 text-[11px]">직급</span>
+            <select value={rank} onChange={(e) => setRank(e.target.value)} className={`px-2 py-1 rounded-lg font-bold border-0 cursor-pointer outline-none ${RANK_COLOR[rank]}`} title="직급 직접 선택">
+              {RANK_ORDER.map((k) => <option key={k} value={k}>{RANK_LABEL[k]}</option>)}
+            </select>
           </div>
         </div>
       </div>
@@ -502,6 +505,10 @@ export default function RewardSimulator() {
                       <circle cx={cx(c.x)} cy={cy(c.y)} r={R} fill={nodeColor(n)} />
                       <text x={cx(c.x)} y={cy(c.y) + 4} textAnchor="middle" fill="white" fontSize={fitFont(dn)} fontWeight="700">{short(dn)}</text>
                       <text x={cx(c.x)} y={cy(c.y) + R + 13} textAnchor="middle" fill="#94a3b8" fontSize="9">{dateOf(n.period).m}/{dateOf(n.period).h}</text>
+                      {n.recruiterId === ME && (<>
+                        <circle cx={cx(c.x) + R * 0.74} cy={cy(c.y) - R * 0.74} r={R * 0.46} fill="#4f46e5" stroke="#fff" strokeWidth="1.5" />
+                        <text x={cx(c.x) + R * 0.74} y={cy(c.y) - R * 0.74 + R * 0.18} textAnchor="middle" fill="#fff" fontSize={R * 0.55} fontWeight="800">직</text>
+                      </>)}
                     </g>
                   ); })}
                   {/* slots */}
@@ -525,6 +532,7 @@ export default function RewardSimulator() {
                   <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-indigo-600 inline-block" />내 직추천 (추천수당 발생)</span>
                   <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-emerald-600 inline-block" />산하 추천</span>
                 </>)}
+                <span className="flex items-center gap-1"><span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-indigo-600 text-white text-[8px] font-bold">직</span>내 직추천</span>
                 <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full border-2 border-dashed border-amber-400 inline-block" />이번 기수 신규 (마감 전)</span>
                 <span className="ml-auto">신규 1명 = 70만 CV 구좌 (실구매 약 145~161만 원)</span>
               </div>

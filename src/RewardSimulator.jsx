@@ -189,6 +189,7 @@ export default function RewardSimulator() {
   const [start, setStart] = useState({ y: 2026, m: 6, half: 1 });
   const [selectedId, setSelectedId] = useState(null);
   const [meName, setMeName] = useState("");
+  const [legBig, setLegBig] = useState("auto"); // 대실적 기준: auto | L | R
 
   // 경과 기수(1-based) → 실제 연·월·기
   const dateOf = (p) => {
@@ -297,10 +298,13 @@ export default function RewardSimulator() {
     setFast({ p1: false, p2: false, p3: false, p1Nodes: [], p3Nodes: [] });
     setPvL([]); setPvR([]); setHistory([]); setTotals({ refer: 0, sponsor: 0, fast: 0, match: 0, dues: 0 });
     setGiftTotals({ amp: 0, serum: 0, mist: 0 });
-    setSubCVSpent(0); setLabelIdx(0); setSelectedId(null); setMeName("");
+    setSubCVSpent(0); setLabelIdx(0); setSelectedId(null); setMeName(""); setLegBig("auto");
   };
 
   const grand = totals.refer + totals.sponsor + totals.fast + totals.match + totals.dues;
+  // 대실적/소실적 — 자동(실제 CV 큰 쪽=대) 또는 수동 지정
+  const bigSide = legBig === "auto" ? (preview.tR > preview.tL ? "R" : "L") : legBig;
+  const legLabel = (side) => (side === bigSide ? "대실적" : "소실적");
   const COLW = 60, ROWH = 78, R = 20;
   const { pos, slots, cols, maxD } = layout;
   const cx = (x) => x * COLW + 36, cy = (y) => y * ROWH + 36;
@@ -377,7 +381,7 @@ export default function RewardSimulator() {
                 {!sub && preview.destroyed > 0 && <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500 font-bold">구독 미충족</span>}
               </div>
               <div className="text-[2.4rem] leading-none font-bold tabular-nums mt-2">{fmt(preview.total)}<span className="text-lg font-semibold ml-1">원</span></div>
-              <div className="text-[11px] text-rose-50/70 mt-2">현재 레그 — 좌 {man(preview.tL)}만 / 우 {man(preview.tR)}만 CV (이월 포함)</div>
+              <div className="text-[11px] text-rose-50/70 mt-2">현재 레그 — 좌 {man(preview.tL)}만({legLabel("L")}) / 우 {man(preview.tR)}만({legLabel("R")}) CV · 소실적 기준 정산</div>
             </div>
             <div className="p-4 border-t lg:border-t-0 lg:border-l border-slate-100 flex flex-col justify-center">
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-5 gap-y-0.5 text-sm">
@@ -423,6 +427,21 @@ export default function RewardSimulator() {
                   <button onClick={autoChainPlan2} disabled={!fast.p1 || fast.p2} className="text-[11px] font-medium px-2 py-1 rounded-md border border-amber-200 bg-amber-50 text-amber-700 disabled:opacity-30">⚡플랜2 배치</button>
                   <button onClick={placePlan3} disabled={!fast.p2 || fast.p3} className="text-[11px] font-medium px-2 py-1 rounded-md border border-amber-200 bg-amber-50 text-amber-700 disabled:opacity-30">⚡플랜3 배치</button>
                 </div>
+              </div>
+
+              {/* 대실적 / 소실적 좌우 선택 */}
+              <div className="flex flex-wrap items-center gap-2 mb-3 text-[11px]">
+                <span className="text-slate-400 font-medium">대 / 소실적 기준</span>
+                <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+                  {[["auto", "자동"], ["L", "좌=대"], ["R", "우=대"]].map(([k, l]) => (
+                    <button key={k} onClick={() => setLegBig(k)} className={`px-2 py-0.5 rounded-md font-medium ${legBig === k ? "bg-white text-[#9d5963] shadow-sm" : "text-slate-500"}`}>{l}</button>
+                  ))}
+                </div>
+                <span className="ml-1 text-slate-400">
+                  좌 <b className={bigSide === "L" ? "text-rose-600" : "text-indigo-500"}>{legLabel("L")}</b> {man(preview.tL)}만
+                  <span className="mx-1 text-slate-300">·</span>
+                  우 <b className={bigSide === "R" ? "text-rose-600" : "text-indigo-500"}>{legLabel("R")}</b> {man(preview.tR)}만
+                </span>
               </div>
 
               {selectedId ? (

@@ -348,6 +348,8 @@ export default function YunjeongAICellife() {
         .bha-links { display:flex; gap:28px; align-items:center; }
         .bha-links a { color:var(--ink-soft); text-decoration:none; font-size:14px; font-weight:500; transition:.2s; cursor:pointer; }
         .bha-links a:hover { color:var(--rose-deep); }
+        .bha-links a.bha-nav-sim { color:var(--rose-deep); font-weight:700; }
+        .bha-links a.bha-nav-sim:hover { color:var(--lav); }
         .bha-cta { background: linear-gradient(115deg, var(--rose), var(--rose-deep) 55%, var(--lav)); background-size:200% auto;
           animation:bhaShimmer 8s linear infinite; color:#fff !important; padding:10px 22px; border-radius:999px;
           font-size:13px; border:none; cursor:pointer; transition:.2s; font-weight:700;
@@ -770,6 +772,7 @@ export default function YunjeongAICellife() {
             <a onClick={() => goTo("product")}>제품</a>
             <a onClick={() => goTo("brand")}>브랜드 영상</a>
             <a onClick={() => goTo("curriculum")}>마케팅 교육</a>
+            <a className="bha-nav-sim" onClick={() => setShowSim(true)}>보상 시뮬레이터</a>
             <a onClick={goNews}>소식</a>
             <a onClick={() => goTo("viable-news")}>비아블 소식</a>
             <a onClick={() => goTo("vision")}>발표자료</a>
@@ -784,6 +787,7 @@ export default function YunjeongAICellife() {
               const [label,id]=s.split("|");
               return <a key={id} onClick={()=>goTo(id)} style={{display:"block",padding:"8px 0",color:"var(--ink-soft)",textDecoration:"none",cursor:"pointer"}}>{label}</a>;
             })}
+            <a onClick={()=>{ setShowSim(true); setNavOpen(false); }} style={{display:"block",padding:"8px 0",color:"var(--rose-deep)",fontWeight:700,textDecoration:"none",cursor:"pointer"}}>보상 시뮬레이터</a>
           </div>
         )}
       </nav>
@@ -1088,13 +1092,6 @@ export default function YunjeongAICellife() {
           <div className="bha-vision">
             “AI는 기술을 만들지만, 사람의 인생은 결국 사람이 바꿉니다.”
             <span>— 비아블 신화비전</span>
-          </div>
-
-          <div className="bha-simcta">
-            <div className="bha-simcta-ic"><Sparkles size={24} /></div>
-            <h3 className="bha-simcta-t">비아블 신화 보상플랜 시뮬레이터</h3>
-            <p className="bha-simcta-d">조직을 직접 그려보며 직급·수당 구조가 어떻게 움직이는지 한눈에 이해해 보세요.<br />교육용 도구이며 특정 수익을 보장하지 않습니다.</p>
-            <button className="bha-btn-primary" onClick={() => setShowSim(true)}><Sparkles size={18} /> 보상플랜 시뮬레이터 열기</button>
           </div>
 
           <div className="bha-refvid">

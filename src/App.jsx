@@ -4,6 +4,7 @@ import {
   GraduationCap, Droplet, Users, TrendingUp, BookOpen, Menu, X,
   ArrowRight, Crown, Wand2, Globe, Heart, ChevronLeft, ChevronRight, Maximize2, Presentation, Newspaper
 } from "lucide-react";
+import RewardSimulator from "./RewardSimulator";
 
 // ▼▼▼ 유튜브 소개 영상 ID — 영상 주소(youtu.be/XXXX 또는 watch?v=XXXX)의 11자리만 여기에 넣으세요 ▼▼▼
 const YT_INTRO_ID = "i5b8Rm_DbW4";
@@ -18,6 +19,7 @@ export default function YunjeongAICellife() {
   const [heroSlide, setHeroSlide] = useState(0);
   const [slide, setSlide] = useState(0);
   const [lightbox, setLightbox] = useState(false);
+  const [showSim, setShowSim] = useState(false);
 
   const yunheeSlides = [
     { src: "slides-yunhee/slide-01.png", t: "마스터피스: 셀비아 앰플", tag: "표지" },
@@ -279,6 +281,22 @@ export default function YunjeongAICellife() {
 
   const completedCount = curriculum.filter((c) => done[c.id]).length;
   const progress = Math.round((completedCount / curriculum.length) * 100);
+
+  if (showSim) {
+    return (
+      <div style={{ fontFamily: "'Pretendard','Gothic A1','Noto Sans KR',sans-serif" }}>
+        <div className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-rose-100 px-4 py-2.5">
+          <button
+            onClick={() => setShowSim(false)}
+            className="text-sm font-semibold text-[#9d5963] hover:text-[#8f4f5a] flex items-center gap-1"
+          >
+            ← 셀라이프 홈으로
+          </button>
+        </div>
+        <RewardSimulator />
+      </div>
+    );
+  }
 
   return (
     <div className="bha-root">
@@ -684,6 +702,16 @@ export default function YunjeongAICellife() {
         .bha-curr-ic, .bha-prod-ic, .bha-login-ic { box-shadow:0 8px 20px rgba(190,63,126,0.22), inset 0 1px 0 rgba(255,255,255,0.45); }
         .bha-news-badge.is-blog { background:rgba(155,123,216,0.16); color:#6b54a6; }
 
+        .bha-simcta { max-width:680px; margin:40px auto 0; text-align:center; padding:34px 28px; border-radius:24px;
+          background:linear-gradient(135deg, rgba(233,224,250,0.5), rgba(255,255,255,0.78), rgba(245,186,211,0.4));
+          backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(255,255,255,0.9);
+          box-shadow:0 20px 54px rgba(155,123,216,0.16), inset 0 1.5px 0 #fff; }
+        .bha-simcta-ic { width:58px; height:58px; border-radius:18px; margin:0 auto 16px; display:flex; align-items:center; justify-content:center;
+          color:#fff; background:linear-gradient(135deg, var(--rose), var(--lav)); box-shadow:0 10px 24px rgba(190,63,126,0.28), inset 0 1px 0 rgba(255,255,255,0.45); }
+        .bha-simcta-t { font-size:22px; font-weight:800; color:var(--ink); margin:0 0 10px; letter-spacing:-0.4px; }
+        .bha-simcta-d { font-size:14px; color:var(--ink-soft); line-height:1.7; margin:0 0 22px; }
+        .bha-simcta .bha-btn-primary { display:inline-flex; }
+
         .bha-news-more-wrap { text-align:center; margin-top:34px; }
         .bha-news-more { font-family:inherit; }
         .bha-news-back { display:inline-flex; align-items:center; gap:4px; margin-bottom:18px; padding:9px 16px; border-radius:999px; cursor:pointer;
@@ -1025,6 +1053,13 @@ export default function YunjeongAICellife() {
           <div className="bha-vision">
             “AI는 기술을 만들지만, 사람의 인생은 결국 사람이 바꿉니다.”
             <span>— 비아블 신화비전</span>
+          </div>
+
+          <div className="bha-simcta">
+            <div className="bha-simcta-ic"><Sparkles size={24} /></div>
+            <h3 className="bha-simcta-t">비아블 신화 보상플랜 시뮬레이터</h3>
+            <p className="bha-simcta-d">조직을 직접 그려보며 직급·수당 구조가 어떻게 움직이는지 한눈에 이해해 보세요.<br />교육용 도구이며 특정 수익을 보장하지 않습니다.</p>
+            <button className="bha-btn-primary" onClick={() => setShowSim(true)}><Sparkles size={18} /> 보상플랜 시뮬레이터 열기</button>
           </div>
 
           <div className="bha-refvid">

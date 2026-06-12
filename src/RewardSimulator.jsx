@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Play, RotateCcw, Users, Zap, TrendingUp, Coins, AlertTriangle, Award, Scale, ChevronDown, ChevronUp, Sparkles } from "lucide-react";
+import { Play, RotateCcw, Users, Zap, TrendingUp, Coins, AlertTriangle, Award, Scale, ChevronDown, ChevronUp, Sparkles, Gem, Crown } from "lucide-react";
 
 // ═══ 가이드북 확정 상수 ═══════════════════════════════
 const ME = "나";
@@ -37,6 +37,12 @@ const RANK_REF = [
   { key: "RDM",    label: "Red Diamond",   kr: "레드다이아몬드", pv: "소실적 30억 PV",  sub: "7만 CV", sponsor: "10%", match: "1~5대", dues: "400만원", vol: "6,500만 CV" },
   { key: "CW",     label: "Crown",         kr: "크라운",       pv: "소실적 100억 PV",  sub: "7만 CV", sponsor: "10%", match: "1~5대", dues: "600만원", vol: "1억 3,500만 CV" },
 ];
+// 직급별 보석 색 (밝은색, 진한색)
+const RANK_GEM = {
+  MEMBER: ["#F5BAD3", "#E8889F"], MANIA: ["#E9A6C4", "#D070A0"], DR: ["#D98AA0", "#B76E79"],
+  EM: ["#7FD3B6", "#2BB596"], DM: ["#C9B8E6", "#8E7BD8"], GDM: ["#86C9A0", "#3FA56B"],
+  BDM: ["#86AEE0", "#3E7BC4"], RDM: ["#E58A98", "#C9445A"], CW: ["#EAD08A", "#C9A04B"],
+};
 
 const fmt = (n) => Math.round(n).toLocaleString("ko-KR");
 const man = (cv) => fmt(cv / MAN);
@@ -564,38 +570,6 @@ export default function RewardSimulator() {
               <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">조직 구매액은 하위 회원들이 각자 부담한 금액입니다. 내 수당 {fmt(grand)}원의 원천이 이 매출임을 함께 보여주는 지표입니다.</p>
             </div>
 
-            {/* 전체 직급 단계 */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-4">
-              <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3 flex items-center gap-1.5"><TrendingUp className="w-3.5 h-3.5" />전체 직급 단계 (가이드북)</h2>
-              <div className="overflow-x-auto -mx-1">
-                <table className="w-full text-[11px] border-collapse">
-                  <thead>
-                    <tr className="text-slate-400 border-b border-slate-100">
-                      <th className="text-left font-semibold py-1.5 px-1">직급</th>
-                      <th className="text-left font-semibold py-1.5 px-1">승급(소실적 PV)</th>
-                      <th className="text-center font-semibold py-1.5 px-1">구독</th>
-                      <th className="text-center font-semibold py-1.5 px-1">후원</th>
-                      <th className="text-center font-semibold py-1.5 px-1">매칭</th>
-                      <th className="text-right font-semibold py-1.5 px-1">품위유지 / 유지볼륨</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {RANK_REF.map((r) => (
-                      <tr key={r.key} className={`border-b border-slate-50 ${r.key === rank ? "bg-rose-50/70" : ""}`}>
-                        <td className="py-1.5 px-1 font-semibold text-slate-700 whitespace-nowrap">{r.kr}<span className="text-slate-300 ml-1">{r.label}</span></td>
-                        <td className="py-1.5 px-1 text-slate-500 whitespace-nowrap">{r.pv}</td>
-                        <td className="py-1.5 px-1 text-center text-slate-500 whitespace-nowrap">{r.sub}</td>
-                        <td className="py-1.5 px-1 text-center text-slate-500">{r.sponsor}</td>
-                        <td className="py-1.5 px-1 text-center text-slate-500 whitespace-nowrap">{r.match}</td>
-                        <td className="py-1.5 px-1 text-right text-slate-500 whitespace-nowrap">{r.dues}<span className="text-slate-300"> / {r.vol}</span></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <p className="text-[11px] text-slate-400 mt-2.5 leading-relaxed">현재 시뮬레이션 계산은 매니아~다이아 구간이며, 그 이상은 기준 참고용입니다. 후원 보너스는 블루다이아까지 12%, 레드다이아~크라운 10%.</p>
-            </div>
-
             <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">
               <p className="text-[11px] font-semibold text-slate-600 mb-1.5 flex items-center gap-1.5"><AlertTriangle className="w-3.5 h-3.5 text-amber-500" />교육용 시뮬레이션 안내</p>
               <p className="text-[10px] text-slate-400 leading-relaxed">
@@ -605,6 +579,34 @@ export default function RewardSimulator() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* ── 직급 단계 가이드북 (하단 참고) ── */}
+        <div className="mt-6 bg-white rounded-2xl border border-slate-200 p-5">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#b76e79] to-[#9d5963] grid place-items-center text-white"><Award className="w-4 h-4" /></div>
+            <h2 className="text-sm font-bold text-slate-700">직급 단계 가이드북</h2>
+            <span className="text-[11px] text-slate-400">회원 가입부터 크라운까지 — 승급 기준(소실적 PV)과 품위유지 보너스</span>
+          </div>
+          <div className="overflow-x-auto pb-2 -mx-1 px-1">
+            <div className="flex items-center gap-1.5 min-w-max pt-3">
+              {RANK_REF.map((r, i) => (
+                <div key={r.key} className="flex items-center">
+                  <div className={`w-[126px] rounded-2xl border px-3 py-3 text-center transition-transform ${r.key === rank ? "border-[#b76e79] bg-rose-50/60 shadow-md -translate-y-1" : "border-slate-200 bg-white"}`}>
+                    <div className="w-12 h-12 rounded-full mx-auto mb-2 grid place-items-center text-white" style={{ background: `linear-gradient(145deg, ${RANK_GEM[r.key][0]}, ${RANK_GEM[r.key][1]})`, boxShadow: `0 8px 18px ${RANK_GEM[r.key][1]}55, inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -3px 6px rgba(0,0,0,0.12)` }}>
+                      {r.key === "CW" ? <Crown className="w-5 h-5" /> : <Gem className="w-5 h-5" />}
+                    </div>
+                    <div className="text-[13px] font-extrabold text-slate-800 leading-tight">{r.kr}</div>
+                    <div className="text-[9px] font-bold tracking-wide uppercase" style={{ color: RANK_GEM[r.key][1] }}>{r.label}</div>
+                    <div className="text-[10px] text-slate-500 mt-1.5 leading-snug">{r.pv}</div>
+                    {r.dues !== "-" ? <div className="text-[10px] font-semibold text-[#9d5963] mt-1">품위 {r.dues}</div> : <div className="text-[10px] text-slate-300 mt-1">—</div>}
+                  </div>
+                  {i < RANK_REF.length - 1 && <div className="px-0.5 text-slate-300 text-lg shrink-0">›</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">현재 직급은 로즈 카드로 강조됩니다 · 추천 12% 공통 · 후원 보너스 블루다이아까지 12% / 레드다이아·크라운 10% · 계산 구간은 매니아~다이아, 그 이상은 기준 참고용.</p>
         </div>
 
         <div className="mt-8 pt-5 border-t border-slate-200 text-center">

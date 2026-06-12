@@ -306,7 +306,7 @@ export default function RewardSimulator() {
   // 대실적/소실적 — 자동(실제 CV 큰 쪽=대) 또는 수동 지정
   const bigSide = legBig === "auto" ? (preview.tR > preview.tL ? "R" : "L") : legBig;
   const legLabel = (side) => (side === bigSide ? "대실적" : "소실적");
-  const COLW = 60, ROWH = 78, R = 20;
+  const COLW = 80, ROWH = 96, R = 25;
   const { pos, slots, cols, maxD } = layout;
   const cx = (x) => x * COLW + 36, cy = (y) => y * ROWH + 36;
   const AGE_COLOR = ["#0f172a", "#dc2626", "#2563eb", "#16a34a"]; // 이번기수·1기전·2기전·3기전
@@ -484,7 +484,7 @@ export default function RewardSimulator() {
               )}
 
               <div className="overflow-x-auto rounded-xl bg-slate-50/60 border border-slate-100">
-                <svg width={Math.max(cols * COLW + 72, 560)} height={(maxD + 1) * ROWH + 60}>
+                <svg className="block mx-auto" width={Math.max(cols * COLW + 72, 560)} height={(maxD + 1) * ROWH + 60}>
                   {/* edges */}
                   {nodes.map((n) => { const p = pos[n.parentId], c = pos[n.id]; return <line key={"e" + n.id} x1={cx(p.x)} y1={cy(p.y) + R} x2={cx(c.x)} y2={cy(c.y) - R} stroke="#cbd5e1" strokeWidth="1.5" />; })}
                   {slots.map((s, i) => { const p = pos[s.parent]; return <line key={"se" + i} x1={cx(p.x)} y1={cy(p.y) + R} x2={cx(s.x)} y2={cy(s.y) - 14} stroke="#e2e8f0" strokeWidth="1.5" strokeDasharray="3 3" />; })}

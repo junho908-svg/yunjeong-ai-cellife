@@ -484,7 +484,7 @@ export default function RewardSimulator() {
               )}
 
               <div className="overflow-x-auto rounded-xl bg-slate-50/60 border border-slate-100">
-                <svg className="block mx-auto" width={Math.max(cols * COLW + 72, 560)} height={(maxD + 1) * ROWH + 60}>
+                <svg className="block mx-auto" viewBox={`0 0 ${Math.max(cols * COLW + 72, 560)} ${(maxD + 1) * ROWH + 60}`} preserveAspectRatio="xMidYMid meet" style={{ width: "100%", maxWidth: Math.max(cols * COLW + 72, 560), minWidth: Math.round(Math.max(cols * COLW + 72, 560) * 0.55) }}>
                   {/* edges */}
                   {nodes.map((n) => { const p = pos[n.parentId], c = pos[n.id]; return <line key={"e" + n.id} x1={cx(p.x)} y1={cy(p.y) + R} x2={cx(c.x)} y2={cy(c.y) - R} stroke="#cbd5e1" strokeWidth="1.5" />; })}
                   {slots.map((s, i) => { const p = pos[s.parent]; return <line key={"se" + i} x1={cx(p.x)} y1={cy(p.y) + R} x2={cx(s.x)} y2={cy(s.y) - 14} stroke="#e2e8f0" strokeWidth="1.5" strokeDasharray="3 3" />; })}

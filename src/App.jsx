@@ -339,14 +339,14 @@ export default function YunjeongAICellife() {
         .bha-logo { display:flex; align-items:center; gap:14px; font-weight:700; cursor:pointer; user-select:none; transition:opacity .2s; }
         .bha-logo:hover { opacity:0.78; }
         .bha-logo:focus-visible { outline:2px solid var(--rose); outline-offset:4px; border-radius:8px; }
-        .bha-logo img { width:68px; height:68px; border-radius:50%; object-fit:cover;
+        .bha-logo img { width:52px; height:52px; border-radius:50%; object-fit:cover;
           border:2px solid #fff; box-shadow:0 0 0 1.5px var(--rosegold-lt), 0 6px 18px rgba(184,122,101,0.3); }
-        .bha-logo-txt { font-size: 20px; font-weight:700; letter-spacing:-0.3px; line-height:1.25; }
+        .bha-logo-txt { font-size: 17px; font-weight:700; letter-spacing:-0.3px; line-height:1.2; white-space:nowrap; }
         .bha-logo-txt small { display:block; font-size:12px; font-weight:600; letter-spacing:3px; margin-top:2px;
           background:linear-gradient(100deg, var(--rosegold), #D9967E, var(--rosegold)); background-size:200% auto;
           -webkit-background-clip:text; background-clip:text; color:transparent; animation:bhaShimmer 7s linear infinite; }
-        .bha-links { display:flex; gap:28px; align-items:center; }
-        .bha-links a { color:var(--ink-soft); text-decoration:none; font-size:14px; font-weight:500; transition:.2s; cursor:pointer; }
+        .bha-links { display:flex; gap:15px; align-items:center; }
+        .bha-links a { color:var(--ink-soft); text-decoration:none; font-size:13px; font-weight:500; transition:.2s; cursor:pointer; white-space:nowrap; }
         .bha-links a:hover { color:var(--rose-deep); }
         .bha-links a.bha-nav-sim { color:var(--rose-deep); font-weight:700; }
         .bha-links a.bha-nav-sim:hover { color:var(--lav); }
@@ -355,7 +355,9 @@ export default function YunjeongAICellife() {
           font-size:13px; border:none; cursor:pointer; transition:.2s; font-weight:700;
           box-shadow:0 8px 22px rgba(190,63,126,0.32), inset 0 1px 0 rgba(255,255,255,0.4); }
         .bha-cta:hover { transform: translateY(-1px); box-shadow:0 12px 28px rgba(155,123,216,0.4), inset 0 1px 0 rgba(255,255,255,0.4); }
+        .bha-cta { white-space:nowrap; }
         .bha-burger { display:none; background:none; border:none; cursor:pointer; color:var(--rose); }
+        @media (max-width: 1120px) { .bha-links { display:none; } .bha-burger { display:block; } }
 
         .bha-hero { position:relative; padding: 38px 0 30px; }
         .bha-hero-banner { position:relative; border-radius:30px; overflow:hidden;
@@ -772,7 +774,7 @@ export default function YunjeongAICellife() {
             <a onClick={() => goTo("product")}>제품</a>
             <a onClick={() => goTo("brand")}>브랜드 영상</a>
             <a onClick={() => goTo("curriculum")}>마케팅 교육</a>
-            <a className="bha-nav-sim" onClick={() => setShowSim(true)}>보상 시뮬레이터</a>
+            <a className="bha-nav-sim" onClick={() => setShowSim(true)}>시뮬레이터</a>
             <a onClick={goNews}>소식</a>
             <a onClick={() => goTo("viable-news")}>비아블 소식</a>
             <a onClick={() => goTo("vision")}>발표자료</a>
@@ -783,11 +785,16 @@ export default function YunjeongAICellife() {
         </div>
         {navOpen && (
           <div className="bha-wrap" style={{ paddingBottom: 16 }}>
-            {["소개|about","뷰티 교육|beauty","제품|product","브랜드 영상|brand","마케팅 교육|curriculum","신화비전 발표자료|vision","회원 강의실|member"].map((s)=>{
+            {["소개|about","뷰티 교육|beauty","제품|product","브랜드 영상|brand","마케팅 교육|curriculum"].map((s)=>{
               const [label,id]=s.split("|");
               return <a key={id} onClick={()=>goTo(id)} style={{display:"block",padding:"8px 0",color:"var(--ink-soft)",textDecoration:"none",cursor:"pointer"}}>{label}</a>;
             })}
             <a onClick={()=>{ setShowSim(true); setNavOpen(false); }} style={{display:"block",padding:"8px 0",color:"var(--rose-deep)",fontWeight:700,textDecoration:"none",cursor:"pointer"}}>보상 시뮬레이터</a>
+            <a onClick={goNews} style={{display:"block",padding:"8px 0",color:"var(--ink-soft)",textDecoration:"none",cursor:"pointer"}}>소식</a>
+            {["비아블 소식|viable-news","신화비전 발표자료|vision","회원 강의실|member"].map((s)=>{
+              const [label,id]=s.split("|");
+              return <a key={id} onClick={()=>goTo(id)} style={{display:"block",padding:"8px 0",color:"var(--ink-soft)",textDecoration:"none",cursor:"pointer"}}>{label}</a>;
+            })}
           </div>
         )}
       </nav>

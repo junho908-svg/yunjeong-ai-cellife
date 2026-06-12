@@ -10,6 +10,10 @@ import RewardSimulator from "./RewardSimulator";
 const YT_INTRO_ID = "i5b8Rm_DbW4";
 // ▲▲▲ 예) https://youtu.be/abcd1234XYZ  →  "abcd1234XYZ" ▲▲▲
 
+// ▼▼▼ 상담 연결 주소 — 카카오 채널/오픈채팅 URL, 또는 "tel:01012345678" 형식. 비워두면 회원 강의실로 연결됩니다 ▼▼▼
+const CONSULT_LINK = "";
+// ▲▲▲ 예) "https://pf.kakao.com/_xxxxx" 또는 "tel:01000000000" ▲▲▲
+
 export default function YunjeongAICellife() {
   const [navOpen, setNavOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -185,6 +189,10 @@ export default function YunjeongAICellife() {
     if (window.location.hash) window.location.hash = "";
     window.scrollTo({ top: 0, behavior: "smooth" });
     setNavOpen(false);
+  };
+  const goConsult = () => {
+    if (CONSULT_LINK) { window.open(CONSULT_LINK, "_blank", "noopener,noreferrer"); }
+    else { goTo("member"); }
   };
 
   const hosts = [
@@ -702,6 +710,23 @@ export default function YunjeongAICellife() {
         .bha-curr-ic, .bha-prod-ic, .bha-login-ic { box-shadow:0 8px 20px rgba(190,63,126,0.22), inset 0 1px 0 rgba(255,255,255,0.45); }
         .bha-news-badge.is-blog { background:rgba(155,123,216,0.16); color:#6b54a6; }
 
+        .bha-hero-lead { max-width:760px; margin:30px auto 0; text-align:center; }
+        .bha-hero-lead .bha-kicker { margin-bottom:12px; }
+        .bha-hero-h1 { font-size:clamp(26px, 4.4vw, 42px); font-weight:800; letter-spacing:-0.8px; line-height:1.28; margin:0 0 14px;
+          background:linear-gradient(120deg, var(--rose-deep), var(--gold), var(--lav), var(--rose-deep)); background-size:240% 100%;
+          -webkit-background-clip:text; background-clip:text; color:transparent; animation:bhaShimmer 8s linear infinite; }
+        .bha-hero-sub { font-size:clamp(15px,2vw,17px); color:var(--ink-soft); max-width:560px; margin:0 auto 24px; line-height:1.7; }
+        .bha-hero-cta { display:flex; gap:13px; justify-content:center; flex-wrap:wrap; }
+
+        .bha-cta-band { padding:64px 0; }
+        .bha-cta-band-inner { max-width:720px; margin:0 auto; text-align:center; padding:46px 32px; border-radius:28px;
+          background:linear-gradient(135deg, rgba(216,95,160,0.12), rgba(255,255,255,0.7), rgba(155,123,216,0.14));
+          backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(255,255,255,0.9);
+          box-shadow:0 24px 60px rgba(190,63,126,0.14), inset 0 1.5px 0 #fff; }
+        .bha-cta-band-t { font-size:clamp(22px,3.4vw,30px); font-weight:800; color:var(--ink); letter-spacing:-0.5px; margin:12px 0 10px; }
+        .bha-cta-band-d { font-size:15px; color:var(--ink-soft); line-height:1.7; margin:0 0 24px; }
+        .bha-cta-band-inner .bha-btn-primary { display:inline-flex; }
+
         .bha-simcta { max-width:680px; margin:40px auto 0; text-align:center; padding:34px 28px; border-radius:24px;
           background:linear-gradient(135deg, rgba(233,224,250,0.5), rgba(255,255,255,0.78), rgba(245,186,211,0.4));
           backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1.5px solid rgba(255,255,255,0.9);
@@ -787,6 +812,16 @@ export default function YunjeongAICellife() {
                   />
                 ))}
               </div>
+            </div>
+          </div>
+
+          <div className="bha-hero-lead">
+            <div className="bha-kicker">AI Beauty · Wellness · Business</div>
+            <h1 className="bha-hero-h1">AI로 더 쉽게 배우는 뷰티·홈케어,<br />그리고 함께 성장하는 사업</h1>
+            <p className="bha-hero-sub">제품 케어부터 네트워크 마케팅 교육까지 — 윤앤정과 함께 나만의 속도로 시작하세요.</p>
+            <div className="bha-hero-cta">
+              <button className="bha-btn-primary" onClick={goConsult}><Heart size={18} /> 무료 상담 신청</button>
+              <button className="bha-btn-ghost" onClick={() => goTo("curriculum")}>사업 · 교육 둘러보기</button>
             </div>
           </div>
         </div>
@@ -1268,6 +1303,17 @@ export default function YunjeongAICellife() {
           <div className="bha-disc">
             <ShieldCheck size={16} style={{ verticalAlign: "-3px", marginRight: 6, color: "var(--gold)" }} />
             본 교육은 제품의 올바른 이해와 정직한 사업 활동을 위한 것입니다. 과장된 수익 보장이나 비현실적 기대를 조장하지 않으며, 모든 제품 효능은 객관적 자료에 근거해 안내합니다.
+          </div>
+        </div>
+      </section>
+
+      <section className="bha-sec bha-cta-band">
+        <div className="bha-wrap">
+          <div className="bha-cta-band-inner">
+            <div className="bha-kicker" style={{ justifyContent: "center" }}>Start Today</div>
+            <h2 className="bha-cta-band-t">지금, 가볍게 상담부터 시작해 보세요</h2>
+            <p className="bha-cta-band-d">제품도, 사업도 — 궁금한 점을 편하게 물어보세요. 부담 없이 안내해 드립니다.</p>
+            <button className="bha-btn-primary" onClick={goConsult}><Heart size={18} /> 무료 상담 신청</button>
           </div>
         </div>
       </section>

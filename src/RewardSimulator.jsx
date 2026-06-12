@@ -18,7 +18,25 @@ const MATCH_TABLE = { MANIA: [], DR: [0.10], EM: [0.10, 0.05], DM: [0.10, 0.05, 
 const DUES = { DR: 150000, EM: 300000, DM: 750000 };
 const MAINT_VOL = { DR: 210, EM: 350, DM: 1000 };   // 만 CV (소실적)
 const SUB_CV = { MANIA: 0, DR: 1, EM: 1, DM: 3 };   // 만 CV/기수
-const sponsorRate = () => 0.12;                       // MANIA~BDM 구간
+const sponsorRate = () => 0.12;                       // MANIA~BD 12% (RD~CW 10%)
+
+// ═══ 직급 승급 선물(제품) — 가이드북 DR 예시 역산 ════════
+const AMP_PER_REFER = 30;   // 추천 1명당 추천앰플 30병
+const AMP_BOX = 20;         // 앰플 1박스 = 20병
+const AMP_PRICE = 11000;    // 앰플 1병 환산가(가이드북 역산: 90병=990,000원)
+
+// ═══ 전체 직급 단계 레퍼런스 (마케팅 플랜 요약 기준) ═════
+const RANK_REF = [
+  { key: "MEMBER", label: "Member",        kr: "멤버",         pv: "1~70만 PV 미만",  sub: "없음",   sponsor: "-",   match: "-",     dues: "-",      vol: "-" },
+  { key: "MANIA",  label: "Mania",         kr: "매니아",       pv: "70만 PV 이상",     sub: "없음",   sponsor: "12%", match: "-",     dues: "-",      vol: "-" },
+  { key: "DR",     label: "Director",      kr: "디렉터",       pv: "소실적 210만 PV",  sub: "1만 CV", sponsor: "12%", match: "1대",   dues: "15만원", vol: "210만 CV" },
+  { key: "EM",     label: "Emerald",       kr: "에메랄드",     pv: "소실적 1,400만 PV", sub: "1만 CV", sponsor: "12%", match: "1~2대", dues: "30만원", vol: "350만 CV" },
+  { key: "DM",     label: "Diamond",       kr: "다이아몬드",   pv: "소실적 1억 PV",    sub: "3만 CV", sponsor: "12%", match: "1~3대", dues: "75만원", vol: "1,000만 CV" },
+  { key: "GDM",    label: "Green Diamond", kr: "그린다이아몬드", pv: "소실적 3억 PV",   sub: "3만 CV", sponsor: "12%", match: "1~4대", dues: "140만원", vol: "1,900만 CV" },
+  { key: "BDM",    label: "Blue Diamond",  kr: "블루다이아몬드", pv: "소실적 10억 PV",  sub: "7만 CV", sponsor: "10%", match: "1~4대", dues: "230만원", vol: "3,400만 CV" },
+  { key: "RDM",    label: "Red Diamond",   kr: "레드다이아몬드", pv: "소실적 30억 PV",  sub: "7만 CV", sponsor: "10%", match: "1~5대", dues: "400만원", vol: "6,500만 CV" },
+  { key: "CW",     label: "Crown",         kr: "크라운",       pv: "소실적 100억 PV",  sub: "7만 CV", sponsor: "10%", match: "1~5대", dues: "600만원", vol: "1억 3,500만 CV" },
+];
 
 const fmt = (n) => Math.round(n).toLocaleString("ko-KR");
 const man = (cv) => fmt(cv / MAN);
@@ -111,8 +129,16 @@ function settle({ nodes, period, carries, rank, sub, fast, pvL, pvR }) {
   else if (rank === "DR" && winWeak >= 14000000) promo = "EM";
   if (promo) events.push({ type: "promo", text: `🎉 ${RANK_LABEL[promo]} 승급! (4기수 소실적 ${man(winWeak)}만 PV)` });
 
+  // 직급 승급 선물(제품) — 가이드북 DR 예시 기준
+  const directNew = newNodes.filter((n) => n.recruiterId === ME).length;
+  let giftAmp = directNew * AMP_PER_REFER;            // 추천앰플 30병/명
+  let giftSerum = 0, giftMist = 0;
+  if (promo === "DR") { giftAmp += AMP_BOX; giftSerum += 1; giftMist += 1; }  // DR 승급선물(앰플 1박스·세럼·미스트)
+  if (dues > 0)       { giftAmp += AMP_BOX; giftMist += 1; }                  // 품위(품의) 선물(앰플 1박스·미스트)
+  const gift = { amp: giftAmp, serum: giftSerum, mist: giftMist };
+
   const total = refer + sponsor + fastPay + match + dues;
-  return { refer, sponsor, fastPay, match, dues, total, weak, tL, tR, destroyed, nextCarries, fast: f, events, promo, hL, hR, winWeak, allWeak, dirL, dirR, newCount: newNodes.length };
+  return { refer, sponsor, fastPay, match, dues, total, weak, tL, tR, destroyed, nextCarries, fast: f, events, promo, gift, hL, hR, winWeak, allWeak, dirL, dirR, newCount: newNodes.length };
 }
 
 // ═══ UI 컴포넌트 ═════════════════════════════════════
@@ -149,6 +175,7 @@ export default function RewardSimulator() {
   const [pvL, setPvL] = useState([]); const [pvR, setPvR] = useState([]);
   const [history, setHistory] = useState([]);
   const [totals, setTotals] = useState({ refer: 0, sponsor: 0, fast: 0, match: 0, dues: 0 });
+  const [giftTotals, setGiftTotals] = useState({ amp: 0, serum: 0, mist: 0 });
   const [subCVSpent, setSubCVSpent] = useState(0);
   const [mode, setMode] = useState("ME");
   const [labelIdx, setLabelIdx] = useState(0);
@@ -252,6 +279,7 @@ export default function RewardSimulator() {
     setFast(r.fast);
     setPvL(r.hL); setPvR(r.hR);
     setTotals((t) => ({ refer: t.refer + r.refer, sponsor: t.sponsor + r.sponsor, fast: t.fast + r.fastPay, match: t.match + r.match, dues: t.dues + r.dues }));
+    setGiftTotals((g) => ({ amp: g.amp + r.gift.amp, serum: g.serum + r.gift.serum, mist: g.mist + r.gift.mist }));
     if (sub) setSubCVSpent((s) => s + SUB_CV[rank] * MAN);
     setHistory((h) => [{ period, rank, ...r }, ...h]);
     if (r.promo) setRank(r.promo);
@@ -262,6 +290,7 @@ export default function RewardSimulator() {
     setNodes([]); setPeriod(1); setCarries({ [ME]: { L: 0, R: 0 } }); setRank("MANIA"); setSub(true);
     setFast({ p1: false, p2: false, p3: false, p1Nodes: [], p3Nodes: [] });
     setPvL([]); setPvR([]); setHistory([]); setTotals({ refer: 0, sponsor: 0, fast: 0, match: 0, dues: 0 });
+    setGiftTotals({ amp: 0, serum: 0, mist: 0 });
     setSubCVSpent(0); setLabelIdx(0); setSelectedId(null); setMeName("");
   };
 
@@ -466,6 +495,12 @@ export default function RewardSimulator() {
                   <div className="flex justify-between py-1.5"><span className="text-slate-500">매칭</span><span className="tabular-nums font-medium">{fmt(preview.match)}원</span></div>
                   <div className="flex justify-between py-1.5"><span className="text-slate-500">품위유지</span><span className="tabular-nums font-medium">{fmt(preview.dues)}원</span></div>
                 </div>
+                {(preview.gift.amp > 0 || preview.gift.mist > 0 || preview.gift.serum > 0) && (
+                  <div className="mt-3 flex items-start gap-1.5 text-[11px] text-rose-700 bg-rose-50/70 rounded-lg px-2.5 py-2">
+                    <Sparkles className="w-3.5 h-3.5 mt-px shrink-0 text-[#b76e79]" />
+                    <span>이번 기수 선물 — 앰플 {preview.gift.amp}병{preview.gift.serum ? ` · 세럼 ${preview.gift.serum}` : ""}{preview.gift.mist ? ` · 미스트 ${preview.gift.mist}` : ""} <span className="text-rose-400">(제품 · 현금 별도)</span></span>
+                  </div>
+                )}
                 {!sub && preview.destroyed > 0 && (
                   <div className="mt-3 flex items-start gap-1.5 text-[11px] text-rose-600 bg-rose-50 rounded-lg px-2.5 py-2">
                     <AlertTriangle className="w-3.5 h-3.5 mt-px shrink-0" />마감 시 좌·우 CV {man(preview.destroyed)}만이 소멸됩니다
@@ -495,6 +530,17 @@ export default function RewardSimulator() {
               </div>
             </div>
 
+            {/* 직급 승급 선물 (누적) */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-4">
+              <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" />직급 승급 선물 (제품 · 누적)</h2>
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div className="rounded-xl bg-rose-50/60 border border-rose-100 py-2.5"><div className="text-lg font-bold text-[#9d5963] tabular-nums">{giftTotals.amp}</div><div className="text-[11px] text-slate-500">앰플(병)</div></div>
+                <div className="rounded-xl bg-amber-50/60 border border-amber-100 py-2.5"><div className="text-lg font-bold text-amber-700 tabular-nums">{giftTotals.serum}</div><div className="text-[11px] text-slate-500">세럼(EA)</div></div>
+                <div className="rounded-xl bg-violet-50/60 border border-violet-100 py-2.5"><div className="text-lg font-bold text-violet-700 tabular-nums">{giftTotals.mist}</div><div className="text-[11px] text-slate-500">미스트(EA)</div></div>
+              </div>
+              <p className="text-[11px] text-slate-400 mt-2.5 leading-relaxed">추천앰플 30병/명 · DR 승급선물(앰플 1박스+세럼+미스트) · 품위선물(앰플 1박스+미스트). 앰플 환산 약 {fmt(giftTotals.amp * AMP_PRICE)}원 (1박스=20병).</p>
+            </div>
+
             {/* 패스트 사이클 */}
             <div className="bg-white rounded-2xl border border-slate-200 p-4">
               <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3 flex items-center gap-1.5"><Zap className="w-3.5 h-3.5" />패스트 파워 사이클</h2>
@@ -516,6 +562,38 @@ export default function RewardSimulator() {
                 <div className="flex justify-between py-1.5"><span className="text-slate-500">조직 전체 구매액 ({nodes.length}명)</span><span className="tabular-nums font-medium">{fmt(nodes.length * PKG_COST.min / MAN)}~{fmt(nodes.length * PKG_COST.max / MAN)}만 원</span></div>
               </div>
               <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">조직 구매액은 하위 회원들이 각자 부담한 금액입니다. 내 수당 {fmt(grand)}원의 원천이 이 매출임을 함께 보여주는 지표입니다.</p>
+            </div>
+
+            {/* 전체 직급 단계 */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-4">
+              <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3 flex items-center gap-1.5"><TrendingUp className="w-3.5 h-3.5" />전체 직급 단계 (가이드북)</h2>
+              <div className="overflow-x-auto -mx-1">
+                <table className="w-full text-[11px] border-collapse">
+                  <thead>
+                    <tr className="text-slate-400 border-b border-slate-100">
+                      <th className="text-left font-semibold py-1.5 px-1">직급</th>
+                      <th className="text-left font-semibold py-1.5 px-1">승급(소실적 PV)</th>
+                      <th className="text-center font-semibold py-1.5 px-1">구독</th>
+                      <th className="text-center font-semibold py-1.5 px-1">후원</th>
+                      <th className="text-center font-semibold py-1.5 px-1">매칭</th>
+                      <th className="text-right font-semibold py-1.5 px-1">품위유지 / 유지볼륨</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {RANK_REF.map((r) => (
+                      <tr key={r.key} className={`border-b border-slate-50 ${r.key === rank ? "bg-rose-50/70" : ""}`}>
+                        <td className="py-1.5 px-1 font-semibold text-slate-700 whitespace-nowrap">{r.kr}<span className="text-slate-300 ml-1">{r.label}</span></td>
+                        <td className="py-1.5 px-1 text-slate-500 whitespace-nowrap">{r.pv}</td>
+                        <td className="py-1.5 px-1 text-center text-slate-500 whitespace-nowrap">{r.sub}</td>
+                        <td className="py-1.5 px-1 text-center text-slate-500">{r.sponsor}</td>
+                        <td className="py-1.5 px-1 text-center text-slate-500 whitespace-nowrap">{r.match}</td>
+                        <td className="py-1.5 px-1 text-right text-slate-500 whitespace-nowrap">{r.dues}<span className="text-slate-300"> / {r.vol}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-[11px] text-slate-400 mt-2.5 leading-relaxed">현재 시뮬레이션 계산은 매니아~다이아 구간이며, 그 이상은 기준 참고용입니다. 후원 보너스는 블루다이아까지 12%, 레드다이아~크라운 10%.</p>
             </div>
 
             <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">

@@ -190,6 +190,7 @@ export default function RewardSimulator() {
   const [selectedId, setSelectedId] = useState(null);
   const [meName, setMeName] = useState("");
   const [legBig, setLegBig] = useState("auto"); // 대실적 기준: auto | L | R
+  const [colorMode, setColorMode] = useState("period"); // 노드 색: period(기수별) | recruiter(추천유형)
 
   // 경과 기수(1-based) → 실제 연·월·기
   const dateOf = (p) => {
@@ -298,7 +299,7 @@ export default function RewardSimulator() {
     setFast({ p1: false, p2: false, p3: false, p1Nodes: [], p3Nodes: [] });
     setPvL([]); setPvR([]); setHistory([]); setTotals({ refer: 0, sponsor: 0, fast: 0, match: 0, dues: 0 });
     setGiftTotals({ amp: 0, serum: 0, mist: 0 });
-    setSubCVSpent(0); setLabelIdx(0); setSelectedId(null); setMeName(""); setLegBig("auto");
+    setSubCVSpent(0); setLabelIdx(0); setSelectedId(null); setMeName(""); setLegBig("auto"); setColorMode("period");
   };
 
   const grand = totals.refer + totals.sponsor + totals.fast + totals.match + totals.dues;
@@ -308,7 +309,15 @@ export default function RewardSimulator() {
   const COLW = 60, ROWH = 78, R = 20;
   const { pos, slots, cols, maxD } = layout;
   const cx = (x) => x * COLW + 36, cy = (y) => y * ROWH + 36;
-  const nodeColor = (n) => (n.recruiterId === ME ? "#4f46e5" : "#059669");
+  const AGE_COLOR = ["#0f172a", "#dc2626", "#2563eb", "#16a34a"]; // 이번기수·1기전·2기전·3기전
+  const PV_WINDOW = 4;                                  // 디렉터·에메랄드 = 최근 4기수 소실적
+  const nodeAge = (n) => period - n.period;             // 0 = 이번 기수(마감 전)
+  const inWindow = (n) => nodeAge(n) < PV_WINDOW;       // 최근 4기수 안
+  const nodeColor = (n) => {
+    if (colorMode === "recruiter") return n.recruiterId === ME ? "#4f46e5" : "#059669";
+    const a = nodeAge(n);
+    return a >= PV_WINDOW ? "#cbd5e1" : (AGE_COLOR[a] || "#94a3b8"); // 4기수 밖 = 흐림(지워짐)
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900" style={{ fontFamily: "'Gothic A1', system-ui, -apple-system, sans-serif" }}>
@@ -444,6 +453,17 @@ export default function RewardSimulator() {
                 </span>
               </div>
 
+              {/* 노드 색 모드 (기수 추적 / 추천 유형) */}
+              <div className="flex flex-wrap items-center gap-2 mb-3 text-[11px]">
+                <span className="text-slate-400 font-medium">노드 색</span>
+                <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+                  {[["period", "기수별(승급 추적)"], ["recruiter", "추천 유형"]].map(([k, l]) => (
+                    <button key={k} onClick={() => setColorMode(k)} className={`px-2 py-0.5 rounded-md font-medium ${colorMode === k ? "bg-white text-[#9d5963] shadow-sm" : "text-slate-500"}`}>{l}</button>
+                  ))}
+                </div>
+                {colorMode === "period" && <span className="text-slate-400">디렉터·에메랄드 = 최근 4기수 소실적 · 4기수 밖은 흐려짐(이월 제외)</span>}
+              </div>
+
               {selectedId ? (
                 <div className="flex items-center gap-2 mb-3 p-2.5 rounded-xl bg-indigo-50/60 border border-indigo-100">
                   <span className="text-xs font-semibold text-indigo-700 shrink-0">{selectedId === ME ? "본인" : `파트너 ${selectedId}`}</span>
@@ -476,7 +496,7 @@ export default function RewardSimulator() {
                   </g>
                   {/* nodes */}
                   {nodes.map((n) => { const c = pos[n.id]; const pend = n.period === period; const dn = nameOf(n.id); return (
-                    <g key={n.id} className="cursor-pointer" onClick={() => setSelectedId(n.id)}>
+                    <g key={n.id} className="cursor-pointer" opacity={colorMode === "period" && !inWindow(n) ? 0.38 : 1} onClick={() => setSelectedId(n.id)}>
                       {selectedId === n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#4f46e5" strokeWidth="2.5" />}
                       {pend && selectedId !== n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4 3" />}
                       <circle cx={cx(c.x)} cy={cy(c.y)} r={R} fill={nodeColor(n)} />
@@ -494,9 +514,17 @@ export default function RewardSimulator() {
                 </svg>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 mt-3 text-[11px] text-slate-500">
-                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-indigo-600 inline-block" />내 직추천 (추천수당 발생)</span>
-                <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-emerald-600 inline-block" />산하 추천</span>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-3 text-[11px] text-slate-500">
+                {colorMode === "period" ? (<>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: AGE_COLOR[0] }} />이번 기수</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: AGE_COLOR[1] }} />1기 전</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: AGE_COLOR[2] }} />2기 전</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block" style={{ background: AGE_COLOR[3] }} />3기 전</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full inline-block bg-slate-300" style={{ opacity: 0.5 }} />4기수 밖(승급 제외)</span>
+                </>) : (<>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-indigo-600 inline-block" />내 직추천 (추천수당 발생)</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-emerald-600 inline-block" />산하 추천</span>
+                </>)}
                 <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full border-2 border-dashed border-amber-400 inline-block" />이번 기수 신규 (마감 전)</span>
                 <span className="ml-auto">신규 1명 = 70만 CV 구좌 (실구매 약 145~161만 원)</span>
               </div>

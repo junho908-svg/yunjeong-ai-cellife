@@ -190,7 +190,8 @@ export default function RewardSimulator() {
   const [selectedId, setSelectedId] = useState(null);
   const [meName, setMeName] = useState("");
   const [legBig, setLegBig] = useState("auto"); // 대실적 기준: auto | L | R
-  const [colorMode, setColorMode] = useState("period"); // 노드 색: period(기수별) | recruiter(추천유형)
+  const [colorMode, setColorMode] = useState("period"); // 노드 색: period(기수별) | recruiter(추천유형) | gen(대별)
+  const [colW, setColW] = useState(60); // 트리 가로 간격(px)
 
   // 경과 기수(1-based) → 실제 연·월·기
   const dateOf = (p) => {
@@ -299,14 +300,14 @@ export default function RewardSimulator() {
     setFast({ p1: false, p2: false, p3: false, p1Nodes: [], p3Nodes: [] });
     setPvL([]); setPvR([]); setHistory([]); setTotals({ refer: 0, sponsor: 0, fast: 0, match: 0, dues: 0 });
     setGiftTotals({ amp: 0, serum: 0, mist: 0 });
-    setSubCVSpent(0); setLabelIdx(0); setSelectedId(null); setMeName(""); setLegBig("auto"); setColorMode("period");
+    setSubCVSpent(0); setLabelIdx(0); setSelectedId(null); setMeName(""); setLegBig("auto"); setColorMode("period"); setColW(60);
   };
 
   const grand = totals.refer + totals.sponsor + totals.fast + totals.match + totals.dues;
   // 대실적/소실적 — 자동(실제 CV 큰 쪽=대) 또는 수동 지정
   const bigSide = legBig === "auto" ? (preview.tR > preview.tL ? "R" : "L") : legBig;
   const legLabel = (side) => (side === bigSide ? "대실적" : "소실적");
-  const COLW = 80, ROWH = 96, R = 25;
+  const COLW = colW, ROWH = 96, R = 25;
   const { pos, slots, cols, maxD } = layout;
   const cx = (x) => x * COLW + 36, cy = (y) => y * ROWH + 36;
   const AGE_COLOR = ["#0f172a", "#dc2626", "#2563eb", "#16a34a"]; // 이번기수·1기전·2기전·3기전
@@ -470,7 +471,11 @@ export default function RewardSimulator() {
                   ))}
                 </div>
                 {colorMode === "period" && <span className="text-slate-400">디렉터·에메랄드 = 최근 4기수 소실적 · 4기수 밖은 흐려짐(이월 제외)</span>}
-                {colorMode === "gen" && <span className="text-slate-400">추천 계보 1~5대 색 구분 · 현재 직급 <b className="text-slate-600">{RANK_LABEL[rank]}</b>는 {matchDepth > 0 ? `${matchDepth}대까지 매칭` : "매칭 없음"} (그 밖은 흐려짐)</span>}
+                {colorMode === "gen" && <span className="text-slate-400">추천 계보 1~5대 색 구분 · 현재 직급 <b className="text-slate-600">{RANK_LABEL[rank]}</b>는 {matchDepth > 0 ? `${matchDepth}대까지 매칭` : "매칭 없음"}</span>}
+                <span className="inline-flex items-center gap-1 text-slate-400 ml-auto">가로 간격
+                  <button onClick={() => setColW((w) => Math.max(36, w - 8))} className="w-5 h-5 rounded-md border border-slate-200 bg-white text-slate-600 font-bold leading-none">−</button>
+                  <button onClick={() => setColW((w) => Math.min(104, w + 8))} className="w-5 h-5 rounded-md border border-slate-200 bg-white text-slate-600 font-bold leading-none">＋</button>
+                </span>
               </div>
 
               {selectedId ? (
@@ -505,7 +510,7 @@ export default function RewardSimulator() {
                   </g>
                   {/* nodes */}
                   {nodes.map((n) => { const c = pos[n.id]; const pend = n.period === period; const dn = nameOf(n.id); return (
-                    <g key={n.id} className="cursor-pointer" opacity={(colorMode === "period" && !inWindow(n)) || (colorMode === "gen" && genOf(n.id) > matchDepth) ? 0.38 : 1} onClick={() => setSelectedId(n.id)}>
+                    <g key={n.id} className="cursor-pointer" opacity={colorMode === "period" && !inWindow(n) ? 0.38 : 1} onClick={() => setSelectedId(n.id)}>
                       {selectedId === n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#4f46e5" strokeWidth="2.5" />}
                       {pend && selectedId !== n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4 3" />}
                       <circle cx={cx(c.x)} cy={cy(c.y)} r={R} fill={nodeColor(n)} />

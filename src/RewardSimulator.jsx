@@ -509,6 +509,7 @@ export default function RewardSimulator() {
                       {selectedId === n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#4f46e5" strokeWidth="2.5" />}
                       {pend && selectedId !== n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4 3" />}
                       <circle cx={cx(c.x)} cy={cy(c.y)} r={R} fill={nodeColor(n)} />
+                      {(() => { const g = genOf(n.id); const gc = g >= 1 && g <= 5 ? GEN_COLOR[g] : "#cbd5e1"; return <circle cx={cx(c.x)} cy={cy(c.y)} r={R} fill="none" stroke={gc} strokeWidth="3.5" />; })()}
                       <text x={cx(c.x)} y={cy(c.y) + 4} textAnchor="middle" fill="white" fontSize={fitFont(dn)} fontWeight="700">{short(dn)}</text>
                       <text x={cx(c.x)} y={cy(c.y) + R + 13} textAnchor="middle" fill="#94a3b8" fontSize="9">{dateOf(n.period).m}/{dateOf(n.period).h}</text>
                       {n.recruiterId === ME && (<>
@@ -545,6 +546,7 @@ export default function RewardSimulator() {
                   <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-emerald-600 inline-block" />산하 추천</span>
                 </>)}
                 <span className="flex items-center gap-1"><span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-indigo-600 text-white text-[8px] font-bold">직</span>내 직추천</span>
+                <span className="flex items-center gap-1"><span className="w-3.5 h-3.5 rounded-full inline-block bg-white" style={{ border: `3px solid ${GEN_COLOR[1]}` }} />테두리 = 대(代) 색</span>
                 <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full border-2 border-dashed border-amber-400 inline-block" />이번 기수 신규 (마감 전)</span>
                 <span className="ml-auto">신규 1명 = 70만 CV 구좌 (실구매 약 145~161만 원)</span>
               </div>

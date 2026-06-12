@@ -368,9 +368,47 @@ export default function RewardSimulator() {
         </div>
 
 
-        <div className="grid xl:grid-cols-[1fr_400px] gap-5 items-start">
+        {/* ── 예상 수당 (가로 배너, 풀폭) ── */}
+        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm mb-4">
+          <div className="grid lg:grid-cols-[270px_1fr_180px]">
+            <div className="p-5 bg-gradient-to-br from-[#b76e79] to-[#9d5963] text-white">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-rose-50/90 flex items-center gap-1.5"><Coins className="w-3.5 h-3.5" />{dShort(period)} 예상 수당</span>
+                {!sub && preview.destroyed > 0 && <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500 font-bold">구독 미충족</span>}
+              </div>
+              <div className="text-[2.4rem] leading-none font-bold tabular-nums mt-2">{fmt(preview.total)}<span className="text-lg font-semibold ml-1">원</span></div>
+              <div className="text-[11px] text-rose-50/70 mt-2">현재 레그 — 좌 {man(preview.tL)}만 / 우 {man(preview.tR)}만 CV (이월 포함)</div>
+            </div>
+            <div className="p-4 border-t lg:border-t-0 lg:border-l border-slate-100 flex flex-col justify-center">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-5 gap-y-0.5 text-sm">
+                <div className="flex justify-between py-1"><span className="text-slate-500">추천</span><span className="tabular-nums font-medium">{fmt(preview.refer)}원</span></div>
+                <div className="flex justify-between py-1"><span className="text-slate-500">후원</span><span className="tabular-nums font-medium">{fmt(preview.sponsor)}원</span></div>
+                <div className="flex justify-between py-1"><span className="text-slate-500">패스트</span><span className="tabular-nums font-medium">{fmt(preview.fastPay)}원</span></div>
+                <div className="flex justify-between py-1"><span className="text-slate-500">매칭</span><span className="tabular-nums font-medium">{fmt(preview.match)}원</span></div>
+                <div className="flex justify-between py-1"><span className="text-slate-500">품위유지</span><span className="tabular-nums font-medium">{fmt(preview.dues)}원</span></div>
+              </div>
+              {(preview.gift.amp > 0 || preview.gift.mist > 0 || preview.gift.serum > 0) && (
+                <div className="mt-2 flex items-start gap-1.5 text-[11px] text-rose-700 bg-rose-50/70 rounded-lg px-2.5 py-1.5">
+                  <Sparkles className="w-3.5 h-3.5 mt-px shrink-0 text-[#b76e79]" />
+                  <span>이번 기수 선물 — 앰플 {preview.gift.amp}병{preview.gift.serum ? ` · 세럼 ${preview.gift.serum}` : ""}{preview.gift.mist ? ` · 미스트 ${preview.gift.mist}` : ""} <span className="text-rose-400">(제품 · 현금 별도)</span></span>
+                </div>
+              )}
+              {!sub && preview.destroyed > 0 && (
+                <div className="mt-2 flex items-start gap-1.5 text-[11px] text-rose-600 bg-rose-50 rounded-lg px-2.5 py-1.5">
+                  <AlertTriangle className="w-3.5 h-3.5 mt-px shrink-0" />마감 시 좌·우 CV {man(preview.destroyed)}만이 소멸됩니다
+                </div>
+              )}
+            </div>
+            <div className="px-5 py-4 bg-slate-900 text-white flex lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-1 border-t lg:border-t-0">
+              <span className="text-xs text-slate-400">누적 수령 ({history.length}기수)</span>
+              <span className="text-2xl font-bold tabular-nums">{fmt(grand)}원</span>
+            </div>
+          </div>
+        </div>
 
-          {/* ── 좌: 트리 ── */}
+        <div className="space-y-5">
+
+          {/* ── 트리 (풀폭) ── */}
           <div className="space-y-4">
             <div className="bg-white rounded-2xl border border-slate-200 p-4">
               <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -480,44 +518,8 @@ export default function RewardSimulator() {
             </div>
           </div>
 
-          {/* ── 우: 대시보드 ── */}
-          <div className="space-y-4 xl:sticky xl:top-4">
-
-            {/* 이번 기수 미리보기 */}
-            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-              <div className="p-5 bg-gradient-to-br from-[#b76e79] to-[#9d5963] text-white">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-rose-50/90 flex items-center gap-1.5"><Coins className="w-3.5 h-3.5" />{dShort(period)} 예상 수당</span>
-                  {!sub && preview.destroyed > 0 && <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500 font-bold">구독 미충족</span>}
-                </div>
-                <div className="text-[2.5rem] leading-none font-bold tabular-nums mt-2">{fmt(preview.total)}<span className="text-xl font-semibold ml-1">원</span></div>
-                <div className="text-[11px] text-rose-50/70 mt-2">현재 레그 — 좌 {man(preview.tL)}만 / 우 {man(preview.tR)}만 CV (이월 포함)</div>
-              </div>
-              <div className="p-4">
-                <div className="divide-y divide-slate-50 text-sm">
-                  <div className="flex justify-between py-1.5"><span className="text-slate-500">추천 ({preview.refer / 84000 | 0}명)</span><span className="tabular-nums font-medium">{fmt(preview.refer)}원</span></div>
-                  <div className="flex justify-between py-1.5"><span className="text-slate-500">후원 (소실적 {man(preview.weak)}만)</span><span className="tabular-nums font-medium">{fmt(preview.sponsor)}원</span></div>
-                  <div className="flex justify-between py-1.5"><span className="text-slate-500">패스트</span><span className="tabular-nums font-medium">{fmt(preview.fastPay)}원</span></div>
-                  <div className="flex justify-between py-1.5"><span className="text-slate-500">매칭</span><span className="tabular-nums font-medium">{fmt(preview.match)}원</span></div>
-                  <div className="flex justify-between py-1.5"><span className="text-slate-500">품위유지</span><span className="tabular-nums font-medium">{fmt(preview.dues)}원</span></div>
-                </div>
-                {(preview.gift.amp > 0 || preview.gift.mist > 0 || preview.gift.serum > 0) && (
-                  <div className="mt-3 flex items-start gap-1.5 text-[11px] text-rose-700 bg-rose-50/70 rounded-lg px-2.5 py-2">
-                    <Sparkles className="w-3.5 h-3.5 mt-px shrink-0 text-[#b76e79]" />
-                    <span>이번 기수 선물 — 앰플 {preview.gift.amp}병{preview.gift.serum ? ` · 세럼 ${preview.gift.serum}` : ""}{preview.gift.mist ? ` · 미스트 ${preview.gift.mist}` : ""} <span className="text-rose-400">(제품 · 현금 별도)</span></span>
-                  </div>
-                )}
-                {!sub && preview.destroyed > 0 && (
-                  <div className="mt-3 flex items-start gap-1.5 text-[11px] text-rose-600 bg-rose-50 rounded-lg px-2.5 py-2">
-                    <AlertTriangle className="w-3.5 h-3.5 mt-px shrink-0" />마감 시 좌·우 CV {man(preview.destroyed)}만이 소멸됩니다
-                  </div>
-                )}
-              </div>
-              <div className="px-4 py-3 bg-slate-900 text-white flex items-baseline justify-between">
-                <span className="text-xs text-slate-400">누적 수령 ({history.length}기수)</span>
-                <span className="text-xl font-bold tabular-nums">{fmt(grand)}원</span>
-              </div>
-            </div>
+          {/* ── 보조 패널 (트리 아래 그리드) ── */}
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 items-start">
 
             {/* 승급 추적 */}
             <div className="bg-white rounded-2xl border border-slate-200 p-4">

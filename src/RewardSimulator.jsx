@@ -316,11 +316,11 @@ export default function RewardSimulator() {
   const inWindow = (n) => nodeAge(n) < PV_WINDOW;       // 최근 4기수 안
   // 추천 계보 대(代): ME 직추천 = 1대, 그 산하 = 2대 …
   const GEN_COLOR = ["#94a3b8", "#4f46e5", "#0891b2", "#16a34a", "#d97706", "#dc2626"]; // [0],1~5대
-  const genOf = (id) => { let g = 0, cur = id; while (cur && cur !== ME) { const node = nodes.find((x) => x.id === cur); if (!node) break; g++; cur = node.recruiterId; } return g; };
+  const depthOf = (id) => (pos[id] ? pos[id].y : 0); // 후원 트리 깊이 = 대(代)
   const matchDepth = (MATCH_TABLE[rank] || []).length;  // 현재 직급이 매칭하는 대수
   const nodeColor = (n) => {
     if (colorMode === "recruiter") return n.recruiterId === ME ? "#4f46e5" : "#059669";
-    if (colorMode === "gen") { const g = genOf(n.id); return g >= 1 && g <= 5 ? GEN_COLOR[g] : "#cbd5e1"; }
+    if (colorMode === "gen") { const g = depthOf(n.id); return g >= 1 && g <= 5 ? GEN_COLOR[g] : "#cbd5e1"; }
     const a = nodeAge(n);
     return a >= PV_WINDOW ? "#cbd5e1" : (AGE_COLOR[a] || "#94a3b8"); // 4기수 밖 = 흐림(지워짐)
   };
@@ -471,7 +471,7 @@ export default function RewardSimulator() {
                   ))}
                 </div>
                 {colorMode === "period" && <span className="text-slate-400">디렉터·에메랄드 = 최근 4기수 소실적 · 4기수 밖은 흐려짐(이월 제외)</span>}
-                {colorMode === "gen" && <span className="text-slate-400">추천 계보 1~5대 색 구분 · 현재 직급 <b className="text-slate-600">{RANK_LABEL[rank]}</b>는 {matchDepth > 0 ? `${matchDepth}대까지 매칭` : "매칭 없음"}</span>}
+                {colorMode === "gen" && <span className="text-slate-400">나 바로 아래 = 1대, 그 아래 = 2대 … 트리 단계별 색 (6대 이상 회색)</span>}
                 <span className="inline-flex items-center gap-1 text-slate-400 ml-auto">가로 간격
                   <button onClick={() => setColW((w) => Math.max(36, w - 8))} className="w-5 h-5 rounded-md border border-slate-200 bg-white text-slate-600 font-bold leading-none">−</button>
                   <button onClick={() => setColW((w) => Math.min(104, w + 8))} className="w-5 h-5 rounded-md border border-slate-200 bg-white text-slate-600 font-bold leading-none">＋</button>
@@ -514,7 +514,7 @@ export default function RewardSimulator() {
                       {selectedId === n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#4f46e5" strokeWidth="2.5" />}
                       {pend && selectedId !== n.id && <circle cx={cx(c.x)} cy={cy(c.y)} r={R + 5} fill="none" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4 3" />}
                       <circle cx={cx(c.x)} cy={cy(c.y)} r={R} fill={nodeColor(n)} />
-                      {(() => { const g = genOf(n.id); const gc = g >= 1 && g <= 5 ? GEN_COLOR[g] : "#cbd5e1"; return <circle cx={cx(c.x)} cy={cy(c.y)} r={R} fill="none" stroke={gc} strokeWidth="3.5" />; })()}
+                      {(() => { const g = depthOf(n.id); const gc = g >= 1 && g <= 5 ? GEN_COLOR[g] : "#cbd5e1"; return <circle cx={cx(c.x)} cy={cy(c.y)} r={R} fill="none" stroke={gc} strokeWidth="3.5" />; })()}
                       <text x={cx(c.x)} y={cy(c.y) + 4} textAnchor="middle" fill="white" fontSize={fitFont(dn)} fontWeight="700">{short(dn)}</text>
                       <text x={cx(c.x)} y={cy(c.y) + R + 13} textAnchor="middle" fill="#94a3b8" fontSize="9">{dateOf(n.period).m}/{dateOf(n.period).h}</text>
                       {n.recruiterId === ME && (<>

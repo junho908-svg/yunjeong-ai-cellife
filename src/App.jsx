@@ -690,6 +690,10 @@ export default function YunjeongAICellife() {
         .bha-prod-video .bha-embed { box-shadow:0 14px 40px rgba(157,92,99,0.16); }
         .bha-prod-video-yt { display:inline-block; margin-top:14px; font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; }
         .bha-prod-video-yt:hover { text-decoration:underline; }
+        .bha-prod-short { max-width:340px; margin:44px auto 0; text-align:center; }
+        .bha-short-embed { position:relative; width:100%; max-width:300px; margin:0 auto; aspect-ratio:9/16; border-radius:18px; overflow:hidden; background:#000; box-shadow:0 14px 40px rgba(157,92,99,0.16); }
+        .bha-short-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+        .bha-short-tag { display:inline-block; font-size:12px; font-weight:700; letter-spacing:0.08em; color:var(--rose-deep); margin-bottom:8px; }
         .bha-intro-video { max-width:820px; margin:0 auto; text-align:center; }
         .bha-intro-video .bha-embed { box-shadow:0 18px 50px rgba(157,92,99,0.18); }
 
@@ -828,8 +832,8 @@ export default function YunjeongAICellife() {
 
           <div className="bha-hero-lead">
             <div className="bha-kicker">AI Beauty · Wellness · Business</div>
-            <h1 className="bha-hero-h1">AI로 더 쉽게 배우는 뷰티·홈케어,<br />그리고 함께 성장하는 사업</h1>
-            <p className="bha-hero-sub">제품 케어부터 네트워크 마케팅 교육까지 — 윤앤정과 함께 나만의 속도로 시작하세요.</p>
+            <h1 className="bha-hero-h1">막막함은 능력이 아니라, 순서의 문제입니다</h1>
+            <p className="bha-hero-sub">제품 케어부터 네트워크 마케팅 교육까지 — 윤앤정과 함께 나만의 속도로, 단계별로 시작하세요.</p>
             <div className="bha-hero-cta">
               <button className="bha-btn-primary" onClick={goConsult}><Heart size={18} /> 무료 상담 신청</button>
               <button className="bha-btn-ghost" onClick={() => goTo("curriculum")}>사업 · 교육 둘러보기</button>
@@ -945,6 +949,21 @@ export default function YunjeongAICellife() {
               />
             </div>
             <a className="bha-prod-video-yt" href="https://youtu.be/0oTiLwAhV-w" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+          </div>
+
+          <div className="bha-prod-short">
+            <span className="bha-short-tag">SHORTS</span>
+            <h3 className="bha-prod-video-t">제품 쇼츠로 빠르게</h3>
+            <p className="bha-prod-video-d">세안 후 7초, 골든타임 ✨ 셀비아 글로시 부스팅 세럼</p>
+            <div className="bha-short-embed">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/h0kn5DsHJvI?rel=0&modestbranding=1"
+                title="셀비아 글로시 부스팅 세럼 쇼츠"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <a className="bha-prod-video-yt" href="https://youtu.be/h0kn5DsHJvI" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
           </div>
         </div>
       </section>

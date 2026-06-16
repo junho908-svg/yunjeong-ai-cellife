@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Sparkles, Play, Lock, CheckCircle2, Circle, User, ShieldCheck,
   GraduationCap, Droplet, Users, TrendingUp, BookOpen, Menu, X,
-  ArrowRight, Crown, Wand2, Globe, Heart, ChevronLeft, ChevronRight, Maximize2, Presentation, Newspaper
+  ArrowRight, Crown, Wand2, Globe, Heart, ChevronLeft, ChevronRight, Maximize2, Presentation, Newspaper, HelpCircle
 } from "lucide-react";
 import RewardSimulator from "./RewardSimulator";
 
@@ -694,6 +694,13 @@ export default function YunjeongAICellife() {
         .bha-short-embed { position:relative; width:100%; max-width:300px; margin:0 auto; aspect-ratio:9/16; border-radius:18px; overflow:hidden; background:#000; box-shadow:0 14px 40px rgba(157,92,99,0.16); }
         .bha-short-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
         .bha-short-tag { display:inline-block; font-size:12px; font-weight:700; letter-spacing:0.08em; color:var(--rose-deep); margin-bottom:8px; }
+        .bha-faq { max-width:780px; margin:0 auto; }
+        .bha-faq-item { border:1px solid rgba(190,63,126,0.14); border-radius:14px; background:#fff; margin-bottom:12px; overflow:hidden; box-shadow:0 4px 14px rgba(157,92,99,0.05); }
+        .bha-faq-item summary { list-style:none; cursor:pointer; padding:18px 22px; font-size:16px; font-weight:700; color:var(--ink); display:flex; justify-content:space-between; align-items:center; gap:14px; }
+        .bha-faq-item summary::-webkit-details-marker { display:none; }
+        .bha-faq-item summary::after { content:"+"; color:var(--rose-deep); font-size:22px; font-weight:400; line-height:1; flex-shrink:0; }
+        .bha-faq-item[open] summary::after { content:"\\2212"; }
+        .bha-faq-a { padding:0 22px 20px; color:var(--ink-soft); font-size:14.5px; line-height:1.75; }
         .bha-intro-video { max-width:820px; margin:0 auto; text-align:center; }
         .bha-intro-video .bha-embed { box-shadow:0 18px 50px rgba(157,92,99,0.18); }
 
@@ -1254,6 +1261,58 @@ export default function YunjeongAICellife() {
               </div>
             </>
           )}
+        </div>
+      </section>
+
+      <section className="bha-sec" id="faq">
+        <div className="bha-wrap">
+          <div className="bha-sec-head">
+            <div className="bha-kicker"><HelpCircle size={13} style={{ verticalAlign: "-2px", marginRight: 6 }} />FAQ</div>
+            <h2 className="bha-sec-title">자주 하는 질문</h2>
+            <p className="bha-sec-desc">처음 시작하실 때 가장 많이 묻는 질문을 모았습니다.</p>
+          </div>
+          <div className="bha-faq">
+            <details className="bha-faq-item">
+              <summary>윤앤정 AI 셀라이프는 어떤 곳인가요?</summary>
+              <div className="bha-faq-a">뷰티 홈케어와 사업을 AI의 도움으로 더 쉽게 배우고 함께 성장하는 교육 브랜드예요. 화장품 기업 (주)비아블의 셀비아·스칼피아·미솔로지 제품을 기반으로, 이윤희·이정효 두 사람이 단계별 교육과 1:1 코칭으로 함께합니다. 혼자가 아니라 같이 갑니다 ✨</div>
+            </details>
+            <details className="bha-faq-item">
+              <summary>경험이 전혀 없어도 시작할 수 있나요?</summary>
+              <div className="bha-faq-a">네, 가능합니다. 윤앤정은 무엇부터 해야 할지 순서를 알려드리는 교육형 시스템이에요. 막막함은 능력의 문제가 아니라 순서의 문제입니다. 제품 애용부터 차근차근, ABC 법칙(A 스폰서·B 나·C 고객/파트너)이라는 기본기와 함께 시작하시면 됩니다. 처음이신 분들이 가장 많아요 🙂</div>
+            </details>
+            <details className="bha-faq-item">
+              <summary>시간이 많지 않은데 가능할까요?</summary>
+              <div className="bha-faq-a">괜찮습니다. 각 단계마다 지금 할 일이 분명하게 정해져 있어서, 적은 시간이라도 방향을 잃지 않고 꾸준히 쌓을 수 있도록 설계돼 있어요. 본업·육아와 병행하시는 분들도 자신의 속도로 함께하고 계세요. 상담 때 생활 패턴에 맞는 시작 방법을 같이 찾아드릴게요.</div>
+            </details>
+            <details className="bha-faq-item">
+              <summary>비용이 많이 들지 않을까 걱정돼요.</summary>
+              <div className="bha-faq-a">부담 없이 무료 강의부터 시작하실 수 있어요. 제품·교육 구성은 개인 목표와 상황에 따라 달라서, 무리하지 않는 선에서 함께 계획을 잡아드립니다. 정확한 안내는 상담에서 1:1로 도와드릴게요. (수익을 보장하는 사업이 아니며, 본인의 노력과 활동에 따라 결과는 달라집니다.)</div>
+            </details>
+            <details className="bha-faq-item">
+              <summary>무엇부터 시작하면 되나요?</summary>
+              <div className="bha-faq-a">먼저 무료 강의 한 편을 보시는 걸 추천드려요. "셀비아 사업, 순서만 알면 됩니다"에서 성장의 전체 그림을 약 10분에 정리해 드립니다. 보신 뒤 상담을 신청해 주시면, 지금 상황에 맞는 다음 한 걸음을 함께 정해드립니다.</div>
+            </details>
+            <details className="bha-faq-item">
+              <summary>상담은 어떻게 신청하나요?</summary>
+              <div className="bha-faq-a">우측 하단 상담 채널 또는 사이트의 "무료 상담 신청" 버튼으로 성함과 연락처를 남겨주세요. 운영 시간(평일 낮 시간대)에는 빠르게, 그 외에는 접수 후 차례로 답변드립니다.</div>
+            </details>
+            <details className="bha-faq-item">
+              <summary>온라인으로도 배울 수 있나요?</summary>
+              <div className="bha-faq-a">네. 강의 영상과 콘텐츠로 온라인 학습이 가능하고, 가입 후에는 회원 강의실에서 단계별 교육과 관리 콘텐츠를 이용하실 수 있어요(순차 오픈). 오프라인 미팅·교육과 병행하면 효과가 더 좋습니다.</div>
+            </details>
+            <details className="bha-faq-item">
+              <summary>어떤 제품이 있나요?</summary>
+              <div className="bha-faq-a">대표 라인업은 미솔로지 크리에이션 앰플(집중 케어), 글로시 부스팅 세럼(세안 후 골든타임 수분·영양), 슈스펠 에어 디바이스 4-in-1(홈 뷰티 디바이스), 스칼피아 두피 케어, 셀비아 궁애(여성 데일리 케어)입니다. 사용법은 뷰티 교육에서, 맞는 제품 추천은 상담으로 도와드릴게요.</div>
+            </details>
+            <details className="bha-faq-item">
+              <summary>사업은 어떻게 성장하나요?</summary>
+              <div className="bha-faq-a">성장은 4단계로 이어집니다 — 마니아(만들기) → 디렉터(지키기) → 에메랄드(확장하기) → 다이아몬드(리더). 단계마다 할 일이 분명해, 지금 내 위치와 다음 할 일이 또렷하게 보여요. 사이트의 단계 진단 시뮬레이터로 내 단계도 미리 확인해보실 수 있습니다.</div>
+            </details>
+            <details className="bha-faq-item">
+              <summary>비아블은 믿을 만한 회사인가요? 두 분은 누구인가요?</summary>
+              <div className="bha-faq-a">(주)비아블은 셀비아·스칼피아·미솔로지를 만드는 코스메슈티컬 화장품 기업이에요. 윤앤정은 이윤희·이정효 두 사람이 함께 이끄는 교육 파트너로, 결속력·사랑·봉사의 마음으로 함께하는 분들과 끝까지 동행합니다. 회사·브랜드 소개 영상도 사이트에서 보실 수 있어요.</div>
+            </details>
+          </div>
         </div>
       </section>
 

@@ -24,6 +24,7 @@ export default function YunjeongAICellife() {
   const [slide, setSlide] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [showSim, setShowSim] = useState(false);
+  const [showAnnounce, setShowAnnounce] = useState(true);
 
   const yunheeSlides = [
     { src: "slides-yunhee/slide-01.png", t: "마스터피스: 셀비아 앰플", tag: "표지" },
@@ -174,6 +175,31 @@ export default function YunjeongAICellife() {
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
+
+  // ── 채널톡 상담 위젯 (우측 하단 플로팅) ──
+  useEffect(() => {
+    const w = window;
+    if (w.ChannelIO) return;
+    const ch = function () { ch.c(arguments); };
+    ch.q = [];
+    ch.c = function (args) { ch.q.push(args); };
+    w.ChannelIO = ch;
+    function load() {
+      if (w.ChannelIOInitialized) return;
+      w.ChannelIOInitialized = true;
+      const s = document.createElement("script");
+      s.type = "text/javascript";
+      s.async = true;
+      s.src = "https://cdn.channel.io/plugin/ch-plugin-web.js";
+      const x = document.getElementsByTagName("script")[0];
+      if (x && x.parentNode) x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === "complete") load();
+    else { w.addEventListener("DOMContentLoaded", load); w.addEventListener("load", load); }
+    w.ChannelIO("boot", { pluginKey: "99b3177d-5270-4ef9-b861-e9014c93c897" });
+    return () => { if (w.ChannelIO) w.ChannelIO("shutdown"); };
+  }, []);
+
   const goNews = () => { window.location.hash = "#/news"; setNavOpen(false); };
   const goTo = (id) => {
     if (window.location.hash === "#/news") {
@@ -191,6 +217,7 @@ export default function YunjeongAICellife() {
     setNavOpen(false);
   };
   const goConsult = () => {
+    if (window.ChannelIO) { window.ChannelIO("showMessenger"); return; }
     if (CONSULT_LINK) { window.open(CONSULT_LINK, "_blank", "noopener,noreferrer"); }
     else { goTo("member"); }
   };
@@ -701,6 +728,19 @@ export default function YunjeongAICellife() {
         .bha-faq-item summary::after { content:"+"; color:var(--rose-deep); font-size:22px; font-weight:400; line-height:1; flex-shrink:0; }
         .bha-faq-item[open] summary::after { content:"\\2212"; }
         .bha-faq-a { padding:0 22px 20px; color:var(--ink-soft); font-size:14.5px; line-height:1.75; }
+        .bha-announce { position:relative; background:linear-gradient(90deg,var(--rose-deep),var(--rose)); color:#fff; text-align:center; font-size:13.5px; font-weight:600; padding:9px 44px; letter-spacing:-0.2px; }
+        .bha-announce a { color:#fff; text-decoration:underline; cursor:pointer; font-weight:800; }
+        .bha-announce-x { position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:0; color:#fff; cursor:pointer; opacity:.85; font-size:18px; line-height:1; padding:4px; }
+        .bha-howto { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:920px; margin:0 auto; }
+        .bha-howto-step { background:#fff; border:1px solid rgba(190,63,126,0.12); border-radius:16px; padding:30px 24px; text-align:center; box-shadow:0 6px 18px rgba(157,92,99,0.06); }
+        .bha-howto-num { width:34px; height:34px; border-radius:50%; background:var(--rose-deep); color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:14px; }
+        .bha-howto-ic { color:var(--rose-deep); margin-bottom:8px; }
+        .bha-howto-step h3 { font-size:18px; font-weight:700; margin:0 0 6px; color:var(--ink); }
+        .bha-howto-step p { font-size:14px; color:var(--ink-soft); margin:0; line-height:1.6; }
+        .bha-howto-arrow { display:flex; align-items:center; justify-content:center; color:var(--rose-soft); }
+        @media(max-width:760px){ .bha-howto{ grid-template-columns:1fr; } }
+        .bha-mcta { display:none; }
+        @media(max-width:760px){ .bha-mcta{ display:flex; position:fixed; left:0; right:0; bottom:0; z-index:60; padding:10px 14px calc(10px + env(safe-area-inset-bottom)); background:rgba(255,255,255,0.96); backdrop-filter:blur(8px); border-top:1px solid rgba(190,63,126,0.16); box-shadow:0 -4px 16px rgba(157,92,99,0.08); } .bha-mcta button{ width:100%; justify-content:center; } }
         .bha-intro-video { max-width:820px; margin:0 auto; text-align:center; }
         .bha-intro-video .bha-embed { box-shadow:0 18px 50px rgba(157,92,99,0.18); }
 
@@ -770,6 +810,13 @@ export default function YunjeongAICellife() {
           .bha-sec { padding:54px 0; }
         }
       `}</style>
+
+      {showAnnounce && (
+        <div className="bha-announce">
+          🎉 6월 신규 교육 오픈 · 무료 상담 예약 받습니다 <a onClick={goConsult}>지금 신청 →</a>
+          <button className="bha-announce-x" onClick={() => setShowAnnounce(false)} aria-label="공지 닫기">×</button>
+        </div>
+      )}
 
       <nav className="bha-nav">
         <div className="bha-wrap bha-nav-inner">
@@ -866,6 +913,39 @@ export default function YunjeongAICellife() {
               />
             </div>
             <a className="bha-prod-video-yt" href={`https://youtu.be/${YT_INTRO_ID}`} target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="bha-sec alt" id="howto">
+        <div className="bha-wrap">
+          <div className="bha-sec-head">
+            <div className="bha-kicker">How it works</div>
+            <h2 className="bha-sec-title">3단계로 시작하기</h2>
+            <p className="bha-sec-desc">복잡하지 않아요. 딱 세 단계면 시작입니다.</p>
+          </div>
+          <div className="bha-howto">
+            <div className="bha-howto-step">
+              <div className="bha-howto-num">1</div>
+              <div className="bha-howto-ic"><Heart size={26} /></div>
+              <h3>신청</h3>
+              <p>무료 상담을 신청하고, 지금 내 상황을 편하게 이야기해요.</p>
+            </div>
+            <div className="bha-howto-step">
+              <div className="bha-howto-num">2</div>
+              <div className="bha-howto-ic"><GraduationCap size={26} /></div>
+              <h3>교육</h3>
+              <p>뷰티·마케팅 교육으로 기본기를 쌓고, 단계별로 배웁니다.</p>
+            </div>
+            <div className="bha-howto-step">
+              <div className="bha-howto-num">3</div>
+              <div className="bha-howto-ic"><TrendingUp size={26} /></div>
+              <h3>성장</h3>
+              <p>마니아부터 다이아몬드까지, 함께 단계별로 성장합니다.</p>
+            </div>
+          </div>
+          <div style={{ textAlign: "center", marginTop: 32 }}>
+            <button className="bha-btn-primary" onClick={goConsult}><Heart size={18} /> 무료 상담 신청</button>
           </div>
         </div>
       </section>
@@ -1456,6 +1536,10 @@ export default function YunjeongAICellife() {
           </div>
         </div>
       )}
+
+      <div className="bha-mcta">
+        <button className="bha-btn-primary" onClick={goConsult}><Heart size={18} /> 무료 상담 신청</button>
+      </div>
 
       <footer className="bha-footer">
         <div className="bha-wrap bha-footer-grid">

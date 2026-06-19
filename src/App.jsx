@@ -1038,6 +1038,20 @@ export default function YunjeongAICellife() {
             <a className="bha-prod-video-yt" href="https://youtu.be/0oTiLwAhV-w" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
           </div>
 
+          <div className="bha-prod-video">
+            <h3 className="bha-prod-video-t">슈스펠 에어테라피 사용법</h3>
+            <p className="bha-prod-video-d">갈바닉 마사지부터 미솔로지 앰플 미스트까지, 홈 뷰티 케어를 한 영상에 총정리했어요.</p>
+            <div className="bha-embed">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/p-qo7bFPaeE?rel=0&modestbranding=1"
+                title="슈스펠 에어테라피 갈바닉 사용방법 | 셀비아 미솔로지 앰플 홈케어 총정리"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <a className="bha-prod-video-yt" href="https://youtu.be/p-qo7bFPaeE" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+          </div>
+
           <div className="bha-prod-short">
             <span className="bha-short-tag">SHORTS</span>
             <h3 className="bha-prod-video-t">제품 쇼츠로 빠르게</h3>

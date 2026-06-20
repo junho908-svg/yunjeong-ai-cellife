@@ -24,6 +24,7 @@ export default function YunjeongAICellife() {
   const [slide, setSlide] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [showSim, setShowSim] = useState(false);
+  const [promoOpen, setPromoOpen] = useState(false);
   const [showAnnounce, setShowAnnounce] = useState(true);
 
   const yunheeSlides = [
@@ -220,6 +221,16 @@ export default function YunjeongAICellife() {
     if (window.ChannelIO) { window.ChannelIO("showMessenger"); return; }
     if (CONSULT_LINK) { window.open(CONSULT_LINK, "_blank", "noopener,noreferrer"); }
     else { goTo("member"); }
+  };
+  useEffect(() => {
+    try {
+      const until = localStorage.getItem("bha_promo_hide_until");
+      if (!until || Date.now() > Number(until)) setPromoOpen(true);
+    } catch (e) { setPromoOpen(true); }
+  }, []);
+  const closePromoForDay = () => {
+    try { localStorage.setItem("bha_promo_hide_until", String(Date.now() + 86400000)); } catch (e) {}
+    setPromoOpen(false);
   };
 
   const hosts = [
@@ -791,6 +802,45 @@ export default function YunjeongAICellife() {
         .bha-simcta-t { font-size:22px; font-weight:800; color:var(--ink); margin:0 0 10px; letter-spacing:-0.4px; }
         .bha-simcta-d { font-size:14px; color:var(--ink-soft); line-height:1.7; margin:0 0 22px; }
         .bha-simcta .bha-btn-primary { display:inline-flex; }
+
+        .bha-promo-overlay { position:fixed; inset:0; z-index:120; background:rgba(74,51,56,0.55);
+          backdrop-filter:blur(5px); display:flex; align-items:center; justify-content:center; padding:20px; animation:bhaFade .25s ease; }
+        .bha-promo { position:relative; width:100%; max-width:380px; max-height:92vh; overflow-y:auto; border-radius:24px; background:#fff;
+          box-shadow:0 30px 90px rgba(74,51,56,0.45); animation:bhaPop .28s ease; }
+        .bha-promo-x { position:absolute; top:12px; right:12px; z-index:2; width:34px; height:34px; border-radius:50%; border:none; cursor:pointer;
+          background:rgba(255,255,255,0.22); color:#fff; display:flex; align-items:center; justify-content:center; transition:.2s; }
+        .bha-promo-x:hover { background:rgba(255,255,255,0.4); }
+        .bha-promo-img { display:block; width:100%; height:auto; cursor:pointer; border-radius:24px 24px 0 0; }
+        .bha-promo-cta-wrap { padding:16px 20px 14px; }
+        .bha-promo-cta { width:100%; justify-content:center; }
+        .bha-promo-note { font-size:10.5px; color:var(--ink-soft); opacity:0.8; line-height:1.5; margin:11px 0 0; text-align:center; }
+        .bha-promo-head { padding:30px 26px 24px; text-align:center; color:#fff; border-radius:24px 24px 0 0;
+          background:linear-gradient(160deg, #4A2230, #8f4f5a 55%, var(--rose)); position:relative; overflow:hidden; }
+        .bha-promo-head::after { content:'✦'; position:absolute; top:14px; left:18px; color:rgba(255,255,255,0.35); font-size:16px; }
+        .bha-promo-brand { font-size:11px; letter-spacing:3px; font-weight:700; color:var(--gold-lt); text-transform:uppercase; }
+        .bha-promo-title { font-family:'Cormorant Garamond', serif; font-size:38px; font-weight:600; line-height:1.0; letter-spacing:1px; margin:10px 0 12px; }
+        .bha-promo-sub { font-size:13px; line-height:1.6; color:rgba(255,255,255,0.85); margin:0 auto 16px; max-width:280px; }
+        .bha-promo-period { display:inline-block; font-size:12.5px; font-weight:700; letter-spacing:1px; color:#4A2230;
+          background:linear-gradient(135deg, var(--gold-lt), var(--gold)); padding:6px 16px; border-radius:999px; }
+        .bha-promo-body { padding:22px 24px 18px; }
+        .bha-promo-setname { text-align:center; font-size:14px; font-weight:800; color:var(--rose-deep); margin-bottom:14px; letter-spacing:-0.3px; }
+        .bha-promo-items { list-style:none; padding:0; margin:0 0 14px; }
+        .bha-promo-items li { display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--ink); padding:8px 12px; margin-bottom:7px;
+          background:var(--cream); border-radius:12px; border-left:3px solid var(--gold); }
+        .bha-promo-items li span { flex-shrink:0; min-width:38px; text-align:center; font-size:11px; font-weight:800; color:#fff;
+          background:linear-gradient(135deg, var(--rose), var(--gold)); padding:3px 0; border-radius:7px; }
+        .bha-promo-desc { font-size:12.5px; color:var(--ink-soft); line-height:1.7; margin:0 0 16px; }
+        .bha-promo-price { display:flex; gap:8px; margin-bottom:16px; }
+        .bha-promo-price > div { flex:1; text-align:center; background:linear-gradient(160deg, #fff, var(--cream2));
+          border:1px solid rgba(201,166,107,0.3); border-radius:12px; padding:10px 4px; }
+        .bha-promo-price span { display:block; font-size:10.5px; color:var(--gold); font-weight:700; letter-spacing:0.5px; margin-bottom:3px; }
+        .bha-promo-price b { font-size:13px; color:var(--ink); letter-spacing:-0.3px; }
+        .bha-promo-cta { width:100%; justify-content:center; }
+        .bha-promo-note { font-size:10.5px; color:var(--ink-soft); opacity:0.8; line-height:1.5; margin:12px 0 0; text-align:center; }
+        .bha-promo-foot { display:flex; border-top:1px solid rgba(183,110,121,0.14); }
+        .bha-promo-foot button { flex:1; padding:14px; border:none; background:none; cursor:pointer; font-size:13px; color:var(--ink-soft); font-family:inherit; transition:.2s; }
+        .bha-promo-foot button:first-child { border-right:1px solid rgba(183,110,121,0.14); }
+        .bha-promo-foot button:hover { background:var(--cream); color:var(--rose-deep); }
 
         .bha-news-more-wrap { text-align:center; margin-top:34px; }
         .bha-news-more { font-family:inherit; }
@@ -1547,6 +1597,23 @@ export default function YunjeongAICellife() {
               </div>
             ))}
             {modal.note && <div className="bha-modal-note"><ShieldCheck size={15} style={{ verticalAlign: "-2px", marginRight: 6, color: "var(--gold)" }} />{modal.note}</div>}
+          </div>
+        </div>
+      )}
+
+      {promoOpen && (
+        <div className="bha-promo-overlay" onClick={() => setPromoOpen(false)}>
+          <div className="bha-promo" onClick={(e) => e.stopPropagation()}>
+            <button className="bha-promo-x" onClick={() => setPromoOpen(false)} aria-label="닫기"><X size={20} /></button>
+            <img src="popup.png" alt="비아블 SPECIAL PROMOTION 한정 세트 (2026.06.05~06.30)" className="bha-promo-img" onClick={() => { setPromoOpen(false); goConsult(); }} />
+            <div className="bha-promo-cta-wrap">
+              <button className="bha-btn-primary bha-promo-cta" onClick={() => { setPromoOpen(false); goConsult(); }}><Heart size={17} /> 구매 · 상담 문의하기</button>
+              <p className="bha-promo-note">화장품으로, 질환의 예방·치료 효과는 없습니다. 한정 수량 소진 시 조기 종료될 수 있습니다.</p>
+            </div>
+            <div className="bha-promo-foot">
+              <button onClick={closePromoForDay}>하루동안 열지 않기</button>
+              <button onClick={() => setPromoOpen(false)}>닫기</button>
+            </div>
           </div>
         </div>
       )}

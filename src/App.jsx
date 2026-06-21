@@ -102,6 +102,14 @@ export default function YunjeongAICellife() {
   const newsItems = [
     {
       type: "인사이트",
+      title: "요즘 20대가 느끼는 공허함의 충격적인 정체",
+      summary: "막연한 공허함이 어디서 오는지를 짚어보는 자기계발·심리 영상입니다. 남의 기준을 빌려 사는 '정체성'의 문제와, 흔들리지 않는 나만의 중심을 세우는 것이 왜 중요한지 이야기합니다.",
+      source: "네이버 클립 (지식인사이드)",
+      date: "2026-06-21",
+      url: "https://m.naver.com/shorts/?mediaId=FB0AF669EA65950C3F116B9438F8028AAF5E&serviceType=CLIP&recType=AIRS&includePost=false",
+    },
+    {
+      type: "인사이트",
       title: "이호선이 말한 평생 사랑받는 사람의 공통점 7가지",
       summary: "인간관계 전문가 이호선 교수가 꼽은, 오래도록 사랑받는 사람들의 공통된 태도 7가지를 정리한 글입니다. 상대를 존중하고 끝까지 들어주며, 감사와 사과를 아끼지 않고, 비교 대신 응원하며, 말보다 행동하고, 자신도 소중히 여기는 태도 — 능력보다 마음가짐이 신뢰를 만든다는 이야기입니다.",
       source: "네이버 블로그 (짱구 아빠)",

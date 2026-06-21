@@ -418,8 +418,6 @@ export default function YunjeongAICellife() {
         .bha-links { display:flex; gap:15px; align-items:center; }
         .bha-links a { color:var(--ink-soft); text-decoration:none; font-size:13px; font-weight:500; transition:.2s; cursor:pointer; white-space:nowrap; }
         .bha-links a:hover { color:var(--rose-deep); }
-        .bha-links a.bha-nav-sim { color:var(--rose-deep); font-weight:700; }
-        .bha-links a.bha-nav-sim:hover { color:var(--lav); }
         .bha-cta { background: linear-gradient(115deg, var(--rose), var(--rose-deep) 55%, var(--lav)); background-size:200% auto;
           animation:bhaShimmer 8s linear infinite; color:#fff !important; padding:10px 22px; border-radius:999px;
           font-size:13px; border:none; cursor:pointer; transition:.2s; font-weight:700;

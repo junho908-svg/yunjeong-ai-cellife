@@ -14,6 +14,16 @@ const YT_INTRO_ID = "i5b8Rm_DbW4";
 const CONSULT_LINK = "";
 // ▲▲▲ 예) "https://pf.kakao.com/_xxxxx" 또는 "tel:01000000000" ▲▲▲
 
+// 소식 카드 썸네일 그라데이션 팔레트 (인덱스 순환)
+const NEWS_GRAD = [
+  "linear-gradient(135deg, #C77DA0, #9D5C63)",
+  "linear-gradient(135deg, #9B7BD8, #6E5AB0)",
+  "linear-gradient(135deg, #C39A6E, #9A7440)",
+  "linear-gradient(135deg, #D85FA0, #B83E7E)",
+  "linear-gradient(135deg, #6FAFD8, #4E7FA8)",
+  "linear-gradient(135deg, #6FCBA8, #3FA56B)",
+];
+
 export default function YunjeongAICellife() {
   const [navOpen, setNavOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -107,6 +117,13 @@ export default function YunjeongAICellife() {
       source: "네이버 블로그",
       date: "",
       url: "https://m.blog.naver.com/bloglandmark/224296905927",
+      detail: {
+        lead: "돈을 잘 버는 사람들의 공통점은 특별한 능력이 아니라 '복잡한 것을 단순하게 만드는 사고방식'이라는 글입니다. 기준·선택·원칙·사고방식 네 가지를 복잡하게 두지 않는 것이 핵심입니다.",
+        sections: [
+          { h: "주목 포인트", items: ["기준이 명확해 고민이 짧다 — '이건 한다 / 이건 안 한다'가 이미 정해져 있음", "할 일과 안 할 일을 분명히 나눠 선택의 가짓수를 줄인다", "감정이 아니라 일정한 원칙 안에서 움직여 결과가 흔들리지 않는다", "복잡한 것을 '이게 나에게 도움이 되는가' 한 기준으로 단순화한다"] },
+          { h: "우리에게 주는 의미", items: ["결정이 어려울 땐 기준부터 단순하게 정리해 두면 실행 속도가 빨라진다", "사업도 소비도 '핵심만 남기는' 습관이 더 빠르고 안정적인 결과를 만든다"] },
+        ],
+      },
     },
     {
       type: "인사이트",
@@ -115,6 +132,14 @@ export default function YunjeongAICellife() {
       source: "네이버 블로그 (더치콩)",
       date: "2026-06-13",
       url: "https://m.blog.naver.com/hy1004860/224314680656",
+      detail: {
+        lead: "삶을 단단하게 만든 작은 행동의 순간들, 인생이 풀리기 시작하는 징조, 인간관계가 단단한 사람의 태도, 그리고 성공의 기본기를 한데 모은 자기계발 글입니다.",
+        sections: [
+          { h: "나를 바꾼 작은 순간들", items: ["힘들 때 솔직하게 말했다 · 미루던 일을 오늘 시작했다", "필요 없는 인간관계를 끊고, 모르면 모른다고 했다", "거절하고 나서 숨이 쉬어졌고, 남 눈치 안 보고 스스로를 칭찬했다"] },
+          { h: "단단한 사람 · 성공의 기본기", items: ["착해 보여도 만만치 않고, 자기 기준 선을 지키며 떠나는 사람에게 연연하지 않는다", "성공하는 법은 결국 '일단·계속·매일·꾸준히·될 때까지 그냥 한다'"] },
+          { h: "우리에게 주는 의미", items: ["거창한 결심보다 작은 행동 하나가 변화를 만든다 — 비교 대신 나만의 기준과 꾸준함"] },
+        ],
+      },
     },
     {
       type: "인사이트",
@@ -123,6 +148,13 @@ export default function YunjeongAICellife() {
       source: "네이버 클립 (지식인사이드)",
       date: "2026-06-21",
       url: "https://m.naver.com/shorts/?mediaId=FB0AF669EA65950C3F116B9438F8028AAF5E&serviceType=CLIP&recType=AIRS&includePost=false",
+      detail: {
+        lead: "요즘 20대가 느끼는 막연한 공허함의 정체는 '남의 기준을 빌려 온 정체성' 때문이라는 자기계발·심리 영상입니다.",
+        sections: [
+          { h: "주목 포인트", items: ["SNS·타인의 기준으로 빌려 온 정체성은 공허함을 키운다", "내가 어떤 사람으로 살고 싶은지 스스로 아는 것이 중심을 만든다", "흔들리지 않는 자기 기준이 있을 때 비교에서 자유로워진다"] },
+          { h: "우리에게 주는 의미", items: ["사업도 삶도 '나만의 기준'을 세우는 일이 먼저다 — 중심이 서면 외부 비교에 덜 흔들린다"] },
+        ],
+      },
     },
     {
       type: "인사이트",
@@ -131,6 +163,13 @@ export default function YunjeongAICellife() {
       source: "네이버 블로그 (짱구 아빠)",
       date: "2026-06-09",
       url: "https://m.blog.naver.com/psykia5877/224308363757",
+      detail: {
+        lead: "인간관계 전문가 이호선 교수가 꼽은, 오래도록 사랑받는 사람들의 공통된 태도 7가지입니다. 능력·외모가 아니라 누구나 실천할 수 있는 작은 태도가 핵심이라고 말합니다.",
+        sections: [
+          { h: "사랑받는 사람의 7가지 태도", items: ["상대를 존중한다 — 함부로 말하지 않고 작은 약속도 소중히", "끝까지 듣는다 — 판단·조언보다 진심으로 들어준다", "감사와 사과를 아끼지 않는다", "비교 대신 진심으로 응원한다", "말보다 행동으로, 필요한 순간에 곁에 있다", "자신도 소중히 여긴다 — 무조건 희생하지 않고 선을 지킨다"] },
+          { h: "우리에게 주는 의미", items: ["고객·파트너 관계에서도 사람을 끌어당기는 힘은 결국 작은 태도에서 나온다"] },
+        ],
+      },
     },
     {
       type: "인사이트",
@@ -139,6 +178,13 @@ export default function YunjeongAICellife() {
       source: "네이버 블로그 (방구석 유학파)",
       date: "2026-05-15",
       url: "https://m.blog.naver.com/gurwn1725/224285921923",
+      detail: {
+        lead: "50대 이후 가장 깊은 고통은 돈 부족보다 '내가 더 이상 필요 없는 사람이 된 것 같은' 존재감의 흔들림이라는 이야기입니다.",
+        sections: [
+          { h: "주목 포인트", items: ["직함·역할이 사라질 때 존재 가치가 함께 흔들린다", "집에서도 이방인처럼 느껴지는 외로움이 자존감을 건드린다", "이 시기를 '끝'이 아니라 '전환'으로 해석하는 것이 중요", "새로운 역할(일·취미·멘토링·봉사·관계 회복)로 다시 의미를 만든다"] },
+          { h: "우리에게 주는 의미", items: ["진짜 노후 준비는 돈만이 아니라 '계속 의미 있는 사람으로 살아갈 자리'를 만들어 두는 것"] },
+        ],
+      },
     },
     {
       type: "인사이트",
@@ -147,6 +193,13 @@ export default function YunjeongAICellife() {
       source: "네이버 카페 (방현권)",
       date: "2026-06-11",
       url: "https://cafe.naver.com/taeam12/8950",
+      detail: {
+        lead: "주변에서 자연스럽게 돕고 응원하고 싶어지는 사람들의 공통된 태도를 정리한 글입니다. 억지로 밀어붙이지 않아도 사람이 끌려오는 비결을 짚습니다.",
+        sections: [
+          { h: "주목 포인트", items: ["단단한 자존감 — 도움이 '부채'가 아니라 '투자'처럼 느껴진다", "무언가에 진심인 태도가 사람을 움직인다", "작은 말 한마디까지 예의와 존중이 몸에 배어 있다", "자기 고통을 남에게 전가하지 않는다"] },
+          { h: "우리에게 주는 의미", items: ["밀어붙이지 않아도 끌어당기는 힘은 평소 태도에서 만들어진다 — 마케팅 교육의 '개인의 영향력'과 같은 맥락"] },
+        ],
+      },
     },
     {
       type: "인사이트",
@@ -155,6 +208,13 @@ export default function YunjeongAICellife() {
       source: "네이버 클립 (초역철학)",
       date: "2026-06-10",
       url: "https://naver.me/5IfC1W8y",
+      detail: {
+        lead: "맨손에서 시작해 성장하는 사람들의 공통된 마인드를 정리한 자기계발 영상입니다. 환경보다 마음가짐이 길을 만든다는 관점을 담았습니다.",
+        sections: [
+          { h: "주목 포인트", items: ["성공 그 자체보다 먼저 '버티는 힘(생존)'에 집중한다", "환경 탓 대신 마음가짐으로 길을 만든다", "작게라도 일단 시작하고 꾸준히 이어간다"] },
+          { h: "우리에게 주는 의미", items: ["자본·배경보다 태도와 지속력이 출발선의 차이를 메운다"] },
+        ],
+      },
     },
     {
       type: "인사이트",
@@ -163,6 +223,13 @@ export default function YunjeongAICellife() {
       source: "네이버 블로그",
       date: "2026-06-10",
       url: "https://blog.naver.com/bookiemb/224302818791",
+      detail: {
+        lead: "돈에 대한 막연한 환상과 불안을 다스리는 법, 그리고 누군가에게 기대기보다 스스로 벌고 성장하는 힘이 왜 중요한지 짚어보는 글입니다.",
+        sections: [
+          { h: "주목 포인트", items: ["막연한 불안은 '얼마가, 왜 부족한지' 정의하면 줄어든다", "남에게 기대기보다 스스로 버는 힘이 진짜 자산이다", "AI 시대에도 자기 실력과 자립이 흔들리지 않는 기반"] },
+          { h: "우리에게 주는 의미", items: ["불안을 '스스로 버는 구조를 만드는 행동'으로 바꾸는 것이 핵심"] },
+        ],
+      },
     },
     {
       type: "언론보도",
@@ -264,6 +331,14 @@ export default function YunjeongAICellife() {
     try { localStorage.setItem("bha_promo_hide_until", String(Date.now() + 86400000)); } catch (e) {}
     setPromoOpen(false);
   };
+  const openNews = (n) => setModal({
+    kicker: n.type,
+    title: n.title,
+    meta: [n.source, n.date].filter(Boolean).join(" · "),
+    lead: n.detail ? n.detail.lead : n.summary,
+    sections: n.detail ? n.detail.sections : undefined,
+    url: n.url,
+  });
 
   const hosts = [
     { name: "이윤희", photo: "host-yunhee.png", role: "뷰티 · 홈케어 디렉터", tag: "제품 · 케어",
@@ -589,6 +664,11 @@ export default function YunjeongAICellife() {
           background:linear-gradient(135deg,var(--rose),var(--gold)); }
         .bha-modal-note { margin-top:20px; background:rgba(201,166,107,0.12); border:1px solid rgba(201,166,107,0.3);
           border-radius:12px; padding:13px 16px; font-size:12.5px; color:var(--ink-soft); line-height:1.6; }
+        .bha-modal-meta { font-size:12.5px; color:var(--ink-soft); margin:-6px 0 14px; }
+        .bha-modal-link { display:inline-flex; align-items:center; gap:6px; margin-top:22px; padding:11px 22px; border-radius:999px;
+          background:linear-gradient(115deg, var(--rose), var(--rose-deep)); color:#fff; font-size:14px; font-weight:700; text-decoration:none;
+          box-shadow:0 10px 24px rgba(190,63,126,0.3); transition:.2s; }
+        .bha-modal-link:hover { transform:translateY(-1px); box-shadow:0 14px 30px rgba(190,63,126,0.4); }
         .bha-footer { background: var(--ink); color:#fff; padding:50px 0 30px; margin-top:40px; }
         .bha-footer-grid { display:flex; justify-content:space-between; flex-wrap:wrap; gap:30px; }
         .bha-footer h4 { font-size:14px; margin:0 0 12px; color:var(--gold-lt); }
@@ -664,10 +744,14 @@ export default function YunjeongAICellife() {
         .bha-deck-lock h3 { color:#fff; margin:16px 0 8px; font-size:20px; }
         .bha-deck-lock p { color:rgba(255,255,255,0.6); font-size:14px; margin:0 0 22px; }
         .bha-news-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:22px; max-width:980px; margin:0 auto; }
-        .bha-news-card { background:#fff; border:1px solid rgba(183,110,121,0.16); border-radius:20px; padding:26px 24px;
-          display:flex; flex-direction:column; gap:12px; transition:.25s; box-shadow:0 6px 20px rgba(157,92,99,0.05); }
+        .bha-news-card { background:#fff; border:1px solid rgba(183,110,121,0.16); border-radius:20px; padding:0; overflow:hidden;
+          display:flex; flex-direction:column; transition:.25s; box-shadow:0 6px 20px rgba(157,92,99,0.05); }
         .bha-news-card:hover { transform:translateY(-3px); box-shadow:0 14px 34px rgba(157,92,99,0.13); border-color:var(--rose-soft); }
+        .bha-news-thumb { height:104px; display:flex; align-items:center; justify-content:center; position:relative; }
+        .bha-news-thumb-ic { color:rgba(255,255,255,0.92); filter:drop-shadow(0 4px 10px rgba(0,0,0,0.18)); }
+        .bha-news-body { padding:20px 22px 22px; display:flex; flex-direction:column; gap:11px; flex:1; }
         .bha-news-badge { align-self:flex-start; font-size:12px; font-weight:700; padding:5px 13px; border-radius:999px; letter-spacing:0.3px; }
+        .bha-news-thumb .bha-news-badge { position:absolute; top:12px; left:14px; background:rgba(255,255,255,0.92); color:var(--rose-deep); box-shadow:0 3px 10px rgba(0,0,0,0.12); }
         .bha-news-badge.is-press { background:rgba(157,92,99,0.1); color:var(--rose-deep); }
         .bha-news-badge.is-blog { background:rgba(167,183,154,0.22); color:#5f6e54; }
         .bha-news-badge.is-viable { background:rgba(157,92,99,0.14); color:var(--rose-deep); }
@@ -1327,12 +1411,17 @@ export default function YunjeongAICellife() {
           </div>
           <div className="bha-news-grid">
             {newsItems.slice(0, 3).map((n, i) => (
-              <article className="bha-news-card" key={i}>
-                <span className={"bha-news-badge " + (n.type === "언론보도" ? "is-press" : "is-blog")}>{n.type}</span>
-                <h3 className="bha-news-title">{n.title}</h3>
-                <p className="bha-news-summary">{n.summary}</p>
-                <div className="bha-news-meta">{n.source}{n.date ? " · " + n.date : ""}</div>
-                <a className="bha-news-link" href={n.url} target="_blank" rel="noopener noreferrer">원문 보기 <ArrowRight size={15} /></a>
+              <article className="bha-news-card" key={i} onClick={() => openNews(n)} style={{ cursor: "pointer" }}>
+                <div className="bha-news-thumb" style={{ background: NEWS_GRAD[i % NEWS_GRAD.length] }}>
+                  {n.type === "언론보도" ? <Newspaper className="bha-news-thumb-ic" size={40} /> : <Sparkles className="bha-news-thumb-ic" size={40} />}
+                  <span className={"bha-news-badge " + (n.type === "언론보도" ? "is-press" : "is-blog")}>{n.type}</span>
+                </div>
+                <div className="bha-news-body">
+                  <h3 className="bha-news-title">{n.title}</h3>
+                  <p className="bha-news-summary">{n.summary}</p>
+                  <div className="bha-news-meta">{n.source}{n.date ? " · " + n.date : ""}</div>
+                  <span className="bha-news-link">자세히 보기 <ArrowRight size={15} /></span>
+                </div>
               </article>
             ))}
           </div>
@@ -1352,12 +1441,17 @@ export default function YunjeongAICellife() {
           {viableNewsItems.length > 0 ? (
             <div className="bha-news-grid">
               {viableNewsItems.map((n, i) => (
-                <article className="bha-news-card" key={i}>
-                  <span className="bha-news-badge is-viable">비아블 · {n.type}</span>
-                  <h3 className="bha-news-title">{n.title}</h3>
-                  <p className="bha-news-summary">{n.summary}</p>
-                  <div className="bha-news-meta">{n.source}{n.date ? " · " + n.date : ""}</div>
-                  <a className="bha-news-link" href={n.url} target="_blank" rel="noopener noreferrer">원문 보기 <ArrowRight size={15} /></a>
+                <article className="bha-news-card" key={i} onClick={() => openNews(n)} style={{ cursor: "pointer" }}>
+                  <div className="bha-news-thumb" style={{ background: NEWS_GRAD[i % NEWS_GRAD.length] }}>
+                    <Newspaper className="bha-news-thumb-ic" size={40} />
+                    <span className="bha-news-badge is-viable">비아블 · {n.type}</span>
+                  </div>
+                  <div className="bha-news-body">
+                    <h3 className="bha-news-title">{n.title}</h3>
+                    <p className="bha-news-summary">{n.summary}</p>
+                    <div className="bha-news-meta">{n.source}{n.date ? " · " + n.date : ""}</div>
+                    <span className="bha-news-link">자세히 보기 <ArrowRight size={15} /></span>
+                  </div>
                 </article>
               ))}
             </div>
@@ -1586,12 +1680,17 @@ export default function YunjeongAICellife() {
             </div>
             <div className="bha-news-grid">
               {newsItems.map((n, i) => (
-                <article className="bha-news-card" key={i}>
-                  <span className={"bha-news-badge " + (n.type === "언론보도" ? "is-press" : "is-blog")}>{n.type}</span>
-                  <h3 className="bha-news-title">{n.title}</h3>
-                  <p className="bha-news-summary">{n.summary}</p>
-                  <div className="bha-news-meta">{n.source}{n.date ? " · " + n.date : ""}</div>
-                  <a className="bha-news-link" href={n.url} target="_blank" rel="noopener noreferrer">원문 보기 <ArrowRight size={15} /></a>
+                <article className="bha-news-card" key={i} onClick={() => openNews(n)} style={{ cursor: "pointer" }}>
+                  <div className="bha-news-thumb" style={{ background: NEWS_GRAD[i % NEWS_GRAD.length] }}>
+                    {n.type === "언론보도" ? <Newspaper className="bha-news-thumb-ic" size={40} /> : <Sparkles className="bha-news-thumb-ic" size={40} />}
+                    <span className={"bha-news-badge " + (n.type === "언론보도" ? "is-press" : "is-blog")}>{n.type}</span>
+                  </div>
+                  <div className="bha-news-body">
+                    <h3 className="bha-news-title">{n.title}</h3>
+                    <p className="bha-news-summary">{n.summary}</p>
+                    <div className="bha-news-meta">{n.source}{n.date ? " · " + n.date : ""}</div>
+                    <span className="bha-news-link">자세히 보기 <ArrowRight size={15} /></span>
+                  </div>
                 </article>
               ))}
             </div>
@@ -1619,6 +1718,7 @@ export default function YunjeongAICellife() {
             <button className="bha-modal-x" onClick={() => setModal(null)} aria-label="닫기"><X size={22} /></button>
             <div className="bha-modal-kicker">{modal.kicker}</div>
             <h3 className="bha-modal-title">{modal.title}</h3>
+            {modal.meta && <div className="bha-modal-meta">{modal.meta}</div>}
             {modal.lead && <p className="bha-modal-lead">{modal.lead}</p>}
             {modal.sections && modal.sections.map((s, i) => (
               <div className="bha-modal-sec" key={i}>
@@ -1627,6 +1727,7 @@ export default function YunjeongAICellife() {
               </div>
             ))}
             {modal.note && <div className="bha-modal-note"><ShieldCheck size={15} style={{ verticalAlign: "-2px", marginRight: 6, color: "var(--gold)" }} />{modal.note}</div>}
+            {modal.url && <a className="bha-modal-link" href={modal.url} target="_blank" rel="noopener noreferrer">원문 보기 <ArrowRight size={16} /></a>}
           </div>
         </div>
       )}

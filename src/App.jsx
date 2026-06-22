@@ -819,7 +819,7 @@ export default function YunjeongAICellife() {
         .bha-refvid .bha-embed { border-radius:14px; box-shadow:0 8px 24px rgba(74,51,56,0.12); }
         .bha-refvid-src { font-size:12px; color:var(--ink-soft); opacity:0.75; margin:12px 0 0; }
 
-        .bha-brandvid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+        .bha-brandvid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:24px; }
         @media (max-width:1000px) and (min-width:761px) { .bha-brandvid { grid-template-columns:repeat(2,1fr); } }
         .bha-brandvid-card { background:#fff; border-radius:20px; padding:22px; display:flex; flex-direction:column;
           box-shadow:0 14px 40px rgba(183,110,121,0.12); border:1px solid rgba(201,166,107,0.16); }
@@ -1306,6 +1306,23 @@ export default function YunjeongAICellife() {
               <div className="bha-brandvid-foot">
                 <a className="bha-brandvid-yt" href="https://youtu.be/wQePdT44IhY" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
                 <span className="bha-brandvid-src">ⓒ 신화 그룹 · 사용 허락 게시</span>
+              </div>
+            </div>
+            <div className="bha-brandvid-card">
+              <div className="bha-brandvid-label">VIABLE · 브랜드 스토리</div>
+              <h3 className="bha-brandvid-title">루비셀에서 비아블까지 — 한혜숙 레드의 이야기</h3>
+              <div className="bha-embed">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/kxuwwT-MqJw?rel=0&modestbranding=1"
+                  title="루비셀에서 비아블까지 — 한혜숙 레드가 직접 들려주는 진짜 이야기"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+              <p className="bha-brandvid-desc">화려한 약속이 아니라 ‘사람’을 먼저 생각한 회사 비아블. 그 시작을 함께한 한혜숙 레드가 들려주는 여정과 철학, 그리고 건강한 시작을 위한 마음가짐을 담았습니다.</p>
+              <div className="bha-brandvid-foot">
+                <a className="bha-brandvid-yt" href="https://youtu.be/kxuwwT-MqJw" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+                <span className="bha-brandvid-src">ⓒ 윤앤정 AI 셀라이프</span>
               </div>
             </div>
           </div>

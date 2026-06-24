@@ -1246,6 +1246,21 @@ export default function YunjeongAICellife() {
             </div>
             <a className="bha-prod-video-yt" href="https://youtu.be/h0kn5DsHJvI" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
           </div>
+
+          <div className="bha-prod-short">
+            <span className="bha-short-tag">SHORTS</span>
+            <h3 className="bha-prod-video-t">데일리 선케어, 가볍게</h3>
+            <p className="bha-prod-video-d">강한 햇살에도 산뜻하게 — 셀비아 미솔로지 선 프로텍션 (SPF50+)</p>
+            <div className="bha-short-embed">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/RSgbxQjKJQg?rel=0&modestbranding=1"
+                title="셀비아 미솔로지 선 프로텍션 쇼츠"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <a className="bha-prod-video-yt" href="https://youtu.be/RSgbxQjKJQg" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+          </div>
         </div>
       </section>
 

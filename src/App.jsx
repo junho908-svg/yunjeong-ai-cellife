@@ -858,7 +858,8 @@ export default function YunjeongAICellife() {
         .bha-prod-video .bha-embed { box-shadow:0 14px 40px rgba(157,92,99,0.16); }
         .bha-prod-video-yt { display:inline-block; margin-top:14px; font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; }
         .bha-prod-video-yt:hover { text-decoration:underline; }
-        .bha-prod-short { max-width:340px; margin:44px auto 0; text-align:center; }
+        .bha-shorts-row { display:flex; flex-wrap:wrap; justify-content:center; gap:30px 40px; margin-top:44px; }
+        .bha-prod-short { max-width:300px; margin:0; text-align:center; }
         .bha-short-embed { position:relative; width:100%; max-width:300px; margin:0 auto; aspect-ratio:9/16; border-radius:18px; overflow:hidden; background:#000; box-shadow:0 14px 40px rgba(157,92,99,0.16); }
         .bha-short-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
         .bha-short-tag { display:inline-block; font-size:12px; font-weight:700; letter-spacing:0.08em; color:var(--rose-deep); margin-bottom:8px; }
@@ -1232,34 +1233,36 @@ export default function YunjeongAICellife() {
             <a className="bha-prod-video-yt" href="https://youtu.be/p-qo7bFPaeE" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
           </div>
 
-          <div className="bha-prod-short">
-            <span className="bha-short-tag">SHORTS</span>
-            <h3 className="bha-prod-video-t">제품 쇼츠로 빠르게</h3>
-            <p className="bha-prod-video-d">세안 후 7초, 골든타임 ✨ 셀비아 글로시 부스팅 세럼</p>
-            <div className="bha-short-embed">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/h0kn5DsHJvI?rel=0&modestbranding=1"
-                title="셀비아 글로시 부스팅 세럼 쇼츠"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
+          <div className="bha-shorts-row">
+            <div className="bha-prod-short">
+              <span className="bha-short-tag">SHORTS</span>
+              <h3 className="bha-prod-video-t">제품 쇼츠로 빠르게</h3>
+              <p className="bha-prod-video-d">세안 후 7초, 골든타임 ✨ 셀비아 글로시 부스팅 세럼</p>
+              <div className="bha-short-embed">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/h0kn5DsHJvI?rel=0&modestbranding=1"
+                  title="셀비아 글로시 부스팅 세럼 쇼츠"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+              <a className="bha-prod-video-yt" href="https://youtu.be/h0kn5DsHJvI" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
             </div>
-            <a className="bha-prod-video-yt" href="https://youtu.be/h0kn5DsHJvI" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
-          </div>
 
-          <div className="bha-prod-short">
-            <span className="bha-short-tag">SHORTS</span>
-            <h3 className="bha-prod-video-t">데일리 선케어, 가볍게</h3>
-            <p className="bha-prod-video-d">강한 햇살에도 산뜻하게 — 셀비아 미솔로지 선 프로텍션 (SPF50+)</p>
-            <div className="bha-short-embed">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/RSgbxQjKJQg?rel=0&modestbranding=1"
-                title="셀비아 미솔로지 선 프로텍션 쇼츠"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
+            <div className="bha-prod-short">
+              <span className="bha-short-tag">SHORTS</span>
+              <h3 className="bha-prod-video-t">데일리 선케어, 가볍게</h3>
+              <p className="bha-prod-video-d">강한 햇살에도 산뜻하게 — 셀비아 미솔로지 선 프로텍션 (SPF50+)</p>
+              <div className="bha-short-embed">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/RSgbxQjKJQg?rel=0&modestbranding=1"
+                  title="셀비아 미솔로지 선 프로텍션 쇼츠"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+              <a className="bha-prod-video-yt" href="https://youtu.be/RSgbxQjKJQg" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
             </div>
-            <a className="bha-prod-video-yt" href="https://youtu.be/RSgbxQjKJQg" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
           </div>
         </div>
       </section>

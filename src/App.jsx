@@ -5,6 +5,8 @@ import {
   ArrowRight, Crown, Wand2, Globe, Heart, ChevronLeft, ChevronRight, Maximize2, Presentation, Newspaper, HelpCircle
 } from "lucide-react";
 import RewardSimulator from "./RewardSimulator";
+import Calendar from "./Calendar";
+import { supabase } from "./supabaseClient";
 
 // ▼▼▼ 유튜브 소개 영상 ID — 영상 주소(youtu.be/XXXX 또는 watch?v=XXXX)의 11자리만 여기에 넣으세요 ▼▼▼
 const YT_INTRO_ID = "i5b8Rm_DbW4";
@@ -27,6 +29,12 @@ const NEWS_GRAD = [
 export default function YunjeongAICellife() {
   const [navOpen, setNavOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [authTab, setAuthTab] = useState("login");
+  const [authForm, setAuthForm] = useState({ email: "", password: "", name: "", phone: "" });
+  const [authMsg, setAuthMsg] = useState("");
+  const [authBusy, setAuthBusy] = useState(false);
   const [done, setDone] = useState({});
   const [modal, setModal] = useState(null);
   const [deck, setDeck] = useState("yunhee");
@@ -34,6 +42,7 @@ export default function YunjeongAICellife() {
   const [slide, setSlide] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [showSim, setShowSim] = useState(false);
+  const [showCal, setShowCal] = useState(false);
   const [promoOpen, setPromoOpen] = useState(false);
   const [showAnnounce, setShowAnnounce] = useState(true);
 
@@ -347,6 +356,43 @@ export default function YunjeongAICellife() {
     try { localStorage.setItem("bha_promo_hide_until", String(Date.now() + 86400000)); } catch (e) {}
     setPromoOpen(false);
   };
+  useEffect(() => {
+    let active = true;
+    const loadProfile = async (user) => {
+      if (!user) { setProfile(null); setLoggedIn(false); return; }
+      const { data } = await supabase.from("members").select("*").eq("id", user.id).maybeSingle();
+      if (!active) return;
+      setProfile(data || null);
+      setLoggedIn(!!(data && data.approved));
+    };
+    supabase.auth.getSession().then(({ data }) => {
+      const u = data.session?.user || null;
+      setAuthUser(u); loadProfile(u);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      const u = session?.user || null;
+      setAuthUser(u); loadProfile(u);
+    });
+    return () => { active = false; sub.subscription.unsubscribe(); };
+  }, []);
+  const doSignup = async () => {
+    if (!authForm.email || authForm.password.length < 6) { setAuthMsg("이메일과 6자 이상 비밀번호를 입력해 주세요."); return; }
+    setAuthBusy(true); setAuthMsg("");
+    const { error } = await supabase.auth.signUp({
+      email: authForm.email, password: authForm.password,
+      options: { data: { name: authForm.name, phone: authForm.phone } },
+    });
+    setAuthBusy(false);
+    setAuthMsg(error ? error.message : "가입 신청이 접수됐습니다. 대표님 승인 후 로그인하실 수 있습니다.");
+    if (!error) setAuthTab("login");
+  };
+  const doLogin = async () => {
+    setAuthBusy(true); setAuthMsg("");
+    const { error } = await supabase.auth.signInWithPassword({ email: authForm.email, password: authForm.password });
+    setAuthBusy(false);
+    if (error) setAuthMsg("로그인 실패: 이메일·비밀번호를 확인하세요.");
+  };
+  const doLogout = async () => { await supabase.auth.signOut(); };
   const openNews = (n) => setModal({
     kicker: n.type,
     title: n.title,
@@ -467,6 +513,22 @@ export default function YunjeongAICellife() {
     );
   }
 
+  if (showCal) {
+    return (
+      <div style={{ fontFamily: "'Pretendard','Gothic A1','Noto Sans KR',sans-serif" }}>
+        <div className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-rose-100 px-4 py-2.5">
+          <button
+            onClick={() => setShowCal(false)}
+            className="text-sm font-semibold text-[#9d5963] hover:text-[#8f4f5a] flex items-center gap-1"
+          >
+            ← 셀라이프 홈으로
+          </button>
+        </div>
+        <Calendar />
+      </div>
+    );
+  }
+
   return (
     <div className="bha-root">
       <style>{`
@@ -515,6 +577,10 @@ export default function YunjeongAICellife() {
           box-shadow:0 8px 22px rgba(190,63,126,0.32), inset 0 1px 0 rgba(255,255,255,0.4); }
         .bha-cta:hover { transform: translateY(-1px); box-shadow:0 12px 28px rgba(155,123,216,0.4), inset 0 1px 0 rgba(255,255,255,0.4); }
         .bha-cta { white-space:nowrap; }
+        .bha-nav-user { display:inline-flex; align-items:center; gap:8px; }
+        .bha-nav-user-name { display:inline-flex; align-items:center; gap:5px; font-size:13.5px; font-weight:700; color:var(--rose-deep); cursor:pointer; white-space:nowrap; }
+        .bha-nav-logout { font-size:12px; color:var(--ink-soft); background:#fff; border:1px solid rgba(183,110,121,0.3); border-radius:999px; padding:5px 12px; cursor:pointer; white-space:nowrap; transition:.2s; }
+        .bha-nav-logout:hover { color:var(--rose-deep); border-color:var(--rose); }
         .bha-burger { display:none; background:none; border:none; cursor:pointer; color:var(--rose); }
         @media (max-width: 1120px) { .bha-links { display:none; } .bha-burger { display:block; } }
 
@@ -1014,11 +1080,19 @@ export default function YunjeongAICellife() {
             <a onClick={() => goTo("brand")}>브랜드 영상</a>
             <a onClick={() => goTo("curriculum")}>마케팅 교육</a>
             <a className="bha-nav-sim" onClick={() => setShowSim(true)}>시뮬레이터</a>
+            <a onClick={() => setShowCal(true)}>일정표</a>
             <a onClick={goNews}>소식</a>
             <a onClick={() => goTo("viable-news")}>비아블 소식</a>
             <a onClick={() => goTo("vision")}>발표자료</a>
             <a onClick={() => goTo("member")}>회원 강의실</a>
-            <button className="bha-cta" onClick={() => goTo("member")}>무료 시작하기</button>
+            {loggedIn ? (
+              <span className="bha-nav-user">
+                <span className="bha-nav-user-name" onClick={() => goTo("member")}><User size={14} />{profile?.name || "회원"}님</span>
+                <button className="bha-nav-logout" onClick={doLogout}>로그아웃</button>
+              </span>
+            ) : (
+              <button className="bha-cta" onClick={() => goTo("member")}>로그인</button>
+            )}
           </div>
           <button className="bha-burger" onClick={() => setNavOpen(!navOpen)}>{navOpen ? <X /> : <Menu />}</button>
         </div>
@@ -1029,11 +1103,22 @@ export default function YunjeongAICellife() {
               return <a key={id} onClick={()=>goTo(id)} style={{display:"block",padding:"8px 0",color:"var(--ink-soft)",textDecoration:"none",cursor:"pointer"}}>{label}</a>;
             })}
             <a onClick={()=>{ setShowSim(true); setNavOpen(false); }} style={{display:"block",padding:"8px 0",color:"var(--rose-deep)",fontWeight:700,textDecoration:"none",cursor:"pointer"}}>보상 시뮬레이터</a>
+            <a onClick={()=>{ setShowCal(true); setNavOpen(false); }} style={{display:"block",padding:"8px 0",color:"var(--rose-deep)",fontWeight:700,textDecoration:"none",cursor:"pointer"}}>일정표</a>
             <a onClick={goNews} style={{display:"block",padding:"8px 0",color:"var(--ink-soft)",textDecoration:"none",cursor:"pointer"}}>소식</a>
             {["비아블 소식|viable-news","신화비전 발표자료|vision","회원 강의실|member"].map((s)=>{
               const [label,id]=s.split("|");
               return <a key={id} onClick={()=>goTo(id)} style={{display:"block",padding:"8px 0",color:"var(--ink-soft)",textDecoration:"none",cursor:"pointer"}}>{label}</a>;
             })}
+            <div style={{ borderTop: "1px solid rgba(183,110,121,0.15)", marginTop: 8, paddingTop: 10 }}>
+              {loggedIn ? (
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontWeight: 700, color: "var(--rose-deep)", display: "inline-flex", alignItems: "center", gap: 5 }}><User size={15} />{profile?.name || "회원"}님</span>
+                  <button onClick={()=>{ doLogout(); setNavOpen(false); }} style={{ fontSize: 13, color: "var(--ink-soft)", background: "none", border: "1px solid rgba(183,110,121,0.3)", borderRadius: 999, padding: "5px 14px", cursor: "pointer" }}>로그아웃</button>
+                </div>
+              ) : (
+                <a onClick={()=>goTo("member")} style={{display:"block",padding:"8px 0",color:"var(--rose-deep)",fontWeight:700,textDecoration:"none",cursor:"pointer"}}>로그인</a>
+              )}
+            </div>
           </div>
         )}
       </nav>
@@ -1644,26 +1729,46 @@ export default function YunjeongAICellife() {
           </div>
           <div className="bha-member">
             {!loggedIn ? (
-              <div className="bha-login-box">
-                <div className="bha-login-ic"><Lock size={28} /></div>
-                <h3 style={{ margin: "0 0 6px", fontSize: 22 }}>회원 로그인</h3>
-                <p style={{ color: "var(--ink-soft)", fontSize: 14, margin: "0 0 22px" }}>교육 과정을 수강하려면 로그인해 주세요.</p>
-                <div style={{ maxWidth: 340, margin: "0 auto" }}>
-                  <input className="bha-input" placeholder="이메일" />
-                  <input className="bha-input" type="password" placeholder="비밀번호" />
-                  <button className="bha-btn-primary" style={{ width: "100%", justifyContent: "center" }} onClick={() => setLoggedIn(true)}>
-                    <GraduationCap size={18} /> 강의실 입장 (데모)
-                  </button>
+              !authUser ? (
+                <div className="bha-login-box">
+                  <div className="bha-login-ic"><Lock size={28} /></div>
+                  <h3 style={{ margin: "0 0 6px", fontSize: 22 }}>회원 {authTab === "login" ? "로그인" : "가입 신청"}</h3>
+                  <p style={{ color: "var(--ink-soft)", fontSize: 14, margin: "0 0 20px" }}>{authTab === "login" ? "승인된 회원만 입장할 수 있습니다." : "가입 신청 후 대표님 승인을 받으면 이용할 수 있습니다."}</p>
+                  <div style={{ maxWidth: 340, margin: "0 auto", textAlign: "left" }}>
+                    {authTab === "signup" && (<>
+                      <input className="bha-input" placeholder="이름" value={authForm.name} onChange={(e) => setAuthForm((f) => ({ ...f, name: e.target.value }))} />
+                      <input className="bha-input" placeholder="연락처 (선택)" value={authForm.phone} onChange={(e) => setAuthForm((f) => ({ ...f, phone: e.target.value }))} />
+                    </>)}
+                    <input className="bha-input" type="email" placeholder="이메일" value={authForm.email} onChange={(e) => setAuthForm((f) => ({ ...f, email: e.target.value }))} />
+                    <input className="bha-input" type="password" placeholder="비밀번호 (6자 이상)" value={authForm.password} onChange={(e) => setAuthForm((f) => ({ ...f, password: e.target.value }))}
+                      onKeyDown={(e) => { if (e.key === "Enter") (authTab === "login" ? doLogin() : doSignup()); }} />
+                    <button className="bha-btn-primary" style={{ width: "100%", justifyContent: "center" }} disabled={authBusy} onClick={authTab === "login" ? doLogin : doSignup}>
+                      <GraduationCap size={18} /> {authBusy ? "처리 중..." : authTab === "login" ? "로그인" : "가입 신청"}
+                    </button>
+                    {authMsg && <p style={{ fontSize: 12.5, color: "var(--rose-deep)", margin: "10px 0 0", textAlign: "center", lineHeight: 1.6 }}>{authMsg}</p>}
+                    <p style={{ fontSize: 13, color: "var(--ink-soft)", margin: "14px 0 0", textAlign: "center" }}>
+                      {authTab === "login" ? "계정이 없으신가요? " : "이미 계정이 있으신가요? "}
+                      <a onClick={() => { setAuthTab(authTab === "login" ? "signup" : "login"); setAuthMsg(""); }} style={{ color: "var(--rose-deep)", fontWeight: 700, cursor: "pointer" }}>{authTab === "login" ? "가입 신청" : "로그인"}</a>
+                    </p>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="bha-login-box">
+                  <div className="bha-login-ic"><Lock size={28} /></div>
+                  <h3 style={{ margin: "0 0 6px", fontSize: 22 }}>승인 대기 중입니다</h3>
+                  <p style={{ color: "var(--ink-soft)", fontSize: 14, margin: "0 0 8px", lineHeight: 1.7 }}>가입 신청이 접수됐습니다. 대표님 승인 후 회원 강의실을 이용하실 수 있어요.</p>
+                  <p style={{ color: "var(--ink-soft)", fontSize: 12.5, margin: "0 0 20px" }}>{authUser.email}</p>
+                  <button className="bha-btn-ghost" style={{ background: "#fff", border: "1px solid rgba(183,110,121,0.3)" }} onClick={doLogout}>로그아웃</button>
+                </div>
+              )
             ) : (
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 22, flexWrap: "wrap", gap: 12 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ width: 52, height: 52, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, var(--rose), var(--gold))", color: "#fff", flexShrink: 0 }}><Crown size={22} /></div>
-                    <div><div style={{ fontWeight: 700 }}>환영합니다, 수강생님</div><div style={{ fontSize: 12, color: "var(--ink-soft)" }}>나의 학습 진도</div></div>
+                    <div><div style={{ fontWeight: 700 }}>환영합니다, {profile?.name || "수강생"}님</div><div style={{ fontSize: 12, color: "var(--ink-soft)" }}>나의 학습 진도</div></div>
                   </div>
-                  <button className="bha-btn-ghost" style={{ padding: "8px 16px", fontSize: 13, background:"#fff", border:"1px solid rgba(183,110,121,0.3)" }} onClick={() => setLoggedIn(false)}>로그아웃</button>
+                  <button className="bha-btn-ghost" style={{ padding: "8px 16px", fontSize: 13, background:"#fff", border:"1px solid rgba(183,110,121,0.3)" }} onClick={doLogout}>로그아웃</button>
                 </div>
                 <div style={{ marginBottom: 24 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 8 }}>

@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import RewardSimulator from "./RewardSimulator";
 import Calendar from "./Calendar";
+import Members from "./Members";
 import { supabase } from "./supabaseClient";
 
 // ▼▼▼ 유튜브 소개 영상 ID — 영상 주소(youtu.be/XXXX 또는 watch?v=XXXX)의 11자리만 여기에 넣으세요 ▼▼▼
@@ -45,6 +46,7 @@ export default function YunjeongAICellife() {
   const [lightbox, setLightbox] = useState(false);
   const [showSim, setShowSim] = useState(false);
   const [showCal, setShowCal] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const [promoOpen, setPromoOpen] = useState(false);
   const [showAnnounce, setShowAnnounce] = useState(true);
 
@@ -420,7 +422,7 @@ export default function YunjeongAICellife() {
     }, { rootMargin: "-30% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] });
     els.forEach((el) => obs.observe(el));
     return () => obs.disconnect();
-  }, [route, showSim, showCal]);
+  }, [route, showSim, showCal, showAdmin]);
   const openNews = (n) => setModal({
     kicker: n.type,
     title: n.title,
@@ -574,6 +576,34 @@ export default function YunjeongAICellife() {
             <button onClick={() => { setShowCal(false); openAuth("login"); }}
               style={{ background: "linear-gradient(115deg,#D85FA0,#BE3F7E)", color: "#fff", border: "none", padding: "13px 28px", borderRadius: 999, fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 12px 28px rgba(190,63,126,0.32)" }}>
               회원 로그인 하러 가기 →
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (showAdmin) {
+    return (
+      <div style={{ fontFamily: "'Pretendard','Gothic A1','Noto Sans KR',sans-serif" }}>
+        <div className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-rose-100 px-4 py-2.5">
+          <button
+            onClick={() => setShowAdmin(false)}
+            className="text-sm font-semibold text-[#9d5963] hover:text-[#8f4f5a] flex items-center gap-1"
+          >
+            ← 셀라이프 홈으로
+          </button>
+        </div>
+        {loggedIn && profile?.role === "admin" ? (
+          <Members currentUserId={authUser?.id} />
+        ) : (
+          <div style={{ maxWidth: 460, margin: "70px auto", padding: "0 24px", textAlign: "center" }}>
+            <div style={{ width: 64, height: 64, borderRadius: 18, margin: "0 auto 18px", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg,#b76e79,#9d5963)", color: "#fff" }}><Lock size={28} /></div>
+            <h2 style={{ fontSize: 22, fontWeight: 800, color: "#4a3338", margin: "0 0 8px" }}>관리자 전용 · 회원 관리</h2>
+            <p style={{ fontSize: 14.5, color: "#8a6f74", lineHeight: 1.7, margin: "0 0 22px" }}>관리자만 이용할 수 있는 화면입니다.</p>
+            <button onClick={() => setShowAdmin(false)}
+              style={{ background: "linear-gradient(115deg,#D85FA0,#BE3F7E)", color: "#fff", border: "none", padding: "13px 28px", borderRadius: 999, fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 12px 28px rgba(190,63,126,0.32)" }}>
+              홈으로 돌아가기
             </button>
           </div>
         )}
@@ -1812,7 +1842,12 @@ export default function YunjeongAICellife() {
                     <div style={{ width: 52, height: 52, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, var(--rose), var(--gold))", color: "#fff", flexShrink: 0 }}><Crown size={22} /></div>
                     <div><div style={{ fontWeight: 700 }}>환영합니다, {profile?.name || "수강생"}님</div><div style={{ fontSize: 12, color: "var(--ink-soft)" }}>나의 학습 진도</div></div>
                   </div>
-                  <button className="bha-btn-ghost" style={{ padding: "8px 16px", fontSize: 13, background:"#fff", border:"1px solid rgba(183,110,121,0.3)" }} onClick={doLogout}>로그아웃</button>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    {profile?.role === "admin" && (
+                      <button className="bha-btn-ghost" style={{ padding: "8px 16px", fontSize: 13, background: "linear-gradient(135deg,#b76e79,#9d5963)", color: "#fff", border: "none" }} onClick={() => setShowAdmin(true)}><Users size={15} /> 회원 관리</button>
+                    )}
+                    <button className="bha-btn-ghost" style={{ padding: "8px 16px", fontSize: 13, background:"#fff", border:"1px solid rgba(183,110,121,0.3)" }} onClick={doLogout}>로그아웃</button>
+                  </div>
                 </div>
                 <div style={{ marginBottom: 24 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 8 }}>

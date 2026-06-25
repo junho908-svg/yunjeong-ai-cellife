@@ -144,7 +144,7 @@ export default function Calendar({ canEdit = false, userId = null }) {
             <div className="border-t border-slate-100 pt-4">
               <div className="text-xs font-bold text-slate-500 mb-2">{form.id ? "일정 수정" : "새 일정 추가"}</div>
               <div className="flex gap-2 mb-2">
-                <input type="time" value={form.time} onChange={(e) => setForm((f) => ({ ...f, time: e.target.value }))} className="w-28 px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200" />
+                <input type="time" value={form.time} onChange={(e) => setForm((f) => ({ ...f, time: e.target.value }))} className="w-36 shrink-0 px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200" />
                 <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} onKeyDown={(e) => { if (e.key === "Enter") submit(); }} placeholder="일정 제목 (예: 사업설명회)" className="flex-1 min-w-0 px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200" />
               </div>
               <textarea value={form.memo} onChange={(e) => setForm((f) => ({ ...f, memo: e.target.value }))} placeholder="메모 (선택)" rows={2} className="w-full px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200 mb-2 resize-none" />

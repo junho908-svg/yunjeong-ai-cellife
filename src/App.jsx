@@ -508,7 +508,19 @@ export default function YunjeongAICellife() {
             ← 셀라이프 홈으로
           </button>
         </div>
-        <RewardSimulator />
+        {loggedIn ? (
+          <RewardSimulator />
+        ) : (
+          <div style={{ maxWidth: 460, margin: "70px auto", padding: "0 24px", textAlign: "center" }}>
+            <div style={{ width: 64, height: 64, borderRadius: 18, margin: "0 auto 18px", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg,#b76e79,#9d5963)", color: "#fff" }}><Lock size={28} /></div>
+            <h2 style={{ fontSize: 22, fontWeight: 800, color: "#4a3338", margin: "0 0 8px" }}>회원 전용 · 보상 시뮬레이터</h2>
+            <p style={{ fontSize: 14.5, color: "#8a6f74", lineHeight: 1.7, margin: "0 0 22px" }}>승인된 회원만 이용할 수 있습니다.<br />회원 강의실에서 로그인한 뒤 다시 열어주세요.</p>
+            <button onClick={() => { setShowSim(false); goTo("member"); }}
+              style={{ background: "linear-gradient(115deg,#D85FA0,#BE3F7E)", color: "#fff", border: "none", padding: "13px 28px", borderRadius: 999, fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 12px 28px rgba(190,63,126,0.32)" }}>
+              회원 로그인 하러 가기 →
+            </button>
+          </div>
+        )}
       </div>
     );
   }

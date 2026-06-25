@@ -1,5 +1,14 @@
 node_modules
 dist
+dist-preview
 .DS_Store
 *.local
 .vercel
+
+# Vite 임시 빌드 파일
+*.timestamp-*.mjs
+
+# 미리보기 산출물(배포 불필요)
+renewal-preview*/
+preview-1.html
+preview-2.html

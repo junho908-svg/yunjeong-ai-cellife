@@ -36,6 +36,7 @@ export default function YunjeongAICellife() {
   const [authMsg, setAuthMsg] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [activeSec, setActiveSec] = useState("");
   const [done, setDone] = useState({});
   const [modal, setModal] = useState(null);
   const [deck, setDeck] = useState("yunhee");
@@ -405,6 +406,21 @@ export default function YunjeongAICellife() {
   useEffect(() => {
     if (authModalOpen) { const o = document.body.style.overflow; document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = o; }; }
   }, [authModalOpen]);
+  // 스크롤스파이 — 현재 보이는 섹션의 메뉴 글씨 강조
+  useEffect(() => {
+    const ids = ["about", "beauty", "product", "brand", "curriculum", "viable-news", "vision", "member"];
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    if (!els.length) return;
+    const ratios = {};
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { ratios[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      let best = "", bestR = 0;
+      for (const id of ids) { if ((ratios[id] || 0) > bestR) { bestR = ratios[id]; best = id; } }
+      if (best) setActiveSec(best);
+    }, { rootMargin: "-30% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] });
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, [route, showSim, showCal]);
   const openNews = (n) => setModal({
     kicker: n.type,
     title: n.title,
@@ -605,8 +621,10 @@ export default function YunjeongAICellife() {
           background:linear-gradient(100deg, var(--rosegold), #D9967E, var(--rosegold)); background-size:200% auto;
           -webkit-background-clip:text; background-clip:text; color:transparent; animation:bhaShimmer 7s linear infinite; }
         .bha-links { display:flex; gap:15px; align-items:center; }
-        .bha-links a { color:var(--ink-soft); text-decoration:none; font-size:13px; font-weight:500; transition:.2s; cursor:pointer; white-space:nowrap; }
-        .bha-links a:hover { color:var(--rose-deep); }
+        .bha-links a { color:var(--ink-soft); text-decoration:none; font-size:13px; font-weight:500; cursor:pointer; white-space:nowrap;
+          display:inline-block; transform-origin:center; transition:transform .28s cubic-bezier(.34,1.3,.64,1), color .2s ease, font-weight .2s ease; }
+        .bha-links a:hover { color:var(--rose-deep); transform:scale(1.08); }
+        .bha-links a.bha-active { color:var(--rose-deep); font-weight:700; transform:scale(1.22); }
         .bha-cta { background: linear-gradient(115deg, var(--rose), var(--rose-deep) 55%, var(--lav)); background-size:200% auto;
           animation:bhaShimmer 8s linear infinite; color:#fff !important; padding:10px 22px; border-radius:999px;
           font-size:13px; border:none; cursor:pointer; transition:.2s; font-weight:700;
@@ -1114,17 +1132,17 @@ export default function YunjeongAICellife() {
             <div className="bha-logo-txt">윤앤정 AI 셀라이프<small>AI CELLIFE</small></div>
           </div>
           <div className="bha-links">
-            <a onClick={() => goTo("about")}>소개</a>
-            <a onClick={() => goTo("beauty")}>뷰티 교육</a>
-            <a onClick={() => goTo("product")}>제품</a>
-            <a onClick={() => goTo("brand")}>브랜드 영상</a>
-            <a onClick={() => goTo("curriculum")}>마케팅 교육</a>
+            <a className={activeSec === "about" ? "bha-active" : undefined} onClick={() => goTo("about")}>소개</a>
+            <a className={activeSec === "beauty" ? "bha-active" : undefined} onClick={() => goTo("beauty")}>뷰티 교육</a>
+            <a className={activeSec === "product" ? "bha-active" : undefined} onClick={() => goTo("product")}>제품</a>
+            <a className={activeSec === "brand" ? "bha-active" : undefined} onClick={() => goTo("brand")}>브랜드 영상</a>
+            <a className={activeSec === "curriculum" ? "bha-active" : undefined} onClick={() => goTo("curriculum")}>마케팅 교육</a>
             <a className="bha-nav-sim" onClick={() => setShowSim(true)}>시뮬레이터</a>
             <a onClick={() => setShowCal(true)}>일정표</a>
             <a onClick={goNews}>소식</a>
-            <a onClick={() => goTo("viable-news")}>비아블 소식</a>
-            <a onClick={() => goTo("vision")}>발표자료</a>
-            <a onClick={() => goTo("member")}>회원 강의실</a>
+            <a className={activeSec === "viable-news" ? "bha-active" : undefined} onClick={() => goTo("viable-news")}>비아블 소식</a>
+            <a className={activeSec === "vision" ? "bha-active" : undefined} onClick={() => goTo("vision")}>발표자료</a>
+            <a className={activeSec === "member" ? "bha-active" : undefined} onClick={() => goTo("member")}>회원 강의실</a>
             {loggedIn ? (
               <span className="bha-nav-user">
                 <span className="bha-nav-user-name" onClick={() => goTo("member")}><User size={14} />{profile?.name || "회원"}님</span>

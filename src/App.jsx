@@ -394,7 +394,8 @@ export default function YunjeongAICellife() {
   };
   const doLogout = async () => { await supabase.auth.signOut(); };
   const doKakao = async () => {
-    await supabase.auth.signInWithOAuth({ provider: "kakao", options: { redirectTo: window.location.origin } });
+    // 비즈앱이 아니라 이메일 권한은 요청하지 않음 → 닉네임만 요청 (KOE205 방지)
+    await supabase.auth.signInWithOAuth({ provider: "kakao", options: { redirectTo: window.location.origin, scopes: "profile_nickname" } });
   };
   const openNews = (n) => setModal({
     kicker: n.type,

@@ -393,6 +393,9 @@ export default function YunjeongAICellife() {
     if (error) setAuthMsg("로그인 실패: 이메일·비밀번호를 확인하세요.");
   };
   const doLogout = async () => { await supabase.auth.signOut(); };
+  const doKakao = async () => {
+    await supabase.auth.signInWithOAuth({ provider: "kakao", options: { redirectTo: window.location.origin } });
+  };
   const openNews = (n) => setModal({
     kicker: n.type,
     title: n.title,
@@ -536,7 +539,19 @@ export default function YunjeongAICellife() {
             ← 셀라이프 홈으로
           </button>
         </div>
-        <Calendar />
+        {loggedIn ? (
+          <Calendar canEdit={profile?.role === "admin"} userId={authUser?.id} />
+        ) : (
+          <div style={{ maxWidth: 460, margin: "70px auto", padding: "0 24px", textAlign: "center" }}>
+            <div style={{ width: 64, height: 64, borderRadius: 18, margin: "0 auto 18px", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg,#b76e79,#9d5963)", color: "#fff" }}><Lock size={28} /></div>
+            <h2 style={{ fontSize: 22, fontWeight: 800, color: "#4a3338", margin: "0 0 8px" }}>회원 전용 · 팀 일정표</h2>
+            <p style={{ fontSize: 14.5, color: "#8a6f74", lineHeight: 1.7, margin: "0 0 22px" }}>승인된 회원만 이용할 수 있습니다.<br />회원 강의실에서 로그인한 뒤 다시 열어주세요.</p>
+            <button onClick={() => { setShowCal(false); goTo("member"); }}
+              style={{ background: "linear-gradient(115deg,#D85FA0,#BE3F7E)", color: "#fff", border: "none", padding: "13px 28px", borderRadius: 999, fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 12px 28px rgba(190,63,126,0.32)" }}>
+              회원 로그인 하러 가기 →
+            </button>
+          </div>
+        )}
       </div>
     );
   }
@@ -1746,6 +1761,14 @@ export default function YunjeongAICellife() {
                   <div className="bha-login-ic"><Lock size={28} /></div>
                   <h3 style={{ margin: "0 0 6px", fontSize: 22 }}>회원 {authTab === "login" ? "로그인" : "가입 신청"}</h3>
                   <p style={{ color: "var(--ink-soft)", fontSize: 14, margin: "0 0 20px" }}>{authTab === "login" ? "승인된 회원만 입장할 수 있습니다." : "가입 신청 후 대표님 승인을 받으면 이용할 수 있습니다."}</p>
+                  <div style={{ maxWidth: 340, margin: "0 auto 16px" }}>
+                    <button onClick={doKakao} style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "#FEE500", color: "#3A1D1D", border: "none", borderRadius: 12, padding: "13px 0", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
+                      <span style={{ fontSize: 17 }}>💬</span> 카카오로 시작하기
+                    </button>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "16px 0 4px", color: "var(--ink-soft)", fontSize: 12 }}>
+                      <span style={{ flex: 1, height: 1, background: "rgba(183,110,121,0.2)" }} /> 또는 이메일로 <span style={{ flex: 1, height: 1, background: "rgba(183,110,121,0.2)" }} />
+                    </div>
+                  </div>
                   <div style={{ maxWidth: 340, margin: "0 auto", textAlign: "left" }}>
                     {authTab === "signup" && (<>
                       <input className="bha-input" placeholder="이름" value={authForm.name} onChange={(e) => setAuthForm((f) => ({ ...f, name: e.target.value }))} />

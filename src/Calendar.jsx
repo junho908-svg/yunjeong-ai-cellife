@@ -1,34 +1,37 @@
 import { useState, useEffect, useMemo } from "react";
-import { ChevronLeft, ChevronRight, Plus, Trash2, X, CalendarDays, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Trash2, CalendarDays, Clock } from "lucide-react";
+import { supabase } from "./supabaseClient";
 
-// ── 저장소 (현재 localStorage / Supabase 연결 시 이 부분만 교체) ──
-// events 구조: { id, date:"YYYY-MM-DD", time:"HH:MM", title, memo }
-const STORE_KEY = "bha_team_events";
-const loadEvents = () => {
-  try { return JSON.parse(localStorage.getItem(STORE_KEY) || "[]"); } catch (e) { return []; }
-};
-const saveEvents = (list) => {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(list)); } catch (e) {}
-};
-const uid = () => (window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now() + Math.random()));
-
+// events 구조: { id, date:"YYYY-MM-DD", time:"HH:MM", title, memo, created_by }
 const WD = ["일", "월", "화", "수", "목", "금", "토"];
 const pad = (n) => String(n).padStart(2, "0");
 const ymd = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
 const todayStr = () => { const t = new Date(); return ymd(t.getFullYear(), t.getMonth(), t.getDate()); };
 
-export default function Calendar() {
+export default function Calendar({ canEdit = false, userId = null }) {
   const [view, setView] = useState(() => { const t = new Date(); return { y: t.getFullYear(), m: t.getMonth() }; });
-  const [events, setEvents] = useState(loadEvents);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(todayStr());
   const [form, setForm] = useState({ id: null, time: "", title: "", memo: "" });
+  const [busy, setBusy] = useState(false);
 
-  useEffect(() => { saveEvents(events); }, [events]);
+  const fetchEvents = async () => {
+    const { data, error } = await supabase.from("events").select("*").order("date").order("time");
+    if (!error) setEvents(data || []);
+    setLoading(false);
+  };
 
-  // 달력 그리드 (6주 x 7일)
+  useEffect(() => {
+    fetchEvents();
+    const ch = supabase.channel("events-rt")
+      .on("postgres_changes", { event: "*", schema: "public", table: "events" }, () => fetchEvents())
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, []);
+
   const cells = useMemo(() => {
-    const first = new Date(view.y, view.m, 1);
-    const start = first.getDay();
+    const start = new Date(view.y, view.m, 1).getDay();
     const daysInMonth = new Date(view.y, view.m + 1, 0).getDate();
     const arr = [];
     for (let i = 0; i < start; i++) arr.push(null);
@@ -45,24 +48,23 @@ export default function Calendar() {
   }, [events]);
 
   const dayEvents = eventsByDate[selected] || [];
-
-  const moveMonth = (delta) => setView((v) => {
-    const d = new Date(v.y, v.m + delta, 1); return { y: d.getFullYear(), m: d.getMonth() };
-  });
+  const moveMonth = (delta) => setView((v) => { const d = new Date(v.y, v.m + delta, 1); return { y: d.getFullYear(), m: d.getMonth() }; });
   const goToday = () => { const t = new Date(); setView({ y: t.getFullYear(), m: t.getMonth() }); setSelected(todayStr()); };
-
   const resetForm = () => setForm({ id: null, time: "", title: "", memo: "" });
-  const submit = () => {
-    if (!form.title.trim()) return;
+
+  const submit = async () => {
+    if (!form.title.trim() || !canEdit) return;
+    setBusy(true);
     if (form.id) {
-      setEvents((list) => list.map((e) => (e.id === form.id ? { ...e, time: form.time, title: form.title.trim(), memo: form.memo.trim() } : e)));
+      await supabase.from("events").update({ time: form.time, title: form.title.trim(), memo: form.memo.trim() }).eq("id", form.id);
     } else {
-      setEvents((list) => [...list, { id: uid(), date: selected, time: form.time, title: form.title.trim(), memo: form.memo.trim() }]);
+      await supabase.from("events").insert({ date: selected, time: form.time, title: form.title.trim(), memo: form.memo.trim(), created_by: userId });
     }
-    resetForm();
+    await fetchEvents();
+    setBusy(false); resetForm();
   };
-  const editEvent = (e) => setForm({ id: e.id, time: e.time || "", title: e.title, memo: e.memo || "" });
-  const removeEvent = (id) => { setEvents((list) => list.filter((e) => e.id !== id)); if (form.id === id) resetForm(); };
+  const editEvent = (e) => canEdit && setForm({ id: e.id, time: e.time || "", title: e.title, memo: e.memo || "" });
+  const removeEvent = async (id) => { if (!canEdit) return; await supabase.from("events").delete().eq("id", id); await fetchEvents(); if (form.id === id) resetForm(); };
 
   const selDateLabel = (() => {
     const [y, m, d] = selected.split("-").map(Number);
@@ -76,13 +78,12 @@ export default function Calendar() {
           <div className="w-9 h-9 rounded-xl bg-white/15 grid place-items-center"><CalendarDays className="w-5 h-5" /></div>
           <div className="leading-tight mr-auto">
             <div className="font-bold tracking-tight">윤앤정 팀 일정표</div>
-            <div className="text-[11px] text-white/60">회원·팀 공유 일정 (현재는 이 브라우저에 저장 · Supabase 연결 시 공유·동기화)</div>
+            <div className="text-[11px] text-white/60">회원·팀 공유 일정 · 실시간 동기화{canEdit ? "" : " · 보기 전용(일정 등록은 관리자만)"}</div>
           </div>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6 grid lg:grid-cols-[1fr_360px] gap-5 items-start">
-        {/* 달력 */}
         <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -94,9 +95,7 @@ export default function Calendar() {
           </div>
 
           <div className="grid grid-cols-7 gap-1 mb-1">
-            {WD.map((w, i) => (
-              <div key={w} className={`text-center text-xs font-semibold py-1 ${i === 0 ? "text-rose-500" : i === 6 ? "text-blue-500" : "text-slate-400"}`}>{w}</div>
-            ))}
+            {WD.map((w, i) => (<div key={w} className={`text-center text-xs font-semibold py-1 ${i === 0 ? "text-rose-500" : i === 6 ? "text-blue-500" : "text-slate-400"}`}>{w}</div>))}
           </div>
           <div className="grid grid-cols-7 gap-1">
             {cells.map((date, i) => {
@@ -111,9 +110,7 @@ export default function Calendar() {
                   className={`min-h-[78px] rounded-lg border p-1.5 text-left align-top transition ${isSel ? "border-[#b76e79] bg-rose-50/50 ring-1 ring-[#b76e79]" : "border-slate-100 hover:bg-slate-50"}`}>
                   <div className={`text-xs font-semibold mb-1 inline-flex items-center justify-center ${isToday ? "bg-[#b76e79] text-white w-5 h-5 rounded-full" : dow === 0 ? "text-rose-500" : dow === 6 ? "text-blue-500" : "text-slate-600"}`}>{d}</div>
                   <div className="space-y-0.5">
-                    {evs.slice(0, 3).map((e) => (
-                      <div key={e.id} className="text-[10px] leading-tight truncate px-1 py-0.5 rounded bg-[#b76e79]/12 text-[#9d5963]">{e.time ? e.time + " " : ""}{e.title}</div>
-                    ))}
+                    {evs.slice(0, 3).map((e) => (<div key={e.id} className="text-[10px] leading-tight truncate px-1 py-0.5 rounded bg-[#b76e79]/12 text-[#9d5963]">{e.time ? e.time + " " : ""}{e.title}</div>))}
                     {evs.length > 3 && <div className="text-[10px] text-slate-400 px-1">+{evs.length - 3}개 더</div>}
                   </div>
                 </button>
@@ -122,13 +119,12 @@ export default function Calendar() {
           </div>
         </div>
 
-        {/* 선택한 날 + 입력 */}
         <div className="bg-white rounded-2xl border border-slate-200 p-5 lg:sticky lg:top-4">
           <h2 className="text-sm font-bold text-slate-700 mb-1">{selDateLabel}</h2>
-          <p className="text-[11px] text-slate-400 mb-4">이 날의 일정 {dayEvents.length}건</p>
+          <p className="text-[11px] text-slate-400 mb-4">{loading ? "불러오는 중…" : `이 날의 일정 ${dayEvents.length}건`}</p>
 
           <div className="space-y-2 mb-5">
-            {dayEvents.length === 0 && <p className="text-xs text-slate-400">등록된 일정이 없습니다.</p>}
+            {!loading && dayEvents.length === 0 && <p className="text-xs text-slate-400">등록된 일정이 없습니다.</p>}
             {dayEvents.map((e) => (
               <div key={e.id} className="rounded-xl border border-slate-100 px-3 py-2.5 flex items-start gap-2">
                 <div className="flex-1 min-w-0">
@@ -138,37 +134,36 @@ export default function Calendar() {
                   </div>
                   {e.memo && <p className="text-xs text-slate-500 mt-0.5 break-words">{e.memo}</p>}
                 </div>
-                <button onClick={() => editEvent(e)} className="text-[11px] text-slate-400 hover:text-[#9d5963] shrink-0">수정</button>
-                <button onClick={() => removeEvent(e.id)} className="text-slate-300 hover:text-rose-500 shrink-0"><Trash2 className="w-4 h-4" /></button>
+                {canEdit && <button onClick={() => editEvent(e)} className="text-[11px] text-slate-400 hover:text-[#9d5963] shrink-0">수정</button>}
+                {canEdit && <button onClick={() => removeEvent(e.id)} className="text-slate-300 hover:text-rose-500 shrink-0"><Trash2 className="w-4 h-4" /></button>}
               </div>
             ))}
           </div>
 
-          <div className="border-t border-slate-100 pt-4">
-            <div className="text-xs font-bold text-slate-500 mb-2">{form.id ? "일정 수정" : "새 일정 추가"}</div>
-            <div className="flex gap-2 mb-2">
-              <input type="time" value={form.time} onChange={(e) => setForm((f) => ({ ...f, time: e.target.value }))}
-                className="w-28 px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200" />
-              <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                onKeyDown={(e) => { if (e.key === "Enter") submit(); }} placeholder="일정 제목 (예: 사업설명회)"
-                className="flex-1 min-w-0 px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200" />
+          {canEdit ? (
+            <div className="border-t border-slate-100 pt-4">
+              <div className="text-xs font-bold text-slate-500 mb-2">{form.id ? "일정 수정" : "새 일정 추가"}</div>
+              <div className="flex gap-2 mb-2">
+                <input type="time" value={form.time} onChange={(e) => setForm((f) => ({ ...f, time: e.target.value }))} className="w-28 px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200" />
+                <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} onKeyDown={(e) => { if (e.key === "Enter") submit(); }} placeholder="일정 제목 (예: 사업설명회)" className="flex-1 min-w-0 px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200" />
+              </div>
+              <textarea value={form.memo} onChange={(e) => setForm((f) => ({ ...f, memo: e.target.value }))} placeholder="메모 (선택)" rows={2} className="w-full px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200 mb-2 resize-none" />
+              <div className="flex gap-2">
+                <button onClick={submit} disabled={!form.title.trim() || busy} className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#b76e79] hover:bg-[#9d5963] disabled:opacity-40 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+                  <Plus className="w-4 h-4" />{busy ? "저장 중…" : form.id ? "수정 저장" : "추가"}
+                </button>
+                {form.id && <button onClick={resetForm} className="px-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-500 hover:bg-slate-50">취소</button>}
+              </div>
             </div>
-            <textarea value={form.memo} onChange={(e) => setForm((f) => ({ ...f, memo: e.target.value }))} placeholder="메모 (선택)" rows={2}
-              className="w-full px-2.5 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-200 mb-2 resize-none" />
-            <div className="flex gap-2">
-              <button onClick={submit} disabled={!form.title.trim()}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#b76e79] hover:bg-[#9d5963] disabled:opacity-40 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
-                <Plus className="w-4 h-4" />{form.id ? "수정 저장" : "추가"}
-              </button>
-              {form.id && <button onClick={resetForm} className="px-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-500 hover:bg-slate-50">취소</button>}
-            </div>
-          </div>
+          ) : (
+            <div className="border-t border-slate-100 pt-4 text-[12px] text-slate-400">일정 등록·수정은 관리자(대표님·이정효·이윤희)만 가능합니다. 회원은 일정을 확인하실 수 있어요.</div>
+          )}
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 pb-8">
         <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-[11px] text-slate-400 leading-relaxed">
-          ※ 현재는 일정이 <b className="text-slate-500">이 브라우저에만 저장</b>됩니다(시제품 단계). Supabase를 연결하면 여러 기기·회원이 같은 일정을 공유하고 실시간으로 동기화할 수 있습니다.
+          ※ 모든 승인 회원이 같은 일정을 실시간으로 공유합니다. 일정 등록·수정은 관리자만 가능합니다.
         </div>
       </div>
     </div>

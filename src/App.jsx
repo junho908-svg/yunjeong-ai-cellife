@@ -35,6 +35,7 @@ export default function YunjeongAICellife() {
   const [authForm, setAuthForm] = useState({ email: "", password: "", name: "", phone: "" });
   const [authMsg, setAuthMsg] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
   const [done, setDone] = useState({});
   const [modal, setModal] = useState(null);
   const [deck, setDeck] = useState("yunhee");
@@ -397,6 +398,13 @@ export default function YunjeongAICellife() {
     // 비즈앱이 아니라 이메일 권한은 요청하지 않음 → 닉네임만 요청 (KOE205 방지)
     await supabase.auth.signInWithOAuth({ provider: "kakao", options: { redirectTo: window.location.origin, scopes: "profile_nickname" } });
   };
+  const openAuth = (tab = "login") => { setAuthTab(tab); setAuthMsg(""); setAuthModalOpen(true); setNavOpen(false); };
+  // 로그인 성공(승인 완료) 시 모달 자동 닫기
+  useEffect(() => { if (loggedIn) setAuthModalOpen(false); }, [loggedIn]);
+  // 모달 열렸을 때 배경 스크롤 잠금
+  useEffect(() => {
+    if (authModalOpen) { const o = document.body.style.overflow; document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = o; }; }
+  }, [authModalOpen]);
   const openNews = (n) => setModal({
     kicker: n.type,
     title: n.title,
@@ -519,7 +527,7 @@ export default function YunjeongAICellife() {
             <div style={{ width: 64, height: 64, borderRadius: 18, margin: "0 auto 18px", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg,#b76e79,#9d5963)", color: "#fff" }}><Lock size={28} /></div>
             <h2 style={{ fontSize: 22, fontWeight: 800, color: "#4a3338", margin: "0 0 8px" }}>회원 전용 · 보상 시뮬레이터</h2>
             <p style={{ fontSize: 14.5, color: "#8a6f74", lineHeight: 1.7, margin: "0 0 22px" }}>승인된 회원만 이용할 수 있습니다.<br />회원 강의실에서 로그인한 뒤 다시 열어주세요.</p>
-            <button onClick={() => { setShowSim(false); goTo("member"); }}
+            <button onClick={() => { setShowSim(false); openAuth("login"); }}
               style={{ background: "linear-gradient(115deg,#D85FA0,#BE3F7E)", color: "#fff", border: "none", padding: "13px 28px", borderRadius: 999, fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 12px 28px rgba(190,63,126,0.32)" }}>
               회원 로그인 하러 가기 →
             </button>
@@ -547,7 +555,7 @@ export default function YunjeongAICellife() {
             <div style={{ width: 64, height: 64, borderRadius: 18, margin: "0 auto 18px", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg,#b76e79,#9d5963)", color: "#fff" }}><Lock size={28} /></div>
             <h2 style={{ fontSize: 22, fontWeight: 800, color: "#4a3338", margin: "0 0 8px" }}>회원 전용 · 팀 일정표</h2>
             <p style={{ fontSize: 14.5, color: "#8a6f74", lineHeight: 1.7, margin: "0 0 22px" }}>승인된 회원만 이용할 수 있습니다.<br />회원 강의실에서 로그인한 뒤 다시 열어주세요.</p>
-            <button onClick={() => { setShowCal(false); goTo("member"); }}
+            <button onClick={() => { setShowCal(false); openAuth("login"); }}
               style={{ background: "linear-gradient(115deg,#D85FA0,#BE3F7E)", color: "#fff", border: "none", padding: "13px 28px", borderRadius: 999, fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 12px 28px rgba(190,63,126,0.32)" }}>
               회원 로그인 하러 가기 →
             </button>
@@ -758,6 +766,10 @@ export default function YunjeongAICellife() {
           padding:40px; position:relative; box-shadow:0 30px 80px rgba(74,51,56,0.3); animation:bhaPop .24s ease; }
         @keyframes bhaPop { from{transform:translateY(16px) scale(.98); opacity:0} to{transform:none; opacity:1} }
         .bha-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; border-radius:26px 26px 0 0;
+          background:linear-gradient(90deg, var(--rose), var(--gold), var(--rose-soft)); }
+        .bha-auth-modal { background:#fff; border-radius:26px; max-width:420px; width:100%; max-height:90vh; overflow-y:auto;
+          padding:38px 32px 32px; position:relative; box-shadow:0 30px 80px rgba(74,51,56,0.3); animation:bhaPop .24s ease; }
+        .bha-auth-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; border-radius:26px 26px 0 0;
           background:linear-gradient(90deg, var(--rose), var(--gold), var(--rose-soft)); }
         .bha-modal-x { position:absolute; top:18px; right:18px; width:38px; height:38px; border-radius:50%; border:none;
           background:var(--cream2); color:var(--rose); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.2s; }
@@ -1119,7 +1131,7 @@ export default function YunjeongAICellife() {
                 <button className="bha-nav-logout" onClick={doLogout}>로그아웃</button>
               </span>
             ) : (
-              <button className="bha-cta" onClick={() => goTo("member")}>로그인</button>
+              <button className="bha-cta" onClick={() => openAuth("login")}>로그인</button>
             )}
           </div>
           <button className="bha-burger" onClick={() => setNavOpen(!navOpen)}>{navOpen ? <X /> : <Menu />}</button>
@@ -1144,7 +1156,7 @@ export default function YunjeongAICellife() {
                   <button onClick={()=>{ doLogout(); setNavOpen(false); }} style={{ fontSize: 13, color: "var(--ink-soft)", background: "none", border: "1px solid rgba(183,110,121,0.3)", borderRadius: 999, padding: "5px 14px", cursor: "pointer" }}>로그아웃</button>
                 </div>
               ) : (
-                <a onClick={()=>goTo("member")} style={{display:"block",padding:"8px 0",color:"var(--rose-deep)",fontWeight:700,textDecoration:"none",cursor:"pointer"}}>로그인</a>
+                <a onClick={()=>openAuth("login")} style={{display:"block",padding:"8px 0",color:"var(--rose-deep)",fontWeight:700,textDecoration:"none",cursor:"pointer"}}>로그인</a>
               )}
             </div>
           </div>
@@ -1753,40 +1765,18 @@ export default function YunjeongAICellife() {
           <div className="bha-sec-head">
             <div className="bha-kicker">Members Only</div>
             <h2 className="bha-sec-title">회원 강의실</h2>
-            <p className="bha-sec-desc">로그인하면 진도 관리와 단계별 수강이 가능합니다. (아래는 동작 미리보기)</p>
+            <p className="bha-sec-desc">로그인하면 진도 관리와 단계별 수강이 가능합니다.</p>
           </div>
           <div className="bha-member">
             {!loggedIn ? (
               !authUser ? (
                 <div className="bha-login-box">
                   <div className="bha-login-ic"><Lock size={28} /></div>
-                  <h3 style={{ margin: "0 0 6px", fontSize: 22 }}>회원 {authTab === "login" ? "로그인" : "가입 신청"}</h3>
-                  <p style={{ color: "var(--ink-soft)", fontSize: 14, margin: "0 0 20px" }}>{authTab === "login" ? "승인된 회원만 입장할 수 있습니다." : "가입 신청 후 대표님 승인을 받으면 이용할 수 있습니다."}</p>
-                  <div style={{ maxWidth: 340, margin: "0 auto 16px" }}>
-                    <button onClick={doKakao} style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "#FEE500", color: "#3A1D1D", border: "none", borderRadius: 12, padding: "13px 0", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
-                      <span style={{ fontSize: 17 }}>💬</span> 카카오로 시작하기
-                    </button>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "16px 0 4px", color: "var(--ink-soft)", fontSize: 12 }}>
-                      <span style={{ flex: 1, height: 1, background: "rgba(183,110,121,0.2)" }} /> 또는 이메일로 <span style={{ flex: 1, height: 1, background: "rgba(183,110,121,0.2)" }} />
-                    </div>
-                  </div>
-                  <div style={{ maxWidth: 340, margin: "0 auto", textAlign: "left" }}>
-                    {authTab === "signup" && (<>
-                      <input className="bha-input" placeholder="이름" value={authForm.name} onChange={(e) => setAuthForm((f) => ({ ...f, name: e.target.value }))} />
-                      <input className="bha-input" placeholder="연락처 (선택)" value={authForm.phone} onChange={(e) => setAuthForm((f) => ({ ...f, phone: e.target.value }))} />
-                    </>)}
-                    <input className="bha-input" type="email" placeholder="이메일" value={authForm.email} onChange={(e) => setAuthForm((f) => ({ ...f, email: e.target.value }))} />
-                    <input className="bha-input" type="password" placeholder="비밀번호 (6자 이상)" value={authForm.password} onChange={(e) => setAuthForm((f) => ({ ...f, password: e.target.value }))}
-                      onKeyDown={(e) => { if (e.key === "Enter") (authTab === "login" ? doLogin() : doSignup()); }} />
-                    <button className="bha-btn-primary" style={{ width: "100%", justifyContent: "center" }} disabled={authBusy} onClick={authTab === "login" ? doLogin : doSignup}>
-                      <GraduationCap size={18} /> {authBusy ? "처리 중..." : authTab === "login" ? "로그인" : "가입 신청"}
-                    </button>
-                    {authMsg && <p style={{ fontSize: 12.5, color: "var(--rose-deep)", margin: "10px 0 0", textAlign: "center", lineHeight: 1.6 }}>{authMsg}</p>}
-                    <p style={{ fontSize: 13, color: "var(--ink-soft)", margin: "14px 0 0", textAlign: "center" }}>
-                      {authTab === "login" ? "계정이 없으신가요? " : "이미 계정이 있으신가요? "}
-                      <a onClick={() => { setAuthTab(authTab === "login" ? "signup" : "login"); setAuthMsg(""); }} style={{ color: "var(--rose-deep)", fontWeight: 700, cursor: "pointer" }}>{authTab === "login" ? "가입 신청" : "로그인"}</a>
-                    </p>
-                  </div>
+                  <h3 style={{ margin: "0 0 6px", fontSize: 22 }}>회원 강의실</h3>
+                  <p style={{ color: "var(--ink-soft)", fontSize: 14, margin: "0 0 20px", lineHeight: 1.7 }}>로그인하면 강의 진도 관리와 단계별 수강이 가능합니다.<br />카카오 또는 이메일로 간편하게 시작하세요.</p>
+                  <button className="bha-btn-primary" style={{ justifyContent: "center" }} onClick={() => openAuth("login")}>
+                    <GraduationCap size={18} /> 로그인 / 가입하기
+                  </button>
                 </div>
               ) : (
                 <div className="bha-login-box">
@@ -1920,6 +1910,52 @@ export default function YunjeongAICellife() {
             ))}
             {modal.note && <div className="bha-modal-note"><ShieldCheck size={15} style={{ verticalAlign: "-2px", marginRight: 6, color: "var(--gold)" }} />{modal.note}</div>}
             {modal.url && <a className="bha-modal-link" href={modal.url} target="_blank" rel="noopener noreferrer">원문 보기 <ArrowRight size={16} /></a>}
+          </div>
+        </div>
+      )}
+
+      {authModalOpen && !loggedIn && (
+        <div className="bha-modal-overlay" onClick={() => setAuthModalOpen(false)}>
+          <div className="bha-auth-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="bha-modal-x" onClick={() => setAuthModalOpen(false)} aria-label="닫기"><X size={22} /></button>
+            {!authUser ? (
+              <>
+                <div className="bha-login-ic" style={{ margin: "4px auto 14px" }}><Lock size={26} /></div>
+                <h3 style={{ margin: "0 0 6px", fontSize: 21, textAlign: "center" }}>회원 {authTab === "login" ? "로그인" : "가입 신청"}</h3>
+                <p style={{ color: "var(--ink-soft)", fontSize: 13.5, margin: "0 0 20px", textAlign: "center", lineHeight: 1.6 }}>{authTab === "login" ? "승인된 회원만 입장할 수 있습니다." : "가입 신청 후 대표님 승인을 받으면 이용할 수 있습니다."}</p>
+                <button onClick={doKakao} style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, background: "#FEE500", color: "#3A1D1D", border: "none", borderRadius: 12, padding: "13px 0", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
+                  <span style={{ fontSize: 17 }}>💬</span> 카카오로 시작하기
+                </button>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "16px 0 14px", color: "var(--ink-soft)", fontSize: 12 }}>
+                  <span style={{ flex: 1, height: 1, background: "rgba(183,110,121,0.2)" }} /> 또는 이메일로 <span style={{ flex: 1, height: 1, background: "rgba(183,110,121,0.2)" }} />
+                </div>
+                <div style={{ textAlign: "left" }}>
+                  {authTab === "signup" && (<>
+                    <input className="bha-input" placeholder="이름" value={authForm.name} onChange={(e) => setAuthForm((f) => ({ ...f, name: e.target.value }))} />
+                    <input className="bha-input" placeholder="연락처 (선택)" value={authForm.phone} onChange={(e) => setAuthForm((f) => ({ ...f, phone: e.target.value }))} />
+                  </>)}
+                  <input className="bha-input" type="email" placeholder="이메일" value={authForm.email} onChange={(e) => setAuthForm((f) => ({ ...f, email: e.target.value }))} />
+                  <input className="bha-input" type="password" placeholder="비밀번호 (6자 이상)" value={authForm.password} onChange={(e) => setAuthForm((f) => ({ ...f, password: e.target.value }))}
+                    onKeyDown={(e) => { if (e.key === "Enter") (authTab === "login" ? doLogin() : doSignup()); }} />
+                  <button className="bha-btn-primary" style={{ width: "100%", justifyContent: "center" }} disabled={authBusy} onClick={authTab === "login" ? doLogin : doSignup}>
+                    <GraduationCap size={18} /> {authBusy ? "처리 중..." : authTab === "login" ? "로그인" : "가입 신청"}
+                  </button>
+                  {authMsg && <p style={{ fontSize: 12.5, color: "var(--rose-deep)", margin: "10px 0 0", textAlign: "center", lineHeight: 1.6 }}>{authMsg}</p>}
+                  <p style={{ fontSize: 13, color: "var(--ink-soft)", margin: "14px 0 0", textAlign: "center" }}>
+                    {authTab === "login" ? "계정이 없으신가요? " : "이미 계정이 있으신가요? "}
+                    <a onClick={() => { setAuthTab(authTab === "login" ? "signup" : "login"); setAuthMsg(""); }} style={{ color: "var(--rose-deep)", fontWeight: 700, cursor: "pointer" }}>{authTab === "login" ? "가입 신청" : "로그인"}</a>
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="bha-login-ic" style={{ margin: "4px auto 14px" }}><Lock size={26} /></div>
+                <h3 style={{ margin: "0 0 6px", fontSize: 21, textAlign: "center" }}>승인 대기 중입니다</h3>
+                <p style={{ color: "var(--ink-soft)", fontSize: 13.5, margin: "0 0 8px", textAlign: "center", lineHeight: 1.7 }}>가입 신청이 접수됐습니다. 대표님 승인 후 회원 강의실을 이용하실 수 있어요.</p>
+                <p style={{ color: "var(--ink-soft)", fontSize: 12.5, margin: "0 0 20px", textAlign: "center" }}>{authUser.email}</p>
+                <button className="bha-btn-ghost" style={{ width: "100%", justifyContent: "center", background: "#fff", border: "1px solid rgba(183,110,121,0.3)" }} onClick={doLogout}>로그아웃</button>
+              </>
+            )}
           </div>
         </div>
       )}

@@ -1406,6 +1406,20 @@ export default function YunjeongAICellife() {
             <a className="bha-prod-video-yt" href="https://youtu.be/p-qo7bFPaeE" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
           </div>
 
+          <div className="bha-prod-video">
+            <h3 className="bha-prod-video-t">셀비아 스프레이 8단계 사용법</h3>
+            <p className="bha-prod-video-d">그냥 얼굴에만 뿌리고 계셨나요? 앰플 세팅부터 얼굴·목·턱·귀 주변·볼·이마·눈가·입가까지, 부위별 방향에 맞춘 8단계 루틴으로 더 촉촉하게 사용하는 법을 보여드립니다.</p>
+            <div className="bha-embed">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/IX8IldsxDRQ?rel=0&modestbranding=1"
+                title="셀비아 스프레이 제대로 쓰는 법 | 촉촉하게 사용하는 8단계 루틴"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <a className="bha-prod-video-yt" href="https://youtu.be/IX8IldsxDRQ" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+          </div>
+
           <div className="bha-shorts-row">
             <div className="bha-prod-short">
               <span className="bha-short-tag">SHORTS</span>

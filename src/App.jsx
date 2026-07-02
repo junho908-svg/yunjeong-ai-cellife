@@ -365,12 +365,13 @@ export default function YunjeongAICellife() {
     if (CONSULT_LINK) { window.open(CONSULT_LINK, "_blank", "noopener,noreferrer"); }
     else { goTo("member"); }
   };
-  useEffect(() => {
-    try {
-      const until = localStorage.getItem("bha_promo_hide_until");
-      if (!until || Date.now() > Number(until)) setPromoOpen(true);
-    } catch (e) { setPromoOpen(true); }
-  }, []);
+  // 프로모션 팝업 — 행사 종료로 비활성화 (재사용 시 아래 주석 해제)
+  // useEffect(() => {
+  //   try {
+  //     const until = localStorage.getItem("bha_promo_hide_until");
+  //     if (!until || Date.now() > Number(until)) setPromoOpen(true);
+  //   } catch (e) { setPromoOpen(true); }
+  // }, []);
   const closePromoForDay = () => {
     try { localStorage.setItem("bha_promo_hide_until", String(Date.now() + 86400000)); } catch (e) {}
     setPromoOpen(false);
@@ -1160,13 +1161,6 @@ export default function YunjeongAICellife() {
           .bha-sec { padding:54px 0; }
         }
       `}</style>
-
-      {showAnnounce && (
-        <div className="bha-announce">
-          🎉 6월 신규 교육 오픈 · 무료 상담 예약 받습니다 <a onClick={goConsult}>지금 신청 →</a>
-          <button className="bha-announce-x" onClick={() => setShowAnnounce(false)} aria-label="공지 닫기">×</button>
-        </div>
-      )}
 
       <nav className="bha-nav">
         <div className="bha-wrap bha-nav-inner">
@@ -2038,23 +2032,6 @@ export default function YunjeongAICellife() {
                 <button className="bha-btn-ghost" style={{ width: "100%", justifyContent: "center", background: "#fff", border: "1px solid rgba(183,110,121,0.3)" }} onClick={doLogout}>로그아웃</button>
               </>
             )}
-          </div>
-        </div>
-      )}
-
-      {promoOpen && (
-        <div className="bha-promo-overlay" onClick={() => setPromoOpen(false)}>
-          <div className="bha-promo" onClick={(e) => e.stopPropagation()}>
-            <button className="bha-promo-x" onClick={() => setPromoOpen(false)} aria-label="닫기"><X size={20} /></button>
-            <img src="popup.png" alt="비아블 SPECIAL PROMOTION 한정 세트 (2026.06.05~06.30)" className="bha-promo-img" onClick={() => { setPromoOpen(false); goConsult(); }} />
-            <div className="bha-promo-cta-wrap">
-              <button className="bha-btn-primary bha-promo-cta" onClick={() => { setPromoOpen(false); goConsult(); }}><Heart size={17} /> 구매 · 상담 문의하기</button>
-              <p className="bha-promo-note">화장품으로, 질환의 예방·치료 효과는 없습니다. 한정 수량 소진 시 조기 종료될 수 있습니다.</p>
-            </div>
-            <div className="bha-promo-foot">
-              <button onClick={closePromoForDay}>하루동안 열지 않기</button>
-              <button onClick={() => setPromoOpen(false)}>닫기</button>
-            </div>
           </div>
         </div>
       )}

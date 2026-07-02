@@ -33,9 +33,9 @@ const RANK_REF = [
   { key: "EM",     label: "Emerald",       kr: "에메랄드",     pv: "소실적 1,400만 PV", sub: "1만 CV", sponsor: "12%", match: "1~2대", dues: "30만원", vol: "350만 CV" },
   { key: "DM",     label: "Diamond",       kr: "다이아몬드",   pv: "소실적 1억 PV",    sub: "3만 CV", sponsor: "12%", match: "1~3대", dues: "75만원", vol: "1,000만 CV" },
   { key: "GDM",    label: "Green Diamond", kr: "그린다이아몬드", pv: "소실적 3억 PV",   sub: "3만 CV", sponsor: "12%", match: "1~4대", dues: "140만원", vol: "1,900만 CV" },
-  { key: "BDM",    label: "Blue Diamond",  kr: "블루다이아몬드", pv: "소실적 10억 PV",  sub: "7만 CV", sponsor: "10%", match: "1~4대", dues: "230만원", vol: "3,400만 CV" },
+  { key: "BDM",    label: "Blue Diamond",  kr: "블루다이아몬드", pv: "소실적 10억 PV",  sub: "7만 CV", sponsor: "12%", match: "1~4대", dues: "230만원", vol: "3,400만 CV" },
   { key: "RDM",    label: "Red Diamond",   kr: "레드다이아몬드", pv: "소실적 30억 PV",  sub: "7만 CV", sponsor: "10%", match: "1~5대", dues: "400만원", vol: "6,500만 CV" },
-  { key: "CW",     label: "Crown",         kr: "크라운",       pv: "소실적 100억 PV",  sub: "7만 CV", sponsor: "10%", match: "1~5대", dues: "600만원", vol: "1억 3,500만 CV" },
+  { key: "CW",     label: "Crown",         kr: "크라운",       pv: "소실적 100억 PV",  sub: "7만 CV", sponsor: "10%", match: "1~5대", dues: "600만원", vol: "1억 3,000만 CV" },
 ];
 // 직급별 보석 색 (밝은색, 진한색)
 const RANK_GEM = {

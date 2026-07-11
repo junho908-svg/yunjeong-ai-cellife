@@ -8,6 +8,7 @@ import RewardSimulator from "./RewardSimulator";
 import Calendar from "./Calendar";
 import Members from "./Members";
 import SalesCalculator from "./SalesCalculator";
+import IncomeDisclosure from "./IncomeDisclosure";
 import { supabase } from "./supabaseClient";
 
 // ▼▼▼ 유튜브 소개 영상 ID — 영상 주소(youtu.be/XXXX 또는 watch?v=XXXX)의 11자리만 여기에 넣으세요 ▼▼▼
@@ -566,7 +567,10 @@ export default function YunjeongAICellife() {
           )}
         </div>
         {loggedIn ? (
-          simTab === "sales" ? <SalesCalculator /> : <RewardSimulator />
+          <>
+            {simTab === "sales" ? <SalesCalculator /> : <RewardSimulator />}
+            <IncomeDisclosure />
+          </>
         ) : (
           <div style={{ maxWidth: 460, margin: "70px auto", padding: "0 24px", textAlign: "center" }}>
             <div style={{ width: 64, height: 64, borderRadius: 18, margin: "0 auto 18px", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg,#b76e79,#9d5963)", color: "#fff" }}><Lock size={28} /></div>

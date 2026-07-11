@@ -1360,16 +1360,34 @@ export default function YunjeongAICellife() {
             <p className="bha-sec-desc">성분의 이해부터 디바이스 사용법까지. 영상으로 보고 자료로 복습하며 차근차근 배웁니다.</p>
           </div>
           <div className="bha-grid4">
-            {beautyLessons.map((l, i) => (
-              <div className="bha-lesson" key={i} onClick={() => setModal({ kicker: l.lvl + " 과정 · " + l.ep, title: l.t, yt: l.yt, ...l.detail })}>
-                <div className="bha-thumb"><div className="pin"><Play size={22} fill="currentColor" /></div></div>
-                <div className="bha-lesson-body">
-                  <span className="bha-lesson-lvl">{l.lvl}</span>
-                  <div className="bha-lesson-t">{l.t}</div>
-                  <div className="bha-lesson-meta"><Play size={12} /> {l.ep} · 영상 + 자료</div>
+            {beautyLessons.map((l, i) => {
+              const openDetail = () => setModal({ kicker: l.lvl + " 과정 · " + l.ep, title: l.t, ...l.detail });
+              return (
+                <div className="bha-lesson" key={i}>
+                  {l.yt ? (
+                    <div className="bha-embed" style={{ borderRadius: 0 }}>
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${l.yt}?rel=0&modestbranding=1`}
+                        title={l.t}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    </div>
+                  ) : (
+                    <div className="bha-thumb" onClick={openDetail} style={{ cursor: "pointer" }}><div className="pin"><Play size={22} fill="currentColor" /></div></div>
+                  )}
+                  <div className="bha-lesson-body">
+                    <span className="bha-lesson-lvl">{l.lvl}</span>
+                    <div className="bha-lesson-t">{l.t}</div>
+                    <div className="bha-lesson-meta" onClick={openDetail} style={{ cursor: "pointer" }}><BookOpen size={12} /> {l.ep} · 자료 보기 →</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
+          </div>
+          <div className="bha-disc" style={{ marginTop: 22 }}>
+            <ShieldCheck size={16} style={{ verticalAlign: "-3px", marginRight: 6, color: "var(--gold)" }} />
+            본 교육 영상은 성분·사용법에 대한 정보 제공이며, 화장품으로서 질병의 예방·치료 효과나 특정 효능을 보장하지 않습니다. 제품에는 줄기세포 자체가 들어있지 않습니다.
           </div>
         </div>
       </section>

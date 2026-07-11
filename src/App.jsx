@@ -1896,6 +1896,25 @@ export default function YunjeongAICellife() {
                 ))}
 
                 <div className="bha-medu">
+                  <div className="bha-medu-label">회원 교육 · 자체 강의</div>
+                  <h3 className="bha-medu-title">배양액 앰플의 진실 — 신규 사업자 강의 (20분)</h3>
+                  <p className="bha-medu-desc">셀비아 앰플이 '줄기세포 자체'가 아니라 배양 과정에서 얻은 성분(인체양수세포배양액추출물)을 담은 화장품이라는 점을, 외우지 않고 이해하도록 정리한 강의입니다. 피부 노화 원리 → 배양액의 정체 → 핵심 성분 → 피부 타입별 응대까지 다룹니다.</p>
+                  <div className="bha-embed">
+                    <iframe
+                      src="https://www.youtube-nocookie.com/embed/NP1BbByO4Y4?rel=0&modestbranding=1"
+                      title="배양액 앰플의 진실 — 신규 사업자 교육 강의"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="bha-medu-foot">
+                    <a className="bha-medu-yt" href="https://youtu.be/NP1BbByO4Y4" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+                    <span className="bha-medu-src">출처 · 윤앤정 AI 셀라이프</span>
+                  </div>
+                  <p className="bha-medu-note"><ShieldCheck size={14} style={{ verticalAlign: "-2px", marginRight: 5, color: "var(--gold)" }} />본 영상은 성분·원리에 대한 교육 정보이며, 화장품으로서 질병의 예방·치료 효과나 특정 효능을 보장하지 않습니다. 제품에는 줄기세포 자체가 들어있지 않습니다.</p>
+                </div>
+
+                <div className="bha-medu">
                   <div className="bha-medu-label">회원 교육 · 참고 영상</div>
                   <h3 className="bha-medu-title">노화와 줄기세포, 어디까지 왔나</h3>
                   <p className="bha-medu-desc">제품 성분을 더 깊이 이해하기 위한 배경 지식 영상입니다. 노화 연구와 줄기세포 과학의 흐름을 다룬 교양 방송으로, 회원 학습용 참고 자료로만 제공됩니다.</p>

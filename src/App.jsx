@@ -7,6 +7,7 @@ import {
 import RewardSimulator from "./RewardSimulator";
 import Calendar from "./Calendar";
 import Members from "./Members";
+import SalesCalculator from "./SalesCalculator";
 import { supabase } from "./supabaseClient";
 
 // ▼▼▼ 유튜브 소개 영상 ID — 영상 주소(youtu.be/XXXX 또는 watch?v=XXXX)의 11자리만 여기에 넣으세요 ▼▼▼
@@ -47,6 +48,7 @@ export default function YunjeongAICellife() {
   const [showSim, setShowSim] = useState(false);
   const [showCal, setShowCal] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [simTab, setSimTab] = useState("tree");
   const [promoOpen, setPromoOpen] = useState(false);
   const [showAnnounce, setShowAnnounce] = useState(true);
 
@@ -546,16 +548,22 @@ export default function YunjeongAICellife() {
   if (showSim) {
     return (
       <div style={{ fontFamily: "'Pretendard','Gothic A1','Noto Sans KR',sans-serif" }}>
-        <div className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-rose-100 px-4 py-2.5">
+        <div className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-rose-100 px-4 py-2.5 flex items-center gap-3 flex-wrap">
           <button
             onClick={() => setShowSim(false)}
             className="text-sm font-semibold text-[#9d5963] hover:text-[#8f4f5a] flex items-center gap-1"
           >
             ← 셀라이프 홈으로
           </button>
+          {loggedIn && (
+            <div className="flex items-center gap-1 ml-auto bg-slate-100 rounded-lg p-0.5">
+              <button onClick={() => setSimTab("tree")} className={`px-3 py-1.5 text-xs font-semibold rounded-md ${simTab === "tree" ? "bg-white text-[#9d5963] shadow-sm" : "text-slate-500"}`}>트리 시뮬레이터</button>
+              <button onClick={() => setSimTab("sales")} className={`px-3 py-1.5 text-xs font-semibold rounded-md ${simTab === "sales" ? "bg-white text-[#9d5963] shadow-sm" : "text-slate-500"}`}>매출·승급 계산기</button>
+            </div>
+          )}
         </div>
         {loggedIn ? (
-          <RewardSimulator />
+          simTab === "sales" ? <SalesCalculator /> : <RewardSimulator />
         ) : (
           <div style={{ maxWidth: 460, margin: "70px auto", padding: "0 24px", textAlign: "center" }}>
             <div style={{ width: 64, height: 64, borderRadius: 18, margin: "0 auto 18px", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg,#b76e79,#9d5963)", color: "#fff" }}><Lock size={28} /></div>

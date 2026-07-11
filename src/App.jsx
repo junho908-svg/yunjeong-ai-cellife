@@ -462,19 +462,21 @@ export default function YunjeongAICellife() {
   ];
 
   const beautyLessons = [
-    { t: "인체양수세포배양액, 성분의 이해", ep: "LESSON 1", lvl: "입문",
+    { t: "인체양수세포배양액, 성분의 이해", ep: "LESSON 1", lvl: "입문", yt: "NP1BbByO4Y4",
       detail: { lead: "셀비아 앰플의 핵심인 인체양수세포배양액이 무엇이고, 화장품 성분으로서 어떻게 쓰이는지 기초부터 쉽게 풀어드립니다.",
         sections: [
           { h: "이 강의에서 배우는 것", items: ["세포배양액 성분의 기본 개념", "왜 '가장 어린 세포'에 주목하는지", "성분을 고객에게 쉽게 설명하는 법"] },
           { h: "준비물", items: ["셀비아 앰플", "필기 노트"] },
-        ] } },
-    { t: "셀비아 앰플 3-Step 마스터 루틴", ep: "LESSON 2", lvl: "기본",
+        ],
+        note: "본 영상은 성분·원리에 대한 교육 정보이며, 화장품으로서 질병의 예방·치료 효과나 특정 효능을 보장하지 않습니다. 제품에는 줄기세포 자체가 들어있지 않습니다.",
+      } },
+    { t: "셀비아 앰플 3-Step 마스터 루틴", ep: "LESSON 2", lvl: "기본", yt: "0oTiLwAhV-w",
       detail: { lead: "체감을 끌어올리는 3단계 마스터 루틴을 순서대로 시연합니다.",
         sections: [
           { h: "3-Step 루틴", items: ["Step 1. Prep & Open — 피부를 정돈하고 길을 여는 단계", "Step 2. Care & Lift — 디바이스로 끌어올리는 단계", "Step 3. Seal & Glow — 마무리하고 윤기를 더하는 단계"] },
           { h: "포인트", items: ["각 단계의 적정 사용량과 시간", "아침 · 저녁 루틴 차이"] },
         ] } },
-    { t: "슈스펠 4-in-1 디바이스 사용법", ep: "LESSON 3", lvl: "기본",
+    { t: "슈스펠 4-in-1 디바이스 사용법", ep: "LESSON 3", lvl: "기본", yt: "p-qo7bFPaeE",
       detail: { lead: "슈스펠 디바이스의 네 가지 기능을 단 5분 안에 활용하는 순서를 안내합니다.",
         sections: [
           { h: "5분 사용 순서", items: ["미세 미스트로 시작", "갈바닉 이온 케어", "진동 마사지", "LED 라이트로 마무리"] },
@@ -1359,7 +1361,7 @@ export default function YunjeongAICellife() {
           </div>
           <div className="bha-grid4">
             {beautyLessons.map((l, i) => (
-              <div className="bha-lesson" key={i} onClick={() => setModal({ kicker: l.lvl + " 과정 · " + l.ep, title: l.t, ...l.detail })}>
+              <div className="bha-lesson" key={i} onClick={() => setModal({ kicker: l.lvl + " 과정 · " + l.ep, title: l.t, yt: l.yt, ...l.detail })}>
                 <div className="bha-thumb"><div className="pin"><Play size={22} fill="currentColor" /></div></div>
                 <div className="bha-lesson-body">
                   <span className="bha-lesson-lvl">{l.lvl}</span>
@@ -2005,6 +2007,16 @@ export default function YunjeongAICellife() {
             <h3 className="bha-modal-title">{modal.title}</h3>
             {modal.meta && <div className="bha-modal-meta">{modal.meta}</div>}
             {modal.lead && <p className="bha-modal-lead">{modal.lead}</p>}
+            {modal.yt && (
+              <div className="bha-embed" style={{ margin: "0 0 20px" }}>
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${modal.yt}?rel=0&modestbranding=1`}
+                  title={modal.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            )}
             {modal.sections && modal.sections.map((s, i) => (
               <div className="bha-modal-sec" key={i}>
                 <h4>{s.h}</h4>

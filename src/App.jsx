@@ -1416,53 +1416,16 @@ export default function YunjeongAICellife() {
             })}
           </div>
 
-          <div className="bha-prod-video">
-            <h3 className="bha-prod-video-t">제품 사용 영상으로 보기</h3>
-            <p className="bha-prod-video-d">셀비아 라인으로 완성하는 모닝 루틴을 영상으로 확인하세요.</p>
-            <div className="bha-embed">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/0oTiLwAhV-w?rel=0&modestbranding=1"
-                title="셀비아 모닝 루틴"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-            <a className="bha-prod-video-yt" href="https://youtu.be/0oTiLwAhV-w" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
+          <div className="bha-sec-head" style={{ marginTop: 12, marginBottom: 20 }}>
+            <div className="bha-kicker">Shorts</div>
+            <h3 className="bha-sec-title" style={{ fontSize: 26 }}>1분 제품 쇼츠</h3>
+            <p className="bha-sec-desc">짧은 영상으로 제품 핵심만 빠르게. 자세한 사용법은 위 '뷰티 홈케어 교육'에서 영상으로 보실 수 있어요.</p>
           </div>
-
-          <div className="bha-prod-video">
-            <h3 className="bha-prod-video-t">슈스펠 에어테라피 사용법</h3>
-            <p className="bha-prod-video-d">갈바닉 마사지부터 미솔로지 앰플 미스트까지, 홈 뷰티 케어를 한 영상에 총정리했어요.</p>
-            <div className="bha-embed">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/p-qo7bFPaeE?rel=0&modestbranding=1"
-                title="슈스펠 에어테라피 갈바닉 사용방법 | 셀비아 미솔로지 앰플 홈케어 총정리"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-            <a className="bha-prod-video-yt" href="https://youtu.be/p-qo7bFPaeE" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
-          </div>
-
-          <div className="bha-prod-video">
-            <h3 className="bha-prod-video-t">셀비아 스프레이 8단계 사용법</h3>
-            <p className="bha-prod-video-d">그냥 얼굴에만 뿌리고 계셨나요? 앰플 세팅부터 얼굴·목·턱·귀 주변·볼·이마·눈가·입가까지, 부위별 방향에 맞춘 8단계 루틴으로 더 촉촉하게 사용하는 법을 보여드립니다.</p>
-            <div className="bha-embed">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/IX8IldsxDRQ?rel=0&modestbranding=1"
-                title="셀비아 스프레이 제대로 쓰는 법 | 촉촉하게 사용하는 8단계 루틴"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-            <a className="bha-prod-video-yt" href="https://youtu.be/IX8IldsxDRQ" target="_blank" rel="noopener noreferrer">유튜브에서 보기 →</a>
-          </div>
-
           <div className="bha-shorts-row">
             <div className="bha-prod-short">
-              <span className="bha-short-tag">SHORTS</span>
-              <h3 className="bha-prod-video-t">제품 쇼츠로 빠르게</h3>
-              <p className="bha-prod-video-d">세안 후 7초, 골든타임 ✨ 셀비아 글로시 부스팅 세럼</p>
+              <span className="bha-short-tag">SHORTS · 15초</span>
+              <h3 className="bha-prod-video-t">셀비아 글로시 부스팅 세럼</h3>
+              <p className="bha-prod-video-d">세안 후 7초, 골든타임 집중 케어 ✨</p>
               <div className="bha-short-embed">
                 <iframe
                   src="https://www.youtube-nocookie.com/embed/h0kn5DsHJvI?rel=0&modestbranding=1"
@@ -1475,9 +1438,9 @@ export default function YunjeongAICellife() {
             </div>
 
             <div className="bha-prod-short">
-              <span className="bha-short-tag">SHORTS</span>
-              <h3 className="bha-prod-video-t">데일리 선케어, 가볍게</h3>
-              <p className="bha-prod-video-d">강한 햇살에도 산뜻하게 — 셀비아 미솔로지 선 프로텍션 (SPF50+)</p>
+              <span className="bha-short-tag">SHORTS · 15초</span>
+              <h3 className="bha-prod-video-t">셀비아 미솔로지 선 프로텍션</h3>
+              <p className="bha-prod-video-d">강한 햇살에도 산뜻하게 — SPF50+ 데일리 선케어</p>
               <div className="bha-short-embed">
                 <iframe
                   src="https://www.youtube-nocookie.com/embed/RSgbxQjKJQg?rel=0&modestbranding=1"

@@ -1040,7 +1040,7 @@ export default function YunjeongAICellife() {
         .bha-prod-video-yt { display:inline-block; margin-top:14px; font-size:14px; font-weight:700; color:var(--rose-deep); text-decoration:none; }
         .bha-prod-video-yt:hover { text-decoration:underline; }
         .bha-shorts-row { display:flex; flex-wrap:wrap; justify-content:center; gap:30px 40px; margin-top:44px; }
-        .bha-prod-short { max-width:300px; margin:0; text-align:center; }
+        .bha-prod-short { width:300px; max-width:100%; margin:0; text-align:center; }
         .bha-short-embed { position:relative; width:100%; max-width:300px; margin:0 auto; aspect-ratio:9/16; border-radius:18px; overflow:hidden; background:#000; box-shadow:0 14px 40px rgba(157,92,99,0.16); }
         .bha-short-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
         .bha-short-tag { display:inline-block; font-size:12px; font-weight:700; letter-spacing:0.08em; color:var(--rose-deep); margin-bottom:8px; }

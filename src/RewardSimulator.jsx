@@ -9,7 +9,7 @@ const SPONSOR_CAP = 50000000;
 const FAST_PAY = [100000, 200000, 300000]; // 플랜 1·2·3
 const MAN = 10000;
 const KRW_CV = { min: 1.845, max: 2.301 };
-const PKG_COST = { min: 1452000, max: 1610500 };
+const PKG_COST = 2540000;                 // 254 SET 패키지(70만 PV) 공식 회원가
 
 const RANK_ORDER = ["MANIA", "DR", "EM", "DM"];
 const RANK_LABEL = { MANIA: "Mania", DR: "Director", EM: "Emerald", DM: "Diamond" };
@@ -553,7 +553,7 @@ export default function RewardSimulator() {
                 <span className="flex items-center gap-1"><span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-indigo-600 text-white text-[8px] font-bold">직</span>내 직추천</span>
                 <span className="flex items-center gap-1"><span className="w-3.5 h-3.5 rounded-full inline-block bg-white" style={{ border: `3px solid ${GEN_COLOR[1]}` }} />테두리 = 대(代) 색</span>
                 <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full border-2 border-dashed border-amber-400 inline-block" />이번 기수 신규 (마감 전)</span>
-                <span className="ml-auto">신규 1명 = 70만 CV 구좌 (실구매 약 145~161만 원)</span>
+                <span className="ml-auto">신규 1명 = 70만 PV 구좌 (254 SET 패키지 254만원)</span>
               </div>
             </div>
 
@@ -641,7 +641,7 @@ export default function RewardSimulator() {
               <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2 flex items-center gap-1.5"><Scale className="w-3.5 h-3.5" />비용 측 (참고)</h2>
               <div className="text-sm divide-y divide-slate-50">
                 <div className="flex justify-between py-1.5"><span className="text-slate-500">내 구독 누적 ({man(subCVSpent)}만 CV)</span><span className="tabular-nums font-medium">{fmt(subCVSpent * KRW_CV.min / MAN)}~{fmt(subCVSpent * KRW_CV.max / MAN)}만 원</span></div>
-                <div className="flex justify-between py-1.5"><span className="text-slate-500">조직 전체 구매액 ({nodes.length}명)</span><span className="tabular-nums font-medium">{fmt(nodes.length * PKG_COST.min / MAN)}~{fmt(nodes.length * PKG_COST.max / MAN)}만 원</span></div>
+                <div className="flex justify-between py-1.5"><span className="text-slate-500">조직 전체 구매액 ({nodes.length}명)</span><span className="tabular-nums font-medium">{fmt(nodes.length * PKG_COST / MAN)}만 원</span></div>
               </div>
               <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">조직 구매액은 하위 회원들이 각자 부담한 금액입니다. 내 수당 {fmt(grand)}원의 원천이 이 매출임을 함께 보여주는 지표입니다.</p>
             </div>
